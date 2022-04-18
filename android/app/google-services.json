@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "21389660479",
+    "firebase_url": "https://central-care-a0c23-default-rtdb.firebaseio.com",
+    "project_id": "central-care-a0c23",
+    "storage_bucket": "central-care-a0c23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21389660479:android:627df34283f1104db4038a",
+        "android_client_info": {
+          "package_name": "br.com.jm.centralcaremobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21389660479-7a53qv0pluvjqdl46dn0rmqdsgipsn7e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_IAoYb5x33ceNAbqe7umEBJVXj-qkbZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21389660479-7a53qv0pluvjqdl46dn0rmqdsgipsn7e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
