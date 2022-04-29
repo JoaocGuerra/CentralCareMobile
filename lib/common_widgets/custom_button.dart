@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'custom_text.dart';
 
 class CustomButton extends StatelessWidget {
-
   final VoidCallback? onPressed;
   final String text;
 
@@ -23,19 +22,18 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith((states){
-            if(states.contains(MaterialState.disabled)) {
-              return Colors.grey;
-            }
-            return Colors.white;
-          }),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))
-          )
-        ),
+            backgroundColor: MaterialStateProperty.resolveWith((states) {
+              if (states.contains(MaterialState.disabled)) {
+                return Colors.grey;
+              }
+              return Colors.white;
+            }),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)))),
         child: CustomText(
           text: text,
-          corText: Colors.black,
+          corText:  const Color(0xFF6495ED),
           fontSize: 16,
           fontWeight: FontWeight.normal,
         ),

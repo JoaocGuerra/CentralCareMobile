@@ -7,7 +7,11 @@ import '../../common_widgets/custom_textformfield.dart';
 import '../signIn/sign_in_page.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  SignUpPage({Key? key}) : super(key: key);
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
+  final nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -16,21 +20,17 @@ class SignUpPage extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                colors: [
-                  Color(0xFF1E90FF),
-                  Color(0xFF00BFFF),
-                  Color(0xFF6495ED),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter
-            )
-        ),
+            gradient: LinearGradient(colors: [
+          Color(0xFF1E90FF),
+          Color(0xFF00BFFF),
+          Color(0xFF6495ED),
+        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 30, 20, 10),
-              child: Observer(builder: (_){
+              child: Observer(builder: (_) {
                 return Form(
+                  key: formKey,
                   child: Column(
                     children: [
                       const SizedBox(height: 70),
@@ -39,56 +39,76 @@ class SignUpPage extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 40,
                             color: Colors.white,
-                            fontWeight: FontWeight.bold
-                        ),
+                            fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 70),
-                      const CustomTextFormField(
+                      CustomTextFormField(
+                        textEditingController: nameController,
                         isPasswordType: false,
                         icon: Icons.person,
                         text: 'Nome',
                         textInputType: TextInputType.name,
                         // onChanged: signInStore.setEmail,
                         // enabled: !signInStore.loading,
-                        // validator: (String? value) => signInStore.emailError,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Nome Inválido";
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 20),
-                      const CustomTextFormField(
+                      CustomTextFormField(
+                        textEditingController: emailController,
                         isPasswordType: false,
                         icon: Icons.email,
                         text: 'E-mail',
                         textInputType: TextInputType.emailAddress,
                         // onChanged: signInStore.setEmail,
                         // enabled: !signInStore.loading,
-                        // validator: (String? value) => signInStore.emailError,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Email Inválido";
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 20),
-                      const CustomTextFormField(
+                      CustomTextFormField(
+                        textEditingController: passController,
                         isPasswordType: false,
                         icon: Icons.lock,
                         text: 'Senha',
                         textInputType: TextInputType.emailAddress,
                         // onChanged: signInStore.setPass,
                         // enabled: !signInStore.loading,
-                        // validator: (String? value) => signInStore.passError,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Senha Inválida";
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 20),
                       CustomButton(
-                        onPressed: (){
-                          // if (signInStore.formKeyValid) {
-                          //   signInStore.signIn(_onSuccess, _onFail);
-                          // }
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            print("Tudo certo. Entrando!");
+                          }
                         },
                         text: 'CADASTRAR',
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const CustomText(text: 'Já tem conta?', corText: Colors.white70),
+                          const CustomText(
+                              text: 'Já tem conta?', corText: Colors.white70),
                           GestureDetector(
-                            onTap: (){
-                              Navigator.push(context,
-                                   MaterialPageRoute(builder: (context) => SignInPage()));
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignInPage()));
                             },
                             child: const CustomText(
                               text: ' Faça Login',
@@ -101,8 +121,7 @@ class SignUpPage extends StatelessWidget {
                     ],
                   ),
                 );
-              })
-          ),
+              })),
         ),
       ),
     );

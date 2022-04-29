@@ -41,16 +41,21 @@ class HomePage extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.3),
-                      borderRadius: const BorderRadius.all(Radius.circular(10))),
-                  child: ElevatedButton(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10))),
+                  child: TextButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith((states){
-                        return Colors.transparent;
+                      backgroundColor:
+                          MaterialStateProperty.resolveWith((states) {
+                        return Colors.white.withOpacity(0.2);
                       }),
                     ),
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const NextAppointmentPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const NextAppointmentPage()));
                     },
                     child: Column(
                       children: [
@@ -92,7 +97,7 @@ class HomePage extends StatelessWidget {
                                 Text(
                                   "Clique para ver todas",
                                   style: TextStyle(
-                                    fontSize: 10,
+                                      fontSize: 10,
                                       color: Colors.white.withOpacity(0.9)),
                                 ),
                               ],
@@ -109,16 +114,20 @@ class HomePage extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.3),
-                      borderRadius: const BorderRadius.all(Radius.circular(10))),
-                  child: ElevatedButton(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10))),
+                  child: TextButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith((states){
-                        return Colors.transparent;
+                      backgroundColor:
+                          MaterialStateProperty.resolveWith((states) {
+                        return Colors.white.withOpacity(0.2);
                       }),
                     ),
-                    onPressed: (){
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const DocumentsPage()));
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DocumentsPage()));
                     },
                     child: Text(
                       "MEUS DOCUMENTOS",
@@ -134,11 +143,13 @@ class HomePage extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.3),
-                      borderRadius: const BorderRadius.all(Radius.circular(10))),
-                  child: ElevatedButton(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10))),
+                  child: TextButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith((states){
-                        return Colors.transparent;
+                      backgroundColor:
+                          MaterialStateProperty.resolveWith((states) {
+                        return Colors.white.withOpacity(0.2);
                       }),
                     ),
                     onPressed: () {

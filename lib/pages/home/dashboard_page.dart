@@ -1,3 +1,4 @@
+import 'package:centralcaremobile/newAppointment/select_doctor_page.dart';
 import 'package:flutter/material.dart';
 
 import 'home_page.dart';
@@ -19,12 +20,17 @@ class _DashBoardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _telas = [HomePage(), MyAccountPage()];
+    final List<Widget> _telas = [const HomePage(), const MyAccountPage()];
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Central Care"),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
+        actions: [IconButton(onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SelectDoctorPage()));
+        }, icon: const Icon(Icons.add))],
       ),
       body: _telas[_indiceAtual],
       bottomNavigationBar: BottomNavigationBar(

@@ -17,4 +17,3 @@ class _NextAppointmentPageState extends State<NextAppointmentPage> {
     );
   }
 }
-

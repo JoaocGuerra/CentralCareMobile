@@ -23,8 +23,7 @@ class CustomText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-        text,
+    return Text(text,
         maxLines: maxLines,
         textAlign: textAlign,
         style: GoogleFonts.lexendDeca(
@@ -32,7 +31,6 @@ class CustomText extends StatelessWidget {
           fontSize: fontSize,
           fontWeight: fontWeight,
           decoration: textDecoration,
-        )
-    );
+        ));
   }
 }
