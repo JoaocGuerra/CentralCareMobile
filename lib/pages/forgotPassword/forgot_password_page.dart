@@ -18,10 +18,10 @@ class ForgotPasswordPage extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
               gradient: LinearGradient(colors: [
-                Color(0xFF1E90FF),
-                Color(0xFF00BFFF),
-                Color(0xFF6495ED),
-              ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+            Color(0xFF1E90FF),
+            Color(0xFF00BFFF),
+            Color(0xFF6495ED),
+          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           child: SingleChildScrollView(
             child: Form(
               key: formKey,
@@ -37,7 +37,6 @@ class ForgotPasswordPage extends StatelessWidget {
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
-
                     const SizedBox(height: 100),
                     const Text(
                       "Insira o email para solicitar mudança de senha",
@@ -68,7 +67,8 @@ class ForgotPasswordPage extends StatelessWidget {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           if (kDebugMode) {
-                            print("Enviando Solicitação de redefinição de senha!");
+                            print(
+                                "Enviando Solicitação de redefinição de senha!");
                           }
                         }
                       },

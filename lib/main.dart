@@ -1,4 +1,5 @@
-import 'package:centralcaremobile/pages/home/dashboard_page.dart';
+import 'package:centralcaremobile/pages/disabled/dashboard_page.dart';
+import 'package:centralcaremobile/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 
 main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const DashboardPage(),
+      home: const HomePage(),
     );
   }
 }

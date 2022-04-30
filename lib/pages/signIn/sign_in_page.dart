@@ -1,9 +1,9 @@
-import 'package:centralcaremobile/forgotPassword/forgot_password_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../common_widgets/custom_button.dart';
 import '../../common_widgets/custom_text.dart';
 import '../../common_widgets/custom_textformfield.dart';
+import '../forgotPassword/forgot_password_page.dart';
 import '../singUp/sign_up_page.dart';
 
 class SignInPage extends StatelessWidget {
@@ -88,7 +88,8 @@ class SignInPage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ForgotPasswordPage()));
+                                    builder: (context) =>
+                                        ForgotPasswordPage()));
                           },
                           child: const CustomText(
                             text: 'Esqueci minha senha',

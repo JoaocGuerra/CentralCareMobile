@@ -1,167 +1,256 @@
-import 'package:centralcaremobile/nextappointment/next_appointment_page.dart';
-import 'package:centralcaremobile/pages/documents/documents_page.dart';
+import 'package:centralcaremobile/pages/home/my_account_page.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:lottie/lottie.dart';
+
+import '../appointments/appointments_page.dart';
+import '../newAppointment/new_appointment_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
-
-  double pixelHeight(double pxl, context) {
-    return (MediaQuery.of(context).size.height * pxl) / 896;
-  }
-
-  _launchURL() async {
-    const url = 'https://www.health.harvard.edu/blog';
-    if (await canLaunch(url)) {
-      await launch(url, forceWebView: true);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Color(0xFF1E90FF),
-          Color(0xFF00BFFF),
-          Color(0xFF6495ED),
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+            image: DecorationImage(
+                image: AssetImage("images/fundo.jpg"), fit: BoxFit.fill)),
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10))),
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.resolveWith((states) {
-                        return Colors.white.withOpacity(0.2);
-                      }),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const NextAppointmentPage()));
-                    },
-                    child: Column(
+            padding: const EdgeInsets.only(top: 10),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const SizedBox(
-                          height: 10,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              "Olá,",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              "João Carlos",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 24),
+                            ),
+                          ],
                         ),
-                        Text(
-                          "PRÓXIMA CONSULTA",
-                          style:
-                              TextStyle(color: Colors.white.withOpacity(0.9)),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MyAccountPage()));
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(25),
+                            decoration: BoxDecoration(
+                                color: Colors.blue[100],
+                                shape: BoxShape.circle,
+                                image: const DecorationImage(
+                                    image: AssetImage("images/agua.png"),
+                                    fit: BoxFit.fill)),
+                          ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                            height: 90,
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Hoje às 10:30",
-                                  style: TextStyle(
-                                      color: Colors.white.withOpacity(0.9)),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  "Médico(a): Zefa da Galinha",
-                                  style: TextStyle(
-                                      color: Colors.white.withOpacity(0.9)),
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                                Text(
-                                  "Clique para ver todas",
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.white.withOpacity(0.9)),
-                                ),
-                              ],
-                            ))
                       ],
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10))),
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.resolveWith((states) {
-                        return Colors.white.withOpacity(0.2);
-                      }),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DocumentsPage()));
-                    },
-                    child: Text(
-                      "MEUS DOCUMENTOS",
-                      style: TextStyle(color: Colors.white.withOpacity(0.9)),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent[100],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 100,
+                            width: 100,
+                            child: Lottie.network(
+                                "https://assets1.lottiefiles.com/packages/lf20_x1gjdldd.json"),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Como está?",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                const Text("Agende uma consulta agora",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    )),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                Container(
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blueAccent,
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Center(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const NewAppointmentPage()));
+                                      },
+                                      child: const Text(
+                                        "Clique aqui",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 10),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10))),
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.resolveWith((states) {
-                        return Colors.white.withOpacity(0.2);
-                      }),
-                    ),
-                    onPressed: () {
-                      _launchURL();
-                    },
-                    child: Text(
-                      "BLOG",
-                      style: TextStyle(color: Colors.white.withOpacity(0.9)),
+                  const SizedBox(height: 25),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent[100],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.only(
+                                left: 30, right: 30, top: 20, bottom: 20),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const AppointmentsPage()));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 50,
+                              width: 50,
+                              child: Lottie.network(
+                                  "https://assets3.lottiefiles.com/private_files/lf30_qkroghd7.json"),
+                            ),
+                            const SizedBox(
+                              width: 50,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Text(
+                                    "Minhas Consultas",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 25),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent[100],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.only(
+                                left: 30, right: 30, top: 20, bottom: 20),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const AppointmentsPage()));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 50,
+                              width: 50,
+                              child: Lottie.network(
+                                  "https://assets9.lottiefiles.com/packages/lf20_jxgqawba.json"),
+                            ),
+                            const SizedBox(
+                              width: 50,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Text(
+                                    "Minhas Receitas",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
