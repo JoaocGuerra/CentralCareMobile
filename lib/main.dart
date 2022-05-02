@@ -1,8 +1,12 @@
-import 'package:centralcaremobile/pages/disabled/dashboard_page.dart';
-import 'package:centralcaremobile/pages/home/home_page.dart';
+import 'package:centralcaremobile/auth/auth_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-main() {
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -18,7 +22,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const HomePage(),
+      home: const AuthPage(),
     );
   }
 }

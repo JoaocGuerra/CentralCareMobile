@@ -4,13 +4,22 @@ import '../../common_widgets/custom_button.dart';
 import '../../common_widgets/custom_text.dart';
 import '../../common_widgets/custom_textformfield.dart';
 import '../forgotPassword/forgot_password_page.dart';
+import '../home/home_page.dart';
 import '../singUp/sign_up_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({Key? key}) : super(key: key);
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passController = TextEditingController();
+
+  Future singIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text.trim(),
+      password: passController.text.trim(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +28,8 @@ class SignInPage extends StatelessWidget {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Color(0xFF1E90FF),
-            Color(0xFF00BFFF),
-            Color(0xFF6495ED),
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+              image: DecorationImage(
+                  image: AssetImage("images/fundo.jpg"), fit: BoxFit.fill)),
           child: SingleChildScrollView(
             child: Form(
               key: formKey,
@@ -32,11 +38,11 @@ class SignInPage extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 100),
-                    const Text(
+                    Text(
                       "Central Care",
                       style: TextStyle(
                           fontSize: 40,
-                          color: Colors.white,
+                          color: Colors.blueAccent[100],
                           fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 100),
@@ -58,7 +64,7 @@ class SignInPage extends StatelessWidget {
                     const SizedBox(height: 20),
                     CustomTextFormField(
                       textEditingController: passController,
-                      isPasswordType: false,
+                      isPasswordType: true,
                       icon: Icons.lock,
                       text: 'Senha',
                       textInputType: TextInputType.text,
@@ -75,7 +81,12 @@ class SignInPage extends StatelessWidget {
                     CustomButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          print("Tudo certo. Entrando!");
+                          singIn();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const HomePage()));
                         }
                       },
                       text: 'ENTRAR',

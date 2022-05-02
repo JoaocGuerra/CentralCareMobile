@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -13,6 +14,13 @@ class SignUpPage extends StatelessWidget {
   final passController = TextEditingController();
   final nameController = TextEditingController();
 
+  Future signUp() async {
+    await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passController.text.trim());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,11 +28,8 @@ class SignUpPage extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Color(0xFF1E90FF),
-          Color(0xFF00BFFF),
-          Color(0xFF6495ED),
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+            image: DecorationImage(
+                image: AssetImage("images/fundo.jpg"), fit: BoxFit.fill)),
         child: SingleChildScrollView(
           child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 30, 20, 10),
@@ -34,11 +39,11 @@ class SignUpPage extends StatelessWidget {
                   child: Column(
                     children: [
                       const SizedBox(height: 70),
-                      const Text(
+                      Text(
                         "Central Care",
                         style: TextStyle(
                             fontSize: 40,
-                            color: Colors.white,
+                            color: Colors.blueAccent[100],
                             fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 70),
@@ -76,7 +81,7 @@ class SignUpPage extends StatelessWidget {
                       const SizedBox(height: 20),
                       CustomTextFormField(
                         textEditingController: passController,
-                        isPasswordType: false,
+                        isPasswordType: true,
                         icon: Icons.lock,
                         text: 'Senha',
                         textInputType: TextInputType.emailAddress,
@@ -93,7 +98,7 @@ class SignUpPage extends StatelessWidget {
                       CustomButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print("Tudo certo. Entrando!");
+                            signUp();
                           }
                         },
                         text: 'CADASTRAR',
@@ -105,7 +110,7 @@ class SignUpPage extends StatelessWidget {
                               text: 'Já tem conta?', corText: Colors.white70),
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => SignInPage()));

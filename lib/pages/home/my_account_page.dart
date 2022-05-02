@@ -1,7 +1,8 @@
+import 'package:centralcaremobile/auth/auth_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../appointments/appointments_page.dart';
-import '../documents/documents_page.dart';
 
 class MyAccountPage extends StatelessWidget {
   const MyAccountPage({Key? key}) : super(key: key);
@@ -113,36 +114,14 @@ class MyAccountPage extends StatelessWidget {
                     }),
                   ),
                   onPressed: () {
+                    FirebaseAuth.instance.signOut();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const DocumentsPage()));
+                            builder: (context) => const AuthPage()));
                   },
                   child: Text(
-                    "MEUS DOCUMENTOS",
-                    style: TextStyle(color: Colors.white.withOpacity(0.9)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.3),
-                    borderRadius: const BorderRadius.all(Radius.circular(10))),
-                child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.resolveWith((states) {
-                      return Colors.white.withOpacity(0.2);
-                    }),
-                  ),
-                  onPressed: () {},
-                  child: Text(
-                    "BLOG",
+                    "Sair",
                     style: TextStyle(color: Colors.white.withOpacity(0.9)),
                   ),
                 ),

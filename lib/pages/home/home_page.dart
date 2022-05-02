@@ -82,7 +82,7 @@ class HomePage extends StatelessWidget {
                       padding: const EdgeInsets.all(20),
                       child: Row(
                         children: [
-                          Container(
+                          SizedBox(
                             height: 100,
                             width: 100,
                             child: Lottie.network(
@@ -117,16 +117,16 @@ class HomePage extends StatelessWidget {
                                   decoration: BoxDecoration(
                                       color: Colors.blueAccent,
                                       borderRadius: BorderRadius.circular(12)),
-                                  child: Center(
-                                    child: TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const NewAppointmentPage()));
-                                      },
-                                      child: const Text(
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                              const NewAppointmentPage()));
+                                    },
+                                    child: const Center(
+                                      child: Text(
                                         "Clique aqui",
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 10),
@@ -166,7 +166,7 @@ class HomePage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
+                            SizedBox(
                               height: 50,
                               width: 50,
                               child: Lottie.network(
@@ -220,7 +220,7 @@ class HomePage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
+                            SizedBox(
                               height: 50,
                               width: 50,
                               child: Lottie.network(

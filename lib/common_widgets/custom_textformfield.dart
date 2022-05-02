@@ -42,7 +42,7 @@ class CustomTextFormField extends StatelessWidget {
           labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
           filled: true,
           floatingLabelBehavior: FloatingLabelBehavior.never,
-          fillColor: Colors.white.withOpacity(0.3),
+          fillColor: Colors.blueAccent.withOpacity(0.3),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: const BorderSide(width: 0, style: BorderStyle.none))),
