@@ -15,10 +15,9 @@ class SignUpPage extends StatelessWidget {
   final nameController = TextEditingController();
 
   Future signUp() async {
-    await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passController.text.trim());
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passController.text.trim());
   }
 
   @override

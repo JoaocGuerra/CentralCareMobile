@@ -1,15 +1,14 @@
-import 'package:centralcaremobile/pages/appointments/appointment_card.dart';
+import 'package:centralcaremobile/pages/prescription/prescription_card.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class AppointmentsPage extends StatefulWidget {
-  const AppointmentsPage({Key? key}) : super(key: key);
+import '../appointments/appointments_page.dart';
+import '../my_account/my_account_page.dart';
+import '../newAppointment/new_appointment_page.dart';
 
-  @override
-  _AppointmentsPageState createState() => _AppointmentsPageState();
-}
+class PrescriptionPage extends StatelessWidget {
+  const PrescriptionPage({Key? key}) : super(key: key);
 
-class _AppointmentsPageState extends State<AppointmentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +35,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                               height: 8,
                             ),
                             Text(
-                              "Minhas Consultas",
+                              "Minhas Receitas",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 24),
                             ),
@@ -46,7 +45,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                           height: 50,
                           width: 50,
                           child: Lottie.network(
-                              "https://assets3.lottiefiles.com/private_files/lf30_qkroghd7.json"),
+                              "https://assets9.lottiefiles.com/packages/lf20_jxgqawba.json"),
                         ),
                       ],
                     ),
@@ -58,19 +57,19 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                     height: MediaQuery.of(context).size.height,
                     child: ListView(
                       children: const [
-                        AppointmentCard(),
+                        PrescriptionCard(),
                         SizedBox(
                           height: 15,
                         ),
-                        AppointmentCard(),
+                        PrescriptionCard(),
                         SizedBox(
                           height: 15,
                         ),
-                        AppointmentCard(),
+                        PrescriptionCard(),
                         SizedBox(
                           height: 15,
                         ),
-                        AppointmentCard(),
+                        PrescriptionCard(),
                         SizedBox(
                           height: 15,
                         ),

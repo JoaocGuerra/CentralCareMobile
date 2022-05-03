@@ -1,4 +1,5 @@
-import 'package:centralcaremobile/pages/home/my_account_page.dart';
+import 'package:centralcaremobile/pages/my_account/my_account_page.dart';
+import 'package:centralcaremobile/pages/prescription/prescription_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -123,7 +124,7 @@ class HomePage extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                              const NewAppointmentPage()));
+                                                  const NewAppointmentPage()));
                                     },
                                     child: const Center(
                                       child: Text(
@@ -215,7 +216,7 @@ class HomePage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const AppointmentsPage()));
+                                      const PrescriptionPage()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

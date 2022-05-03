@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../appointments/appointments_page.dart';
 import '../documents/documents_page.dart';
 import '../home/home_page.dart';
-import '../home/my_account_page.dart';
+import '../my_account/my_account_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
