@@ -2,10 +2,6 @@ import 'package:centralcaremobile/pages/prescription/prescription_card.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import '../appointments/appointments_page.dart';
-import '../my_account/my_account_page.dart';
-import '../newAppointment/new_appointment_page.dart';
-
 class PrescriptionPage extends StatelessWidget {
   const PrescriptionPage({Key? key}) : super(key: key);
 
