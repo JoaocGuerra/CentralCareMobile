@@ -1,133 +1,216 @@
-import 'package:centralcaremobile/auth/auth.dart';
+import 'package:centralcaremobile/User/current_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../appointments/appointments_page.dart';
+import '../signIn/sign_in_page.dart';
+import 'edit_my_account_page.dart';
 
-class MyAccountPage extends StatelessWidget {
+class MyAccountPage extends StatefulWidget {
   const MyAccountPage({Key? key}) : super(key: key);
+
+  @override
+  _MyAccountPageState createState() => _MyAccountPageState();
+}
+
+class _MyAccountPageState extends State<MyAccountPage> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Color(0xFF1E90FF),
-          Color(0xFF00BFFF),
-          Color(0xFF6495ED),
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.3),
-                    borderRadius: const BorderRadius.all(Radius.circular(10))),
-                child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.resolveWith((states) {
-                      return Colors.white.withOpacity(0.2);
-                    }),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AppointmentsPage()));
-                  },
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 10,
+      backgroundColor: Colors.blueAccent[100],
+      body: SafeArea(
+        child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(60),
+                      child: Image.asset(
+                        "images/agua.png",
+                        height: 120,
                       ),
-                      Container(
-                        height: 80,
-                        width: 80,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("images/agua.png"),
-                                fit: BoxFit.fill),
-                            shape: BoxShape.circle,
-                            color: Colors.white70),
-                      ),
-                      Text(
-                        "Nome Usuario",
-                        style: TextStyle(color: Colors.white.withOpacity(0.9)),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                          height: 90,
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Hoje às 10:30",
-                                style: TextStyle(
-                                    color: Colors.white.withOpacity(0.9)),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Médico(a): Zefa da Galinha",
-                                style: TextStyle(
-                                    color: Colors.white.withOpacity(0.9)),
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              Text(
-                                "Clique para ver todas",
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.white.withOpacity(0.9)),
-                              ),
-                            ],
-                          ))
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.3),
-                    borderRadius: const BorderRadius.all(Radius.circular(10))),
-                child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.resolveWith((states) {
-                      return Colors.white.withOpacity(0.2);
-                    }),
-                  ),
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Auth()));
-                  },
-                  child: Text(
-                    "Sair",
-                    style: TextStyle(color: Colors.white.withOpacity(0.9)),
-                  ),
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-            ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      CurrentUser().getUserName().toString(),
+                      style:
+                          const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
-        ),
-      ),
+          Expanded(
+            child: Container(
+            decoration:  const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: const [
+                        Text(
+                          "Email:",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                         CurrentUser().getUserEmail().toString(),
+                          style: const TextStyle(fontSize: 20),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Divider(),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: const [
+                        Text(
+                          "Data de Nascimento:",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                         CurrentUser().getUserDateBirthday().toString(),
+                          style: const TextStyle(fontSize: 20),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Divider(),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: const [
+                        Text(
+                          "Sexo:",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        SizedBox(width: 10),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          CurrentUser().getUserSex().toString(),
+                          style: const TextStyle(fontSize: 20),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Divider(),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.blueAccent,
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              EditMyAccountPage()));
+                                },
+                                child: const Center(
+                                  child: Text(
+                                    "Editar Perfil",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15),
+                                  ),
+                                ),
+                              ),
+                            )
+                        ),
+                        const SizedBox(width: 10,),
+                        Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: TextButton(
+                                onPressed: () {
+                                  FirebaseAuth.instance.signOut();
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SignInPage()));
+                                },
+                                child: const Center(
+                                  child: Text(
+                                    "Sair",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15),
+                                  ),
+                                ),
+                              ),
+                            )
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+          ))
+        ],
+      )),
     );
   }
+
 }
