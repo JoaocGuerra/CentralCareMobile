@@ -1,7 +1,13 @@
+import 'package:centralcaremobile/pages/newAppointment/button/button_confirm_consult.dart';
+import 'package:centralcaremobile/pages/newAppointment/select/select_date.dart';
+import 'package:centralcaremobile/pages/newAppointment/select/select_doctor.dart';
+import 'package:centralcaremobile/pages/newAppointment/select/select_hours.dart';
+import 'package:centralcaremobile/widgets/check_animation.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../services/marcar_consulta.dart';
 import '../home/home_page.dart';
-import 'doctor_card.dart';
 
 class NewAppointmentPage extends StatefulWidget {
   const NewAppointmentPage({Key? key}) : super(key: key);
@@ -11,13 +17,60 @@ class NewAppointmentPage extends StatefulWidget {
 }
 
 class _NewAppointmentPageState extends State<NewAppointmentPage> {
-  String _dateValue = 'Data';
-  String _timeValue = 'Horário';
+  final _db = FirebaseFirestore.instance;
+  final MarcarConsultaService _marcarConsultaService = MarcarConsultaService();
 
+  bool _loadingScreen = false;
+
+  Future<void> _callbackLoadingScreen() async {
+
+
+    setState(() {
+      _loadingScreen = !_loadingScreen;
+    });
+
+    await _marcarConsultaService.insertQueue();
+
+    setState(() {
+      _loadingScreen = !_loadingScreen;
+    });
+
+  }
+
+  void _callback(String variavel, int tipo) {
+    if(tipo==1){
+      setState(() {
+        _marcarConsultaService.selectedDoctor = variavel;
+      });
+    }else if(tipo==2){
+      setState(() {
+        _marcarConsultaService.selectedDate = variavel;
+      });
+    }else if(tipo==3){
+      setState(() {
+        _marcarConsultaService.selectedHour = variavel;
+      });
+    }else if(tipo==4){
+      setState(() {
+        _marcarConsultaService.selectedHour = variavel;
+      });
+    }
+    
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: _loadingScreen ?  Center(
+        child: CheckAnimation(size: 30, onComplete: (){
+          Navigator.pop(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const HomePage()));
+        },),
+      )
+          :
+      Container(
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -41,222 +94,34 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              "Selecione o médico",
-                              style: TextStyle(fontSize: 20),
-                            ),
                           ],
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    height: 200,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: const [
-                        DoctorCard(
-                          doctorImage: "images/agua.png",
-                          doctorName: "Meredith Grey",
-                          doctorSpecialty: "General",
-                        ),
-                        DoctorCard(
-                          doctorImage: "images/agua.png",
-                          doctorName: "Meredith Grey",
-                          doctorSpecialty: "General",
-                        ),
-                        DoctorCard(
-                          doctorImage: "images/agua.png",
-                          doctorName: "Meredith Grey",
-                          doctorSpecialty: "General",
-                        ),
-                      ],
-                    ),
+                  const SizedBox(height: 15,),
+                  SelectDoctor(marcarConsultaService: _marcarConsultaService, db: _db, callback: _callback),
+                  const SizedBox(height: 15),
+                  Visibility(
+                    visible: _marcarConsultaService.selectedDoctor != "",
+                    child: SelectDate(marcarConsultaService: _marcarConsultaService,db: _db, callback: _callback),
                   ),
                   const SizedBox(height: 15),
                   Visibility(
-                    visible: true,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                "Selecione a data",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    visible: _marcarConsultaService.selectedDate != "",
+                    child: SelectHours(marcarConsultaService: _marcarConsultaService, callback: _callback),
                   ),
                   const SizedBox(height: 15),
                   Visibility(
-                    visible: true,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: DropdownButton<String>(
-                          isExpanded: true,
-                          value: _dateValue,
-                          elevation: 16,
-                          iconEnabledColor: Colors.black,
-                          style: const TextStyle(
-                            color: Colors.black,
-                          ),
-                          underline: Container(
-                            height: 2,
-                            color: Colors.black,
-                          ),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              _dateValue = newValue!;
-                            });
-                          },
-                          items: const [
-                            DropdownMenuItem(
-                              child: Text("Data"),
-                              value: "Data",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("01 de Maio"),
-                              value: "01 de Maio",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("02 de Maio"),
-                              value: "02 de Maio",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("03 de Maio"),
-                              value: "03 de Maio",
-                            ),
-                          ]),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  Visibility(
-                    visible: true,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                "Selecione o horário",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Visibility(
-                    visible: true,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: DropdownButton<String>(
-                          isExpanded: true,
-                          value: _timeValue,
-                          elevation: 16,
-                          style: const TextStyle(
-                            color: Colors.black,
-                          ),
-                          iconEnabledColor: Colors.black,
-                          underline: Container(
-                            height: 2,
-                            color: Colors.black,
-                          ),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              _timeValue = newValue!;
-                            });
-                          },
-                          items: const [
-                            DropdownMenuItem(
-                              child: Text("Horário"),
-                              value: "Horário",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("13:00"),
-                              value: "13:00",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("14:00"),
-                              value: "14:00",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("15:00"),
-                              value: "15:00",
-                            ),
-                          ]),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  Visibility(
-                    visible: true,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blueAccent[100],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: TextButton(
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                              const EdgeInsets.only(
-                                  left: 30, right: 30, top: 20, bottom: 20),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomePage()));
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: const [
-                                    Text(
-                                      "Confirmar Consulta",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    visible: _marcarConsultaService.selectedHour != "",
+                    child: ButtonConfirmConsult(marcarConsultaService: _marcarConsultaService, callback: _callbackLoadingScreen),
                   ),
                 ],
               ),
             ),
           ),
         ),
-      ),
+      )
     );
   }
 }
