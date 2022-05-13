@@ -82,10 +82,10 @@ class SignInPage extends StatelessWidget {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           singIn();
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
+                                  builder: (context) => HomePage()));
                         }
                       },
                       text: 'ENTRAR',

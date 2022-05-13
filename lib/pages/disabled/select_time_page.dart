@@ -168,7 +168,7 @@ class _SelectTimePageState extends State<SelectTimePage> {
                           Navigator.pop(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
+                                  builder: (context) => HomePage()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -225,7 +225,7 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
                             Navigator.pop(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const HomePage()));
+                                    builder: (context) => HomePage()));
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
