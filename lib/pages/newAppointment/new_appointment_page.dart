@@ -2,6 +2,7 @@ import 'package:centralcaremobile/pages/newAppointment/button/button_confirm_con
 import 'package:centralcaremobile/pages/newAppointment/select/select_date.dart';
 import 'package:centralcaremobile/pages/newAppointment/select/select_doctor.dart';
 import 'package:centralcaremobile/pages/newAppointment/select/select_hours.dart';
+import 'package:centralcaremobile/pages/newAppointment/select/select_specialty.dart';
 import 'package:centralcaremobile/widgets/check_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,6 +30,7 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
       _loadingScreen = !_loadingScreen;
     });
 
+    _marcarConsultaService.insertQuery();
     await _marcarConsultaService.insertQueue();
 
     setState(() {
@@ -37,18 +39,18 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
 
   }
 
-  void _callback(String variavel, int tipo) {
+  void _callback(var variavel, int tipo) {
     if(tipo==1){
       setState(() {
-        _marcarConsultaService.selectedDoctor = variavel;
+        _marcarConsultaService.selectedSpecialty = variavel;
       });
     }else if(tipo==2){
       setState(() {
-        _marcarConsultaService.selectedDate = variavel;
+        _marcarConsultaService.selectedDoctor = variavel;
       });
     }else if(tipo==3){
       setState(() {
-        _marcarConsultaService.selectedHour = variavel;
+        _marcarConsultaService.selectedDate = variavel;
       });
     }else if(tipo==4){
       setState(() {
@@ -82,7 +84,7 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    padding: const EdgeInsets.fromLTRB(25, 5, 0, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -99,22 +101,33 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 15,),
-                  SelectDoctor(marcarConsultaService: _marcarConsultaService, db: _db, callback: _callback),
-                  const SizedBox(height: 15),
-                  Visibility(
-                    visible: _marcarConsultaService.selectedDoctor != "",
-                    child: SelectDate(marcarConsultaService: _marcarConsultaService,db: _db, callback: _callback),
-                  ),
-                  const SizedBox(height: 15),
-                  Visibility(
-                    visible: _marcarConsultaService.selectedDate != "",
-                    child: SelectHours(marcarConsultaService: _marcarConsultaService, callback: _callback),
-                  ),
-                  const SizedBox(height: 15),
-                  Visibility(
-                    visible: _marcarConsultaService.selectedHour != "",
-                    child: ButtonConfirmConsult(marcarConsultaService: _marcarConsultaService, callback: _callbackLoadingScreen),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(25, 10, 0, 0),
+                    child: Column(
+                      children: [
+                        SelectSpecialty(marcarConsultaService: _marcarConsultaService, db: _db, callback: _callback),
+                        const SizedBox(height: 15,),
+                        Visibility(
+                          visible: !_marcarConsultaService.selectedSpecialty.isEmpty,
+                          child: SelectDoctor(marcarConsultaService: _marcarConsultaService, db: _db, callback: _callback),
+                        ),
+                        const SizedBox(height: 15),
+                        Visibility(
+                          visible: _marcarConsultaService.selectedDoctor != "",
+                          child: SelectDate(marcarConsultaService: _marcarConsultaService,db: _db, callback: _callback),
+                        ),
+                        const SizedBox(height: 15),
+                        Visibility(
+                          visible: _marcarConsultaService.selectedDate != "",
+                          child: SelectHours(marcarConsultaService: _marcarConsultaService, callback: _callback),
+                        ),
+                        const SizedBox(height: 15),
+                        Visibility(
+                          visible: _marcarConsultaService.selectedHour != "",
+                          child: ButtonConfirmConsult(marcarConsultaService: _marcarConsultaService, callback: _callbackLoadingScreen),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

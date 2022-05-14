@@ -22,65 +22,66 @@ class _SelectDateState extends State<SelectDate> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: Column(
-          children: [
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Selecione a data",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            widget.marcarConsultaService.selectedDoctor != "" ?
-            SizedBox(
-              height: 75,
-              child: StreamBuilder(
-                stream: widget.db.collection('funcionarios').doc(widget.marcarConsultaService.selectedDoctor).collection('atendimentos').snapshots(),
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }else{
+    return Column(
+      children: [
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "Selecione a data",
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        SizedBox(
+          height: 75,
+          child: StreamBuilder(
+            stream: widget.db.collection('funcionarios').doc(widget.marcarConsultaService.selectedDoctor).collection('atendimentos').snapshots(),
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }else{
 
-                    Map<String, String> mapDoctorDates = new  Map<String, String>();
-                    List<String> doctorDates = [];
+                Map<String, String> mapDoctorDates = new  Map<String, String>();
+                List<String> doctorDates = [];
 
-                    return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: snapshot.data?.docs.length,
-                      itemBuilder: (BuildContext context, int index) {
+                int lengthDoctorsDates = snapshot.data?.docs.length ?? 0;
 
-                        String dateFormated = _utilsDateTime.convertFormatDate(snapshot.data?.docs[index].id ?? "");
-                        mapDoctorDates[dateFormated] = snapshot.data?.docs[index].id ?? "";
-                        doctorDates.add(dateFormated);
-
-                        if((snapshot.data?.docs.length)!-1 == index){
-                          return GroupButton(
-                            buttons: doctorDates,
-                            maxSelected: 1,
-                            onSelected: (i, selected){
-                              String doctorDateSelected = mapDoctorDates[doctorDates[i]] ?? "";
-                              widget.callback(doctorDateSelected,2);
-                              widget.marcarConsultaService.getHoursDoctor(widget.marcarConsultaService.selectedDoctor, widget.marcarConsultaService.selectedDate);
-                            },
-                          );
-                        }else{
-                          return const Center();
-                        }
-                      },
-                    );
+                for(int i=0;i<lengthDoctorsDates;i++){
+                  bool availableDate = snapshot.data?.docs[i].get("disponivel");
+                  if(availableDate){
+                    String dateFormated = _utilsDateTime.convertFormatDate(snapshot.data?.docs[i].id ?? "");
+                    mapDoctorDates[dateFormated] = snapshot.data?.docs[i].id ?? "";
+                    doctorDates.add(dateFormated);
                   }
-                },
-              ),
-            )
-                :
-            Center(),
-            Divider(height: 5),
-          ],
-        )
+
+                }
+
+                return ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    GroupButton(
+                      buttons: doctorDates,
+                      maxSelected: 1,
+                      onSelected: (i, selected){
+                        String doctorDateSelected = mapDoctorDates[doctorDates[i]] ?? "";
+                        widget.callback(doctorDateSelected,3);
+                        widget.marcarConsultaService.getHoursDoctor(widget.marcarConsultaService.selectedDoctor, widget.marcarConsultaService.selectedDate);
+                      },
+                      options: GroupButtonOptions(
+                        textAlign: TextAlign.center,
+                        elevation: 2,
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
+        ),
+        const Divider(height: 5),
+      ],
     );
   }
 }

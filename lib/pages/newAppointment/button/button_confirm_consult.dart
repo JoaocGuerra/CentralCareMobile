@@ -15,7 +15,7 @@ class ButtonConfirmConsult extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.blueAccent[100],
+          color: Colors.lightBlue,
           borderRadius: BorderRadius.circular(12),
         ),
         child: TextButton(

@@ -1,22 +1,22 @@
+import 'package:centralcaremobile/utils/utils_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 
 import '../../../services/marcar_consulta.dart';
 
-class SelectDoctor extends StatefulWidget {
+class SelectSpecialty extends StatefulWidget {
   final MarcarConsultaService marcarConsultaService;
   final Function callback;
   final db;
 
-  const SelectDoctor({Key? key, required this.marcarConsultaService, required this.db, required this.callback}) : super(key: key);
+  const SelectSpecialty({Key? key, required this.marcarConsultaService, required this.callback, this.db}) : super(key: key);
 
   @override
-  _SelectDoctorState createState() => _SelectDoctorState();
+  State<SelectSpecialty> createState() => _SelectSpecialtyState();
 }
 
-class _SelectDoctorState extends State<SelectDoctor> {
+class _SelectSpecialtyState extends State<SelectSpecialty> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,29 +24,31 @@ class _SelectDoctorState extends State<SelectDoctor> {
         const Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Selecione o médico",
+            "Selecione a especialidade",
             style: TextStyle(fontSize: 20),
           ),
         ),
         SizedBox(
           height: 75,
           child: StreamBuilder(
-            stream: widget.db.collection('funcionarios').snapshots(),
+            stream: widget.db.collection('especialidades').snapshots(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }else{
-                List<String> doctorNames = [];
-                List<String> doctorID = [];
+                Map<String, dynamic> mapSpecialty = new  Map<String, dynamic>();
+                List<String> specialtysCapitalize = [];
 
-                int lengthDoctors = snapshot.data?.docs.length ?? 0;
+                int lengthSpecialty = snapshot.data?.docs.length ?? 0;
 
-                for(int i=0;i<lengthDoctors;i++){
-                  if(widget.marcarConsultaService.selectedSpecialty.contains(snapshot.data?.docs[i].id ?? "")) {
-                    doctorNames.add(snapshot.data?.docs[i]['nome']);
-                    doctorID.add(snapshot.data?.docs[i].id ?? "");
+                for(int i=0;i<lengthSpecialty;i++){
+                  bool availableSpecialty = snapshot.data?.docs[i].get("disponivel");
+                  if(availableSpecialty){
+                    String specialtyCapitalize = UtilsString.capitalize(snapshot.data?.docs[i].id ?? "");
+                    mapSpecialty[specialtyCapitalize] = snapshot.data?.docs[i].get("lista_funcionarios");
+                    specialtysCapitalize.add(specialtyCapitalize);
                   }
                 }
 
@@ -54,10 +56,11 @@ class _SelectDoctorState extends State<SelectDoctor> {
                   scrollDirection: Axis.horizontal,
                   children: [
                     GroupButton(
-                      buttons: doctorNames,
+                      buttons: specialtysCapitalize,
                       maxSelected: 1,
                       onSelected: (i, selected){
-                        widget.callback(doctorID[i],2);
+                        dynamic specialtySelected = mapSpecialty[specialtysCapitalize[i]];
+                        widget.callback(specialtySelected,1);
                       },
                       options: GroupButtonOptions(
                         textAlign: TextAlign.center,
@@ -71,7 +74,7 @@ class _SelectDoctorState extends State<SelectDoctor> {
             },
           ),
         ),
-        const Divider(height: 5),
+        const Divider(height: 5)
       ],
     );
   }
