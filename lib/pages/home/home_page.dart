@@ -1,13 +1,41 @@
+import 'package:centralcaremobile/User/get_user_details.dart';
 import 'package:centralcaremobile/pages/my_account/my_account_page.dart';
 import 'package:centralcaremobile/pages/prescription/prescription_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 import '../appointments/appointments_page.dart';
 import '../newAppointment/new_appointment_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final user = FirebaseAuth.instance.currentUser;
+  String? _docId;
+
+  Future getDocId() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .get()
+        .then((snapshot) => snapshot.docs.forEach((element) {
+              if (element.data()['id'] == user?.uid.trim().toString()) {
+                _docId = element.reference.id;
+              }
+            }));
+  }
+
+  @override
+  void initState() {
+    getDocId();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +58,29 @@ class HomePage extends StatelessWidget {
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               "Olá,",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
-                            Text(
-                              "João Carlos",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 24),
-                            ),
+                            FutureBuilder(
+                                future: getDocId(),
+                                builder: (context, snapshot) {
+                                  if (_docId == null || _docId!.isEmpty) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else {
+                                    return GetUserDetails(
+                                        userId: user?.uid.trim(),
+                                        attribute: 'name',
+                                        documentId: _docId);
+                                  }
+                                })
                           ],
                         ),
                         ElevatedButton(

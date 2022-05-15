@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../common_widgets/custom_button.dart';
@@ -6,7 +7,6 @@ import '../../common_widgets/custom_textformfield.dart';
 import '../forgotPassword/forgot_password_page.dart';
 import '../home/home_page.dart';
 import '../singUp/sign_up_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({Key? key}) : super(key: key);
@@ -82,10 +82,10 @@ class SignInPage extends StatelessWidget {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           singIn();
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
+                                  builder: (context) => HomePage()));
                         }
                       },
                       text: 'ENTRAR',

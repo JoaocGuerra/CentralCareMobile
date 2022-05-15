@@ -29,7 +29,7 @@ class _DashBoardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _telas = [const HomePage(), const MyAccountPage()];
+    final List<Widget> _telas = [HomePage(), const MyAccountPage()];
 
     return Scaffold(
       body: Container(
