@@ -1,14 +1,17 @@
+import 'package:centralcaremobile/utils/utils_datetime.dart';
 import 'package:flutter/material.dart';
 
 import 'appointments_page.dart';
 
 class AppointmentCard extends StatelessWidget {
-  const AppointmentCard({Key? key}) : super(key: key);
+  final dynamic data;
+
+  const AppointmentCard({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.blueAccent[100],
@@ -32,11 +35,11 @@ class AppointmentCard extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children:  [
                     Text(
-                      "Consulta [27/04/22]",
-                      style: TextStyle(
-                        color: Colors.black,
+                      UtilsDateTime.convertFormatDate(data['dia_mes_ano'] ?? ""),
+                      style: const TextStyle(
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),

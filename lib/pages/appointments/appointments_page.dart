@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import 'appointments_list.dart';
+import '../../constants/constants_api.dart';
+import 'appointments_list/appointments_listbuilder.dart';
 
 class AppointmentsPage extends StatefulWidget {
 
@@ -14,6 +15,8 @@ class AppointmentsPage extends StatefulWidget {
 }
 
 class _AppointmentsPageState extends State<AppointmentsPage> {
+  final _db = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,33 +59,41 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                 ],
               )
             ),
-            body: TabBarView(
-              children: [
-                new Container(
-                  child: new Center(
-                    child: new Text(
-                      "Primeira Guia",
-                      style: TextStyle(),
-                    ),
-                  ),
-                ),
-                new Container(
-                  child: new Center(
-                    child: new Text(
-                      "Segunda guia",
-                      style: TextStyle(),
-                    ),
-                  ),
-                ),
-                new Container(
-                  child: new Center(
-                    child: new Text(
-                      "Terceira guia",
-                      style: TextStyle(),
-                    ),
-                  ),
-                ),
-              ],
+            body: StreamBuilder(
+              stream: _db.collection('pacientes').doc(pacienteTeste).collection('consultas').snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }else{
+
+                  List<dynamic> listAppointmentsProgress = [];
+                  List<dynamic> listAppointmentsCompleted = [];
+                  List<dynamic> listAppointments = [];
+
+                  int lengthAppointments = snapshot.data?.docs.length ?? 0;
+
+                  for(int i=0;i<lengthAppointments;i++){
+
+                    listAppointments.add(snapshot.data?.docs[i]);
+
+                    if(snapshot.data?.docs[i].get("status")=="concluido"){
+                      listAppointmentsCompleted.add(snapshot.data?.docs[i]);
+                    }else if(snapshot.data?.docs[i].get("status")=="atendimento"){
+                      listAppointmentsProgress.add(snapshot.data?.docs[i]);
+                    }
+                  }
+
+                  return TabBarView(
+                    children: [
+                      AppointmentsListBuilder(listAppointments: listAppointmentsProgress,),
+                      AppointmentsListBuilder(listAppointments: listAppointmentsCompleted,),
+                      AppointmentsListBuilder(listAppointments: listAppointments,)
+                    ],
+                  );
+                }
+              },
             ),
           ),
         ),
@@ -131,7 +142,6 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                     height: 25,
                   ),
                   Divider(),
-                  ApoointmentsList()
                   // SizedBox(
                   //   height: MediaQuery.of(context).size.height,
                   //   child: ListView(
