@@ -1,11 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../common_widgets/custom_button.dart';
-import '../../common_widgets/custom_text.dart';
 import '../../common_widgets/custom_textformfield.dart';
-import '../signIn/sign_in_page.dart';
 
 class EditMyAccountPage extends StatelessWidget {
   EditMyAccountPage({Key? key}) : super(key: key);
@@ -13,7 +10,6 @@ class EditMyAccountPage extends StatelessWidget {
   final emailController = TextEditingController();
   final nameController = TextEditingController();
   final dateController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {

@@ -24,12 +24,11 @@ class _HomePageState extends State<HomePage> {
     await FirebaseFirestore.instance
         .collection('users')
         .get()
-        .then((snapshot) =>
-        snapshot.docs.forEach((element) {
-          if (element.data()['id'] == user?.uid.trim().toString()) {
-            _docId = element.reference.id;
-          }
-        }));
+        .then((snapshot) => snapshot.docs.forEach((element) {
+              if (element.data()['id'] == user?.uid.trim().toString()) {
+                _docId = element.reference.id;
+              }
+            }));
   }
 
   @override
@@ -42,10 +41,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("images/fundo.jpg"), fit: BoxFit.fill)),
@@ -71,7 +67,8 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(
                               height: 8,
                             ),
-                            FutureBuilder(future: getDocId(),
+                            FutureBuilder(
+                                future: getDocId(),
                                 builder: (context, snapshot) {
                                   if (_docId == null || _docId!.isEmpty) {
                                     return const Center(
@@ -95,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                    const MyAccountPage()));
+                                        const MyAccountPage()));
                           },
                           child: Container(
                             padding: const EdgeInsets.all(25),
@@ -164,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                              const NewAppointmentPage()));
+                                                  const NewAppointmentPage()));
                                     },
                                     child: const Center(
                                       child: Text(
@@ -202,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                  const AppointmentsPage()));
+                                      const AppointmentsPage()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -256,7 +253,7 @@ class _HomePageState extends State<HomePage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                  const PrescriptionPage()));
+                                      const PrescriptionPage()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

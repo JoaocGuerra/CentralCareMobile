@@ -22,22 +22,22 @@ class SignUpPage extends StatelessWidget {
         email: emailController.text.trim(),
         password: passController.text.trim());
     adduserDetails(
-      FirebaseAuth.instance.currentUser?.uid.trim(),
-      nameController.text.trim(),
-      lastNameController.text.trim(),
-      numberController.text.trim(),
-      emailController.text.trim()
-    );
+        FirebaseAuth.instance.currentUser?.uid.trim(),
+        nameController.text.trim(),
+        lastNameController.text.trim(),
+        numberController.text.trim(),
+        emailController.text.trim());
   }
 
-  Future adduserDetails(String? id, String name, String lastName, String number, String email) async {
+  Future adduserDetails(String? id, String name, String lastName, String number,
+      String email) async {
     await FirebaseFirestore.instance.collection('users').add({
-      'id' : id,
+      'id': id,
       'name': name,
-      'lastName' : lastName,
-      'number' : number,
-      'birthday' : "-",
-      'sex' : "-",
+      'lastName': lastName,
+      'number': number,
+      'birthday': "-",
+      'sex': "-",
       'email': email,
     });
   }
