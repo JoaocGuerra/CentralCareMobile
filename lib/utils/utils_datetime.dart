@@ -1,6 +1,6 @@
 class UtilsDateTime{
 
-  String convertFormatDate(String date){
+  static String convertFormatDate(String date){
 
     String dateFormated = date[0]+date[1]+"/"+
                           date[2]+date[3]+"/"+

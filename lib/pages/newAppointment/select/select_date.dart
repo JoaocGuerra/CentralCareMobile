@@ -18,8 +18,6 @@ class SelectDate extends StatefulWidget {
 
 class _SelectDateState extends State<SelectDate> {
 
-  final _utilsDateTime = UtilsDateTime();
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,7 +48,7 @@ class _SelectDateState extends State<SelectDate> {
                 for(int i=0;i<lengthDoctorsDates;i++){
                   bool availableDate = snapshot.data?.docs[i].get("disponivel");
                   if(availableDate){
-                    String dateFormated = _utilsDateTime.convertFormatDate(snapshot.data?.docs[i].id ?? "");
+                    String dateFormated = UtilsDateTime.convertFormatDate(snapshot.data?.docs[i].id ?? "");
                     mapDoctorDates[dateFormated] = snapshot.data?.docs[i].id ?? "";
                     doctorDates.add(dateFormated);
                   }
