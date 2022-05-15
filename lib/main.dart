@@ -1,7 +1,4 @@
 import 'package:centralcaremobile/auth/auth.dart';
-import 'package:centralcaremobile/pages/appointments/appointments_page.dart';
-import 'package:centralcaremobile/pages/home/home_page.dart';
-import 'package:centralcaremobile/pages/newAppointment/new_appointment_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -20,12 +17,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Central Care',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home:  const Auth(),
     );
   }
 }
