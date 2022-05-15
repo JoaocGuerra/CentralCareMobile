@@ -1,15 +1,24 @@
+import 'package:centralcaremobile/services/marcar_consulta.dart';
 import 'package:flutter/material.dart';
 
-class DoctorCard extends StatelessWidget {
+class DoctorCard extends StatefulWidget {
   const DoctorCard(
       {Key? key,
-      required this.doctorName,
-      required this.doctorSpecialty,
-      required this.doctorImage})
+        required this.doctorName,
+        required this.doctorSpecialty,
+        required this.doctorImage})
       : super(key: key);
   final String doctorName;
   final String doctorSpecialty;
   final String doctorImage;
+
+  @override
+  State<DoctorCard> createState() => _DoctorCardState();
+}
+
+class _DoctorCardState extends State<DoctorCard> {
+
+  MarcarConsultaService _marcarConsultaService = MarcarConsultaService();
 
   @override
   Widget build(BuildContext context) {
@@ -19,22 +28,16 @@ class DoctorCard extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-                color: Colors.blueAccent[100],
+                color: _marcarConsultaService.selectedDoctor ==  widget.doctorName ? Colors.blue:Colors.blueAccent[100],
                 borderRadius: BorderRadius.circular(12)),
-            child: TextButton(
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                  const EdgeInsets.only(
-                      left: 30, right: 30, top: 20, bottom: 20),
-                ),
-              ),
-              onPressed: () {},
+            child: Padding(
+              padding: EdgeInsets.all(15),
               child: Column(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.asset(
-                      doctorImage,
+                      widget.doctorImage,
                       height: 100,
                     ),
                   ),
@@ -42,7 +45,7 @@ class DoctorCard extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    doctorName,
+                    widget.doctorName,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -52,7 +55,7 @@ class DoctorCard extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    doctorSpecialty,
+                    widget.doctorSpecialty,
                     style: const TextStyle(fontSize: 15, color: Colors.black),
                   ),
                 ],
@@ -64,3 +67,4 @@ class DoctorCard extends StatelessWidget {
     );
   }
 }
+
