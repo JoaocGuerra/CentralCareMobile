@@ -18,24 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser;
-  String? _docId;
-
-  Future getDocId() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .get()
-        .then((snapshot) => snapshot.docs.forEach((element) {
-              if (element.data()['id'] == user?.uid.trim().toString()) {
-                _docId = element.reference.id;
-              }
-            }));
-  }
-
-  @override
-  void initState() {
-    getDocId();
-    super.initState();
-  }
+  final _db = FirebaseFirestore.instance;
+  String? _docName;
 
   @override
   Widget build(BuildContext context) {
@@ -67,20 +51,26 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(
                               height: 8,
                             ),
-                            FutureBuilder(
-                                future: getDocId(),
-                                builder: (context, snapshot) {
-                                  if (_docId == null || _docId!.isEmpty) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  } else {
-                                    return GetUserDetails(
-                                        userId: user?.uid.trim(),
-                                        attribute: 'name',
-                                        documentId: _docId);
+                            StreamBuilder(
+                              stream: _db.collection('pacientes').snapshots(),
+                              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+                                if (!snapshot.hasData) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else {
+                                  int lengthUsers = snapshot.data?.docs.length ?? 0;
+
+                                  for(int i=0;i<lengthUsers;i++){
+                                    if(snapshot.data?.docs[i].get("id") == user?.uid.trim().toString()){
+                                      _docName = snapshot.data?.docs[i].get("name") + " "+ snapshot.data?.docs[i].get("lastName");
+                                      break;
+                                    }
                                   }
-                                })
+                                  return Text(_docName ?? "",style: const TextStyle(fontSize: 20),);
+                                }
+                              },
+                            ),
                           ],
                         ),
                         ElevatedButton(

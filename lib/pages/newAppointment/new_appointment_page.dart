@@ -37,6 +37,12 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
       _loadingScreen = !_loadingScreen;
     });
 
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                HomePage()));
+
   }
 
   void _callback(var variavel, int tipo) {
