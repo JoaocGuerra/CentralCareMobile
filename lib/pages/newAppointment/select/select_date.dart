@@ -38,8 +38,15 @@ class _SelectDateState extends State<SelectDate> {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
+              }if(snapshot.hasError){
+                return const Center(
+                  child: Icon(
+                    Icons.error,
+                    color: Colors.red,
+                    size: 30.0,
+                  ),
+                );
               }else{
-
                 Map<String, String> mapDoctorDates = new  Map<String, String>();
                 List<String> doctorDates = [];
 
@@ -52,7 +59,6 @@ class _SelectDateState extends State<SelectDate> {
                     mapDoctorDates[dateFormated] = snapshot.data?.docs[i].id ?? "";
                     doctorDates.add(dateFormated);
                   }
-
                 }
 
                 return ListView(
