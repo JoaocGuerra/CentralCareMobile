@@ -108,7 +108,7 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(25, 10, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(25, 0, 25, 20),
                     child: Column(
                       children: [
                         SelectSpecialty(marcarConsultaService: _marcarConsultaService, db: _db, callback: _callback),
