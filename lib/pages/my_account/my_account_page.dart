@@ -18,9 +18,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
 
   String? _docId;
 
+
   Future getDocId() async {
     await FirebaseFirestore.instance
-        .collection('users')
+        .collection('pacientes')
         .get()
         .then((snapshot) => snapshot.docs.forEach((element) {
               if (element.data()['id'] == user?.uid.trim().toString()) {

@@ -11,19 +11,33 @@ import '../singUp/sign_up_page.dart';
 class SignInPage extends StatelessWidget {
   SignInPage({Key? key}) : super(key: key);
   final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final emailController = TextEditingController();
   final passController = TextEditingController();
 
-  Future singIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text.trim(),
-      password: passController.text.trim(),
-    );
+  Future singIn(BuildContext context) async {
+    try{
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passController.text.trim(),
+      );
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomePage()));
+    }catch(e){
+      const snackBar = SnackBar(
+        backgroundColor: Colors.red,
+        content: Text("Email/Senha Incorreto."),
+      );
+      scaffoldKey.currentState?.showSnackBar(snackBar);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -81,11 +95,7 @@ class SignInPage extends StatelessWidget {
                     CustomButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          singIn();
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
+                          singIn(context);
                         }
                       },
                       text: 'ENTRAR',

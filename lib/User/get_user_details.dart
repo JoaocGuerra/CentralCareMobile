@@ -15,7 +15,7 @@ class GetUserDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference _users = FirebaseFirestore.instance.collection('users');
+    CollectionReference _users = FirebaseFirestore.instance.collection('pacientes');
 
     return FutureBuilder<DocumentSnapshot>(
       future: _users.doc(documentId).get(),

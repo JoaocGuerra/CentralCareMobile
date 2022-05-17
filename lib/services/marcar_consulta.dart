@@ -1,6 +1,7 @@
 import 'package:centralcaremobile/constants/constants_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MarcarConsultaService{
 
@@ -10,6 +11,7 @@ class MarcarConsultaService{
   String _selectedHour = "";
   final _dio = Dio();
   final _db = FirebaseFirestore.instance;
+  final user = FirebaseAuth.instance.currentUser;
 
 
   List get selectedSpecialty => _selectedSpecialty;
@@ -55,7 +57,7 @@ class MarcarConsultaService{
 
     mapInsert["codigo_medico"] = _selectedDoctor;
     mapInsert["dia_mes_ano"] = _selectedDate;
-    mapInsert["codigo_paciente"] = pacienteTeste;
+    mapInsert["codigo_paciente"] = user?.uid;
     mapInsert["hora"] = int.parse(hoursSplit[0]);
     mapInsert["minuto"] = int.parse(hoursSplit[1]);
 
@@ -73,13 +75,13 @@ class MarcarConsultaService{
 
     mapInsert["codigo_medico"] = _selectedDoctor;
     mapInsert["dia_mes_ano"] = _selectedDate;
-    mapInsert["codigo_paciente"] = pacienteTeste;
+    mapInsert["codigo_paciente"] = user?.uid;
     mapInsert["horario"] = _selectedHour;
+    mapInsert["status"] = "marcada";
     
     _db.collection('pacientes')
-        .doc(pacienteTeste)
-        .collection('consultas')
-        .doc(pacienteTeste+_selectedDate).set(mapInsert);
+        .doc(user?.uid)
+        .collection('consultas').add(mapInsert);
   }
 
 

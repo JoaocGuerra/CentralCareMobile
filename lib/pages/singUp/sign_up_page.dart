@@ -1,3 +1,4 @@
+import 'package:centralcaremobile/constants/constants_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,8 @@ class SignUpPage extends StatelessWidget {
   Future signUp() async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
-        password: passController.text.trim());
+        password: passController.text.trim()
+    );
     adduserDetails(
         FirebaseAuth.instance.currentUser?.uid.trim(),
         nameController.text.trim(),
@@ -31,7 +33,7 @@ class SignUpPage extends StatelessWidget {
 
   Future adduserDetails(String? id, String name, String lastName, String number,
       String email) async {
-    await FirebaseFirestore.instance.collection('users').add({
+    await FirebaseFirestore.instance.collection('pacientes').doc(id).set({
       'id': id,
       'name': name,
       'lastName': lastName,
@@ -40,6 +42,7 @@ class SignUpPage extends StatelessWidget {
       'sex': "-",
       'email': email,
     });
+    FirebaseFirestore.instance.collection('pacientes').doc(id).collection('consutas').doc('teste').set({});
   }
 
   @override
