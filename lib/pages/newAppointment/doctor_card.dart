@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 class DoctorCard extends StatefulWidget {
   const DoctorCard(
       {Key? key,
-        required this.doctorName,
-        required this.doctorSpecialty,
-        required this.doctorImage})
+      required this.doctorName,
+      required this.doctorSpecialty,
+      required this.doctorImage})
       : super(key: key);
   final String doctorName;
   final String doctorSpecialty;
@@ -17,8 +17,7 @@ class DoctorCard extends StatefulWidget {
 }
 
 class _DoctorCardState extends State<DoctorCard> {
-
-  MarcarConsultaService _marcarConsultaService = MarcarConsultaService();
+  final MarcarConsultaService _marcarConsultaService = MarcarConsultaService();
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +27,13 @@ class _DoctorCardState extends State<DoctorCard> {
         children: [
           Container(
             decoration: BoxDecoration(
-                color: _marcarConsultaService.selectedDoctor ==  widget.doctorName ? Colors.blue:Colors.blueAccent[100],
+                color:
+                    _marcarConsultaService.selectedDoctor == widget.doctorName
+                        ? Colors.blue
+                        : Colors.blueAccent[100],
                 borderRadius: BorderRadius.circular(12)),
             child: Padding(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               child: Column(
                 children: [
                   ClipRRect(
@@ -67,4 +69,3 @@ class _DoctorCardState extends State<DoctorCard> {
     );
   }
 }
-

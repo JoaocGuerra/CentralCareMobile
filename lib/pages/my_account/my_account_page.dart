@@ -18,7 +18,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
 
   String? _docId;
 
-
   Future getDocId() async {
     await FirebaseFirestore.instance
         .collection('pacientes')

@@ -1,4 +1,3 @@
-import 'package:centralcaremobile/User/get_user_details.dart';
 import 'package:centralcaremobile/pages/my_account/my_account_page.dart';
 import 'package:centralcaremobile/pages/prescription/prescription_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,21 +52,31 @@ class _HomePageState extends State<HomePage> {
                             ),
                             StreamBuilder(
                               stream: _db.collection('pacientes').snapshots(),
-                              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+                              builder: (context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
                                 if (!snapshot.hasData) {
                                   return const Center(
                                     child: CircularProgressIndicator(),
                                   );
                                 } else {
-                                  int lengthUsers = snapshot.data?.docs.length ?? 0;
+                                  int lengthUsers =
+                                      snapshot.data?.docs.length ?? 0;
 
-                                  for(int i=0;i<lengthUsers;i++){
-                                    if(snapshot.data?.docs[i].get("id") == user?.uid.trim().toString()){
-                                      _docName = snapshot.data?.docs[i].get("name") + " "+ snapshot.data?.docs[i].get("lastName");
+                                  for (int i = 0; i < lengthUsers; i++) {
+                                    if (snapshot.data?.docs[i].get("id") ==
+                                        user?.uid.trim().toString()) {
+                                      _docName =
+                                          snapshot.data?.docs[i].get("name") +
+                                              " " +
+                                              snapshot.data?.docs[i]
+                                                  .get("lastName");
                                       break;
                                     }
                                   }
-                                  return Text(_docName ?? "",style: const TextStyle(fontSize: 20),);
+                                  return Text(
+                                    _docName ?? "",
+                                    style: const TextStyle(fontSize: 20),
+                                  );
                                 }
                               },
                             ),

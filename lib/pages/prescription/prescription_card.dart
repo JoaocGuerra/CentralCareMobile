@@ -38,7 +38,7 @@ class PrescriptionCard extends StatelessWidget {
                     Text(
                       "Receita  [27/04/22]",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),

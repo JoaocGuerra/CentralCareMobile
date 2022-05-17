@@ -7,7 +7,7 @@ class CheckAnimation extends StatefulWidget {
   final double size;
   final VoidCallback onComplete;
 
-  CheckAnimation({required this.size, required this.onComplete});
+  const CheckAnimation({required this.size, required this.onComplete});
 
   @override
   _CheckAnimationState createState() => _CheckAnimationState();
@@ -23,12 +23,13 @@ class _CheckAnimationState extends State<CheckAnimation>
     // TODO: implement initState
     super.initState();
     _controller =
-        AnimationController(duration: Duration(seconds: 4), vsync: this);
+        AnimationController(duration: const Duration(seconds: 4), vsync: this);
     curve = CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
 
     _controller.addListener(() {
       setState(() {});
-      if(_controller.status == AnimationStatus.completed && widget.onComplete != null){
+      if (_controller.status == AnimationStatus.completed &&
+          widget.onComplete != null) {
         widget.onComplete();
       }
     });
@@ -80,25 +81,27 @@ class CheckPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Background canvas
-    var rect = Offset(0, 0) & size;
+    var rect = const Offset(0, 0) & size;
     _paint?.color = Colors.greenAccent.withOpacity(.05);
 
     double line1x1 = size.width / 2 +
-        size.width * cos(Angle.fromDegrees(_startingAngle!).radians) * .5;
+        size.width * cos(Angle.degrees(_startingAngle!).radians) * .5;
     double line1y1 = size.height / 2 +
-        size.height * sin(Angle.fromDegrees(_startingAngle!).radians) * .5;
+        size.height * sin(Angle.degrees(_startingAngle!).radians) * .5;
     double line1x2 = size.width * .45;
     double line1y2 = size.height * .65;
 
     double line2x1 =
-        size.width / 2 + size.width * cos(Angle.fromDegrees(320).radians) * .35;
+        size.width / 2 + size.width * cos(const Angle.degrees(320).radians) * .35;
     double line2y1 = size.height / 2 +
-        size.height * sin(Angle.fromDegrees(320).radians) * .35;
+        size.height * sin(const Angle.degrees(320).radians) * .35;
 
-    canvas.drawArc(rect, Angle.fromDegrees(_startingAngle!).radians,
-        Angle.fromDegrees(360).radians, false, _paint!);
-    canvas.drawLine(Offset(line1x1, line1y1), Offset(line1x2, line1y2), _paint!);
-    canvas.drawLine(Offset(line2x1, line2y1), Offset(line1x2, line1y2), _paint!);
+    canvas.drawArc(rect, Angle.degrees(_startingAngle!).radians,
+        const Angle.degrees(360).radians, false, _paint!);
+    canvas.drawLine(
+        Offset(line1x1, line1y1), Offset(line1x2, line1y2), _paint!);
+    canvas.drawLine(
+        Offset(line2x1, line2y1), Offset(line1x2, line1y2), _paint!);
 
     // animation painter
 
@@ -116,9 +119,9 @@ class CheckPainter extends CustomPainter {
 
     canvas.drawArc(
         rect,
-        Angle.fromDegrees(firstAngle).radians,
-        Angle.fromDegrees(
-            getSecondAngle(firstAngle, _length!, _startingAngle! + 360))
+        Angle.degrees(firstAngle).radians,
+        Angle.degrees(
+                getSecondAngle(firstAngle, _length!, _startingAngle! + 360))
             .radians,
         false,
         _paint!);
@@ -147,7 +150,7 @@ class CheckPainter extends CustomPainter {
     double auxLine1x2 = auxLine1x1 + _offset! / 2;
     double auxLine1y2 =
         (((auxLine1x1 + _offset! / 2) - line1x1) / (line1x2 - line1x1)) *
-            (line1y2 - line1y1) +
+                (line1y2 - line1y1) +
             line1y1;
 
     if (checkIfPointHasCrossedLine(Offset(line1x2, line1y2),
@@ -166,7 +169,7 @@ class CheckPainter extends CustomPainter {
     double auxLine2x1 = (line2x1 - line1x2) * line2Value;
     double auxLine2y1 =
         ((((line2x1 - line1x2) * line2Value) - line1x2) / (line2x1 - line1x2)) *
-            (line2y1 - line1y2) +
+                (line2y1 - line1y2) +
             line1y2;
 
     if (checkIfPointHasCrossedLine(Offset(line1x1, line1y1),
@@ -180,8 +183,8 @@ class CheckPainter extends CustomPainter {
           Offset(
               (line2x1 - line1x2) * line2Value + _offset! * .75,
               ((((line2x1 - line1x2) * line2Value + _offset! * .75) - line1x2) /
-                  (line2x1 - line1x2)) *
-                  (line2y1 - line1y2) +
+                          (line2x1 - line1x2)) *
+                      (line2y1 - line1y2) +
                   line1y2),
           _paint!);
     }
@@ -197,7 +200,7 @@ class CheckPainter extends CustomPainter {
 
   bool checkIfPointHasCrossedLine(Offset a, Offset b, Offset point) {
     return ((b.dx - a.dx) * (point.dy - a.dy) -
-        (b.dy - a.dy) * (point.dx - a.dx)) >
+            (b.dy - a.dy) * (point.dx - a.dx)) >
         0;
   }
 

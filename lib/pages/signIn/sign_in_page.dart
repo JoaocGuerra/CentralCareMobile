@@ -16,16 +16,14 @@ class SignInPage extends StatelessWidget {
   final passController = TextEditingController();
 
   Future singIn(BuildContext context) async {
-    try{
+    try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passController.text.trim(),
       );
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => HomePage()));
-    }catch(e){
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
+    } catch (e) {
       const snackBar = SnackBar(
         backgroundColor: Colors.red,
         content: Text("Email/Senha Incorreto."),

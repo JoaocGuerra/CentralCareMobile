@@ -1,7 +1,6 @@
+import 'package:centralcaremobile/pages/appointments/unique_appointment_page.dart';
 import 'package:centralcaremobile/utils/utils_datetime.dart';
 import 'package:flutter/material.dart';
-
-import 'appointments_page.dart';
 
 class AppointmentCard extends StatelessWidget {
   final dynamic data;
@@ -27,7 +26,7 @@ class AppointmentCard extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const AppointmentsPage()));
+                    builder: (context) => const UAppointmentPage()));
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,9 +34,10 @@ class AppointmentCard extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children:  [
+                  children: [
                     Text(
-                      UtilsDateTime.convertFormatDate(data['dia_mes_ano'] ?? ""),
+                      UtilsDateTime.convertFormatDate(
+                          data['dia_mes_ano'] ?? ""),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

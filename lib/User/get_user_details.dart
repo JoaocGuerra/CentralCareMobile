@@ -6,7 +6,7 @@ class GetUserDetails extends StatelessWidget {
   final String? userId;
   final String? documentId;
 
-  GetUserDetails(
+  const GetUserDetails(
       {Key? key,
       required this.userId,
       required this.attribute,
@@ -26,7 +26,7 @@ class GetUserDetails extends StatelessWidget {
           if (data['id'] == userId) {
             if ("name" == attribute) {
               return Text(
-                '${data[attribute]}' + " " + '${data['lastName']}',
+                '${data[attribute]}' " " '${data['lastName']}',
                 style: const TextStyle(fontSize: 20),
               );
             } else {

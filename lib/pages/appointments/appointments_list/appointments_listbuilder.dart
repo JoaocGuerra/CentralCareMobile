@@ -18,6 +18,6 @@ class _AppointmentsListBuilderState extends State<AppointmentsListBuilder> {
       itemBuilder: (context, index){
         return AppointmentCard(data: widget.listAppointments[index],);
       },
-    );;
+    );
   }
 }
