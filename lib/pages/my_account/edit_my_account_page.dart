@@ -38,6 +38,7 @@ class EditMyAccountPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 70),
                       CustomTextFormField(
+                        list: const [],
                         textEditingController: nameController,
                         isPasswordType: false,
                         icon: Icons.person,
@@ -52,6 +53,7 @@ class EditMyAccountPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       CustomTextFormField(
+                        list: const [],
                         textEditingController: emailController,
                         isPasswordType: false,
                         icon: Icons.email,
@@ -76,7 +78,7 @@ class EditMyAccountPage extends StatelessWidget {
                             return "Email Inválido";
                           }
                           return null;
-                        },
+                        }, list: const [],
                       ),
                       const SizedBox(height: 20),
                       CustomButton(
