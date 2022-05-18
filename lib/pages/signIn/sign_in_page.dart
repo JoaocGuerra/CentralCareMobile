@@ -71,7 +71,7 @@ class SignInPage extends StatelessWidget {
                           return "Email Incorreto";
                         }
                         return null;
-                      },
+                      }, list: const [],
                     ),
                     const SizedBox(height: 20),
                     CustomTextFormField(
@@ -87,7 +87,7 @@ class SignInPage extends StatelessWidget {
                           return "Senha incorreta";
                         }
                         return null;
-                      },
+                      }, list: const [],
                     ),
                     const SizedBox(height: 20),
                     CustomButton(
@@ -127,7 +127,7 @@ class SignInPage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SignUpPage()));
+                                    builder: (context) => const SignUpPage()));
                           },
                           child: const CustomText(
                             text: ' Cadastre-se',

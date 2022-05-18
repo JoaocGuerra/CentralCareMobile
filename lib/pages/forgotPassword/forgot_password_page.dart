@@ -47,6 +47,7 @@ class ForgotPasswordPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     CustomTextFormField(
+                      list: const [],
                       textEditingController: emailController,
                       isPasswordType: false,
                       icon: Icons.email,
