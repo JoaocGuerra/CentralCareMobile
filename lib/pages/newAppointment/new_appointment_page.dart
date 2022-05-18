@@ -42,11 +42,13 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
   void _callback(var variavel, int tipo) {
     if (tipo == 1) {
       setState(() {
-        _marcarConsultaService.selectedSpecialty = variavel;
+        _marcarConsultaService.specialtyDoctor = variavel[0];
+        _marcarConsultaService.selectedSpecialty = variavel[1];
       });
     } else if (tipo == 2) {
       setState(() {
-        _marcarConsultaService.selectedDoctor = variavel;
+        _marcarConsultaService.nameDoctor = variavel[0];
+        _marcarConsultaService.selectedDoctor = variavel[1];
       });
     } else if (tipo == 3) {
       setState(() {

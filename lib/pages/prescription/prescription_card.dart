@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:centralcaremobile/utils/utils_datetime.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,48 +8,22 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PrescriptionCard extends StatelessWidget {
-  const PrescriptionCard({Key? key}) : super(key: key);
+  final dynamic data;
+
+  const PrescriptionCard({Key? key, this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.blueAccent[100],
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: TextButton(
-          style: ButtonStyle(
-            padding: MaterialStateProperty.all<EdgeInsets>(
-              const EdgeInsets.only(left: 30, right: 30, top: 20, bottom: 20),
-            ),
-          ),
-          onPressed: () => openFile(
-              url:
-                  "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-              fileName: "pdfsimples.pdf"),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "Receita  [27/04/22]",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+    return SizedBox(
+      height: 40,
+      width: 125,
+      child: ElevatedButton(
+              onPressed: () => openFile(
+                  url:data['receita'],
+                  fileName: "Receita.pdf"),
+              child: Text("Clique aqui",style: TextStyle(color: Colors.black,),),
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.white,),
       ),
     );
   }

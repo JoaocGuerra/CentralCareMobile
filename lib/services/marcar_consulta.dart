@@ -7,6 +7,8 @@ class MarcarConsultaService{
 
   List<dynamic> _selectedSpecialty = <dynamic>[];
   String _selectedDoctor = "";
+  String _nameDoctor = "";
+  String _specialtyDoctor = "";
   String _selectedDate = "";
   String _selectedHour = "";
   final _dio = Dio();
@@ -37,6 +39,19 @@ class MarcarConsultaService{
 
   set selectedHour(String value) {
     _selectedHour = value;
+  }
+
+
+  String get nameDoctor => _nameDoctor;
+
+  set nameDoctor(String value) {
+    _nameDoctor = value;
+  }
+
+  String get specialtyDoctor => _specialtyDoctor;
+
+  set specialtyDoctor(String value) {
+    _specialtyDoctor = value;
   }
 
   Future<List<dynamic>> getHoursDoctor(String doctor, String date) async {
@@ -74,15 +89,16 @@ class MarcarConsultaService{
     Map<String, dynamic> mapInsert = new Map<String, dynamic>();
 
     mapInsert["codigo_medico"] = _selectedDoctor;
+    mapInsert["nome_medico"] = _nameDoctor;
+    mapInsert["especialidade_medico"] = _specialtyDoctor;
     mapInsert["dia_mes_ano"] = _selectedDate;
     mapInsert["codigo_paciente"] = user?.uid;
-    mapInsert["horario"] = _selectedHour;
+    mapInsert["inicio"] = _selectedHour;
     mapInsert["status"] = "marcada";
+    mapInsert["termino"] = "-";
     
     _db.collection('pacientes')
         .doc(user?.uid)
         .collection('consultas').add(mapInsert);
   }
-
-
 }

@@ -59,8 +59,9 @@ class _SelectSpecialtyState extends State<SelectSpecialty> {
                       buttons: specialtysCapitalize,
                       maxSelected: 1,
                       onSelected: (i, selected){
+                        String nameSpecialty = specialtysCapitalize[i];
                         dynamic specialtySelected = mapSpecialty[specialtysCapitalize[i]];
-                        widget.callback(specialtySelected,1);
+                        widget.callback([nameSpecialty,specialtySelected],1);
                       },
                       options: GroupButtonOptions(
                         textAlign: TextAlign.center,

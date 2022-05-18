@@ -57,7 +57,7 @@ class _SelectDoctorState extends State<SelectDoctor> {
                       buttons: doctorNames,
                       maxSelected: 1,
                       onSelected: (i, selected){
-                        widget.callback(doctorID[i],2);
+                        widget.callback([doctorNames[i],doctorID[i]],2);
                       },
                       options: GroupButtonOptions(
                         textAlign: TextAlign.center,

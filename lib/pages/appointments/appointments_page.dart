@@ -42,12 +42,12 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                       )),
                       Tab(
                           icon: Icon(
-                        Icons.calendar_today,
+                        Icons.check,
                         color: Colors.black,
                       )),
                       Tab(
                           icon: Icon(
-                        Icons.check,
+                        Icons.calendar_today,
                         color: Colors.black,
                       ))
                     ],
@@ -109,13 +109,6 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                             : const Center(
                                 child: Text("Nenhuma consulta em andamento."),
                               ),
-                        listAppointments.isNotEmpty
-                            ? AppointmentsListBuilder(
-                                listAppointments: listAppointments,
-                              )
-                            : const Center(
-                                child: Text("Nenhuma consulta."),
-                              ),
                         listAppointmentsCompleted.isNotEmpty
                             ? AppointmentsListBuilder(
                                 listAppointments: listAppointmentsCompleted,
@@ -123,6 +116,13 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                             : const Center(
                                 child: Text("Nenhuma consulta concluida."),
                               ),
+                        listAppointments.isNotEmpty
+                            ? AppointmentsListBuilder(
+                          listAppointments: listAppointments,
+                        )
+                            : const Center(
+                          child: Text("Nenhuma consulta."),
+                        ),
                       ],
                     );
                   }

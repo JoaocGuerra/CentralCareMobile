@@ -26,7 +26,7 @@ class AppointmentCard extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const UAppointmentPage()));
+                    builder: (context) => UAppointmentPage(data: data,)));
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -37,7 +37,7 @@ class AppointmentCard extends StatelessWidget {
                   children: [
                     Text(
                       UtilsDateTime.convertFormatDate(
-                          data['dia_mes_ano'] ?? ""),
+                          data['dia_mes_ano'] ?? "") +" - "+ data['especialidade_medico'],
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
