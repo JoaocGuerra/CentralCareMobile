@@ -1,4 +1,4 @@
-import 'package:centralcaremobile/services/marcar_consulta.dart';
+import 'package:centralcaremobile/services/api/marcar_consulta.dart';
 import 'package:flutter/material.dart';
 
 class DoctorCard extends StatefulWidget {

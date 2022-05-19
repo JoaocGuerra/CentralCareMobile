@@ -16,15 +16,18 @@ class PrescriptionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 40,
-      width: 125,
-      child: ElevatedButton(
+      width: data['receita'] != "" ? 125 : 200,
+      child: data['receita'] != "" ?
+      ElevatedButton(
               onPressed: () => openFile(
                   url:data['receita'],
                   fileName: "Receita.pdf"),
               child: Text("Clique aqui",style: TextStyle(color: Colors.black,),),
               style: ElevatedButton.styleFrom(
                   primary: Colors.white,),
-      ),
+      )
+          :
+      Text("Nenhuma receita disponível.",style: TextStyle(color: Colors.black,),),
     );
   }
 

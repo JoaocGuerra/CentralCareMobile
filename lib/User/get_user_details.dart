@@ -29,7 +29,10 @@ class GetUserDetails extends StatelessWidget {
                 '${data[attribute]}' " " '${data['lastName']}',
                 style: const TextStyle(fontSize: 20),
               );
-            } else {
+            } if ("photo" == attribute) {
+              print(data[attribute]);
+              return data[attribute];
+            }else {
               return Text(
                 '${data[attribute]}',
                 style: const TextStyle(fontSize: 20),

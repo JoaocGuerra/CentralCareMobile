@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 
-import '../../../services/marcar_consulta.dart';
+import '../../../services/api/marcar_consulta.dart';
 
 class SelectHours extends StatefulWidget {
   final MarcarConsultaService marcarConsultaService;

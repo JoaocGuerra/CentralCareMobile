@@ -7,7 +7,7 @@ import 'package:centralcaremobile/widgets/check_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../services/marcar_consulta.dart';
+import '../../services/api/marcar_consulta.dart';
 import '../home/home_page.dart';
 
 class NewAppointmentPage extends StatefulWidget {
@@ -68,12 +68,7 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
             ? Center(
                 child: CheckAnimation(
                   size: 30,
-                  onComplete: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()));
-                  },
+                  onComplete: () {},
                 ),
               )
             : Container(

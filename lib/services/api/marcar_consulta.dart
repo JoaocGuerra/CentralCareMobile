@@ -96,9 +96,10 @@ class MarcarConsultaService{
     mapInsert["inicio"] = _selectedHour;
     mapInsert["status"] = "marcada";
     mapInsert["termino"] = "-";
+    mapInsert["receita"] = "";
     
     _db.collection('pacientes')
         .doc(user?.uid)
-        .collection('consultas').add(mapInsert);
+        .collection('consultas').doc(_selectedDoctor+_selectedDate).set(mapInsert);
   }
 }

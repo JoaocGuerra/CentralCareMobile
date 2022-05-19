@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../services/marcar_consulta.dart';
+import '../../../services/api/marcar_consulta.dart';
 import '../../home/home_page.dart';
 
 class ButtonConfirmConsult extends StatelessWidget {
