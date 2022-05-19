@@ -52,6 +52,14 @@ class _SignUpPage extends State<SignUpPage> {
 
   Future adduserDetails(String? id, String name, String lastName, String number,
       String birthDay, String gender, String email) async {
+    var photo = "";
+    if(gender == "MASCULINO") {
+      photo = "http://cdn-icons-png.flaticon.com/512/1373/1373255.png";
+    } else if (gender == "FEMININO") {
+      photo = "https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_people_person_profile_user_woman_icon_123359.png";
+    } else {
+      photo = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Person_icon_%28the_Noun_Project_2817719%29.svg/1200px-Person_icon_%28the_Noun_Project_2817719%29.svg.png";
+    }
     await FirebaseFirestore.instance.collection('pacientes').doc(id).set({
       'id': id,
       'name': name,
@@ -60,6 +68,7 @@ class _SignUpPage extends State<SignUpPage> {
       'birthday': birthDay,
       'sex': gender,
       'email': email,
+      'photo' : photo
     });
   }
 

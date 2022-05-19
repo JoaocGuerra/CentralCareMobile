@@ -92,7 +92,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                     for (int i = 0; i < lengthAppointments; i++) {
                       listAppointments.add(snapshot.data?.docs[i]);
 
-                      if (snapshot.data?.docs[i].get("status") == "concluido") {
+                      if (snapshot.data?.docs[i].get("status") == "atendido") {
                         listAppointmentsCompleted.add(snapshot.data?.docs[i]);
                       } else if (snapshot.data?.docs[i].get("status") ==
                           "atendimento") {
