@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final bool isPasswordType;
@@ -6,9 +7,8 @@ class CustomTextFormField extends StatelessWidget {
   final String text;
   final TextInputType textInputType;
   final TextEditingController textEditingController;
+  final List<TextInputFormatter> list;
 
-  //final bool enabled;
-  //final Function(String) onChanged;
   final String? Function(String?)? validator;
 
   const CustomTextFormField({
@@ -18,17 +18,14 @@ class CustomTextFormField extends StatelessWidget {
     required this.text,
     required this.textInputType,
     required this.textEditingController,
-    //   required this.enabled,
-//    required this.onChanged,
-    required this.validator,
+    required this.validator, required this.list,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: list,
       validator: validator,
-      //enabled: enabled,
-      //onChanged: onChanged,.
       controller: textEditingController,
       obscureText: isPasswordType,
       enableSuggestions: !isPasswordType,

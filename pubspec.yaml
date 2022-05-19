@@ -46,7 +46,8 @@ dependencies:
   open_file: ^3.2.1
   group_button: ^4.5.0
   angles: ^2.1.1
-  http: ^0.13.4
+  brasil_fields: 1.4.4
+
 
 
 

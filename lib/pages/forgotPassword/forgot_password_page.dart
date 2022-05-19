@@ -1,4 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'package:centralcaremobile/helpers/validators.dart';
+import 'package:centralcaremobile/pages/signIn/sign_in_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../common_widgets/custom_button.dart';
@@ -9,19 +11,33 @@ class ForgotPasswordPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passController = TextEditingController();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Future changePassword(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: emailController.text.trim());
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => SignInPage()));
+    } catch (e) {
+      const snackBar = SnackBar(
+        backgroundColor: Colors.red,
+        content: Text("Email não cadastrado."),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Color(0xFF1E90FF),
-            Color(0xFF00BFFF),
-            Color(0xFF6495ED),
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+              image: DecorationImage(
+                  image: AssetImage("images/fundo.jpg"), fit: BoxFit.fill)),
           child: SingleChildScrollView(
             child: Form(
               key: formKey,
@@ -30,23 +46,16 @@ class ForgotPasswordPage extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 100),
-                    const Text(
+                    Text(
                       "Central Care",
                       style: TextStyle(
                           fontSize: 40,
-                          color: Colors.white,
+                          color: Colors.blueAccent[100],
                           fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 100),
-                    const Text(
-                      "Insira o email para solicitar mudança de senha",
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10),
                     CustomTextFormField(
+                      list: const [],
                       textEditingController: emailController,
                       isPasswordType: false,
                       icon: Icons.email,
@@ -55,7 +64,9 @@ class ForgotPasswordPage extends StatelessWidget {
                       // onChanged: signInStore.setEmail,
                       // enabled: !signInStore.loading,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !emailValid(value)) {
                           return "Email Incorreto";
                         }
                         return null;
@@ -66,13 +77,10 @@ class ForgotPasswordPage extends StatelessWidget {
                     CustomButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          if (kDebugMode) {
-                            print(
-                                "Enviando Solicitação de redefinição de senha!");
-                          }
+                          changePassword(context);
                         }
                       },
-                      text: 'Enviar',
+                      text: 'Solicitar alteração de senha',
                     ),
                   ],
                 ),

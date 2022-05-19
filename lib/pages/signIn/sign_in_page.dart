@@ -11,7 +11,6 @@ import '../singUp/sign_up_page.dart';
 class SignInPage extends StatelessWidget {
   SignInPage({Key? key}) : super(key: key);
   final formKey = GlobalKey<FormState>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   final emailController = TextEditingController();
   final passController = TextEditingController();
 
@@ -28,14 +27,13 @@ class SignInPage extends StatelessWidget {
         backgroundColor: Colors.red,
         content: Text("Email/Senha Incorreto."),
       );
-      scaffoldKey.currentState?.showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -71,7 +69,7 @@ class SignInPage extends StatelessWidget {
                           return "Email Incorreto";
                         }
                         return null;
-                      },
+                      }, list: const [],
                     ),
                     const SizedBox(height: 20),
                     CustomTextFormField(
@@ -87,7 +85,7 @@ class SignInPage extends StatelessWidget {
                           return "Senha incorreta";
                         }
                         return null;
-                      },
+                      }, list: const [],
                     ),
                     const SizedBox(height: 20),
                     CustomButton(
@@ -127,7 +125,7 @@ class SignInPage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SignUpPage()));
+                                    builder: (context) => const SignUpPage()));
                           },
                           child: const CustomText(
                             text: ' Cadastre-se',
