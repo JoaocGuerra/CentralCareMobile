@@ -15,6 +15,8 @@ class MyAccountPage extends StatefulWidget {
 
 class _MyAccountPageState extends State<MyAccountPage> {
   final user = FirebaseAuth.instance.currentUser;
+  final _db = FirebaseFirestore.instance;
+  late String _linkPhoto;
 
   String? _docId;
 
@@ -57,12 +59,38 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(60),
-                              child: Image.asset(
-                                "images/agua.png",
-                                height: 120,
-                              ),
+                            StreamBuilder(
+                              stream: _db.collection('pacientes').snapshots(),
+                              builder: (context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else {
+                                  int lengthUsers =
+                                      snapshot.data?.docs.length ?? 0;
+
+                                  for (int i = 0; i < lengthUsers; i++) {
+                                    if (snapshot.data?.docs[i].get("id") ==
+                                        user?.uid.trim().toString()) {
+                                      _linkPhoto =
+                                          snapshot.data?.docs[i].get("photo");
+                                      break;
+                                    }
+                                  }
+                                  return Container(
+                                    padding: const EdgeInsets.all(50),
+                                    decoration: BoxDecoration(
+                                        color: Colors.blue[100],
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: NetworkImage(_linkPhoto),
+                                            fit: BoxFit.fill)
+                                    ),
+                                  );
+                                }
+                              },
                             ),
                             const SizedBox(
                               height: 10,
@@ -222,33 +250,33 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                 ),
                                 Row(
                                   children: [
-                                    Expanded(
-                                        child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.blueAccent,
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EditMyAccountPage()));
-                                        },
-                                        child: const Center(
-                                          child: Text(
-                                            "Editar Perfil",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15),
-                                          ),
-                                        ),
-                                      ),
-                                    )),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
+                                    // Expanded(
+                                    //     child: Container(
+                                    //   decoration: BoxDecoration(
+                                    //       color: Colors.blueAccent,
+                                    //       borderRadius:
+                                    //           BorderRadius.circular(12)),
+                                    //   child: TextButton(
+                                    //     onPressed: () {
+                                    //       Navigator.push(
+                                    //           context,
+                                    //           MaterialPageRoute(
+                                    //               builder: (context) =>
+                                    //                   EditMyAccountPage()));
+                                    //     },
+                                    //     child: const Center(
+                                    //       child: Text(
+                                    //         "Editar Perfil",
+                                    //         style: TextStyle(
+                                    //             color: Colors.white,
+                                    //             fontSize: 15),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // )),
+                                    // const SizedBox(
+                                    //   width: 10,
+                                    // ),
                                     Expanded(
                                         child: Container(
                                       decoration: BoxDecoration(

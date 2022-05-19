@@ -7,7 +7,7 @@ import 'package:centralcaremobile/widgets/check_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../services/marcar_consulta.dart';
+import '../../services/api/marcar_consulta.dart';
 import '../home/home_page.dart';
 
 class NewAppointmentPage extends StatefulWidget {
@@ -42,11 +42,13 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
   void _callback(var variavel, int tipo) {
     if (tipo == 1) {
       setState(() {
-        _marcarConsultaService.selectedSpecialty = variavel;
+        _marcarConsultaService.specialtyDoctor = variavel[0];
+        _marcarConsultaService.selectedSpecialty = variavel[1];
       });
     } else if (tipo == 2) {
       setState(() {
-        _marcarConsultaService.selectedDoctor = variavel;
+        _marcarConsultaService.nameDoctor = variavel[0];
+        _marcarConsultaService.selectedDoctor = variavel[1];
       });
     } else if (tipo == 3) {
       setState(() {
@@ -66,12 +68,7 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
             ? Center(
                 child: CheckAnimation(
                   size: 30,
-                  onComplete: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()));
-                  },
+                  onComplete: () {},
                 ),
               )
             : Container(

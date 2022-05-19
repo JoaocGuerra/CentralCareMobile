@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 
-import '../../../services/marcar_consulta.dart';
+import '../../../services/api/marcar_consulta.dart';
 
 class SelectSpecialty extends StatefulWidget {
   final MarcarConsultaService marcarConsultaService;
@@ -59,8 +59,9 @@ class _SelectSpecialtyState extends State<SelectSpecialty> {
                       buttons: specialtysCapitalize,
                       maxSelected: 1,
                       onSelected: (i, selected){
+                        String nameSpecialty = specialtysCapitalize[i];
                         dynamic specialtySelected = mapSpecialty[specialtysCapitalize[i]];
-                        widget.callback(specialtySelected,1);
+                        widget.callback([nameSpecialty,specialtySelected],1);
                       },
                       options: GroupButtonOptions(
                         textAlign: TextAlign.center,

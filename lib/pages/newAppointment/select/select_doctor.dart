@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 
-import '../../../services/marcar_consulta.dart';
+import '../../../services/api/marcar_consulta.dart';
 
 class SelectDoctor extends StatefulWidget {
   final MarcarConsultaService marcarConsultaService;
@@ -57,7 +57,7 @@ class _SelectDoctorState extends State<SelectDoctor> {
                       buttons: doctorNames,
                       maxSelected: 1,
                       onSelected: (i, selected){
-                        widget.callback(doctorID[i],2);
+                        widget.callback([doctorNames[i],doctorID[i]],2);
                       },
                       options: GroupButtonOptions(
                         textAlign: TextAlign.center,
