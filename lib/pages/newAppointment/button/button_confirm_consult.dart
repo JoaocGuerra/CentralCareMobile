@@ -4,10 +4,9 @@ import '../../../services/api/marcar_consulta.dart';
 import '../../home/home_page.dart';
 
 class ButtonConfirmConsult extends StatelessWidget {
-  final MarcarConsultaService marcarConsultaService;
   final Function callback;
 
-  const ButtonConfirmConsult({Key? key, required this.marcarConsultaService, required this.callback}) : super(key: key);
+  const ButtonConfirmConsult({Key? key, required this.callback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

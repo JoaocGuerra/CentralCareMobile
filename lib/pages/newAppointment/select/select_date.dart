@@ -1,22 +1,26 @@
+import 'package:centralcaremobile/store/horas_disponiveis_store.dart';
+import 'package:centralcaremobile/store/marcar_consulta_store.dart';
 import 'package:centralcaremobile/utils/utils_datetime.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:group_button/group_button.dart';
 
 import '../../../services/api/marcar_consulta.dart';
 
 class SelectDate extends StatefulWidget {
-  final MarcarConsultaService marcarConsultaService;
-  final Function callback;
+  final marcarConsultaStore;
   final db;
 
-  const SelectDate({Key? key, required this.marcarConsultaService, required this.db,required this.callback}) : super(key: key);
+  const SelectDate({Key? key, required this.marcarConsultaStore, required this.db}) : super(key: key);
 
   @override
   State<SelectDate> createState() => _SelectDateState();
 }
 
 class _SelectDateState extends State<SelectDate> {
+
+  final HorasDisponiveisStore horasDisponiveisStore = GetIt.I<HorasDisponiveisStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class _SelectDateState extends State<SelectDate> {
         SizedBox(
           height: 75,
           child: StreamBuilder(
-            stream: widget.db.collection('funcionarios').doc(widget.marcarConsultaService.selectedDoctor).collection('atendimentos').snapshots(),
+            stream: widget.db.collection('funcionarios').doc(widget.marcarConsultaStore.selectedDoctor).collection('atendimentos').snapshots(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
                 return const Center(
@@ -69,8 +73,11 @@ class _SelectDateState extends State<SelectDate> {
                       maxSelected: 1,
                       onSelected: (i, selected){
                         String doctorDateSelected = mapDoctorDates[doctorDates[i]] ?? "";
-                        widget.callback(doctorDateSelected,3);
-                        widget.marcarConsultaService.getHoursDoctor(widget.marcarConsultaService.selectedDoctor, widget.marcarConsultaService.selectedDate);
+                        widget.marcarConsultaStore.setSelectedDate(doctorDateSelected);
+                        horasDisponiveisStore.fetchHoursDoctor(
+                            widget.marcarConsultaStore.selectedDoctor,
+                            widget.marcarConsultaStore.selectedDate
+                        );
                       },
                       options: GroupButtonOptions(
                         textAlign: TextAlign.center,
