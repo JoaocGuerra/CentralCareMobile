@@ -1,18 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:centralcaremobile/repository/api/insert_queue_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
-import '../constants/constants_api.dart';
+import '../pages/home/home_page.dart';
+
 part 'marcar_consulta_store.g.dart';
 
 class MarcarConsultaStore = _MarcarConsultaStore with _$MarcarConsultaStore;
 
 abstract class _MarcarConsultaStore with Store {
-
-  final _dio = Dio();
-  final _db = FirebaseFirestore.instance;
-  final user = FirebaseAuth.instance.currentUser;
 
   @observable
   List<dynamic> selectedSpecialty = <dynamic>[];
@@ -51,47 +47,59 @@ abstract class _MarcarConsultaStore with Store {
   void setSelectedHour(String value) {selectedHour = value;}
 
   @observable
-  bool loadingNewAppointmentPage = true;
+  bool loadingNewAppointmentPage = false;
 
-
-  Future<dynamic> insertQueue() async{
-
-    Map<String, dynamic> mapInsert = new Map<String, dynamic>();
-    Response response;
-
-    List<String> hoursSplit = selectedHour.split(":");
-
-    mapInsert["codigo_medico"] = selectedDoctor;
-    mapInsert["dia_mes_ano"] = selectedDate;
-    mapInsert["codigo_paciente"] = user?.uid;
-    mapInsert["hora"] = int.parse(hoursSplit[0]);
-    mapInsert["minuto"] = int.parse(hoursSplit[1]);
-
-    try{
-      response = await _dio.post(pathLocal + pathInsertQueue, data: mapInsert);
-      return response.data;
-    }catch(err){
-      print(err);
+  @computed
+  bool get isFilled {
+    if ((selectedSpecialty.isEmpty) ||
+        (selectedDoctor.isEmpty) ||
+        (selectedDate.isEmpty) ||
+        (selectedHour.isEmpty)) {
+      return false;
     }
+    return true;
   }
 
-  void insertQuery() async{
+  @action
+  void clearFieldsSpecialty(){
+    setSelectedDoctor("");
+    setNameDoctor("");
+    setSelectedDate("");
+    setSelectedHour("");
+  }
 
-    Map<String, dynamic> mapInsert = new Map<String, dynamic>();
+  @action
+  void clearFieldsDoctor(){
+    setSelectedDate("");
+    setSelectedHour("");
+  }
 
-    mapInsert["codigo_medico"] = selectedDoctor;
-    mapInsert["nome_medico"] = nameDoctor;
-    mapInsert["especialidade_medico"] = specialtyDoctor;
-    mapInsert["dia_mes_ano"] = selectedDate;
-    mapInsert["codigo_paciente"] = user?.uid;
-    mapInsert["inicio"] = selectedHour;
-    mapInsert["status"] = "marcada";
-    mapInsert["termino"] = "-";
-    mapInsert["receita"] = "";
+  @action
+  void clearFieldsDate(){
+    setSelectedHour("");
+  }
 
-    _db.collection('pacientes')
-        .doc(user?.uid)
-        .collection('consultas').doc(selectedDoctor+selectedDate).set(mapInsert);
+  @action
+  void clearAllFields(){
+    setSelectedSpecialty([]);
+    setSelectedDoctor("");
+    setNameDoctor("");
+    setSpecialtyDoctor("");
+    setSelectedDate("");
+    setSelectedHour("");
+  }
+
+  @action
+  Future<void> insertQueue() async{
+
+    try{
+      loadingNewAppointmentPage = true;
+      await InsertQueueRepository().insertQueue();
+      loadingNewAppointmentPage = false;
+    }catch (e){
+      loadingNewAppointmentPage = false;
+      print(e);
+    }
   }
 
 }

@@ -6,7 +6,6 @@ import 'package:centralcaremobile/pages/newAppointment/select/select_specialty.d
 import 'package:centralcaremobile/store/marcar_consulta_store.dart';
 import 'package:centralcaremobile/widgets/check_animation.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
@@ -20,35 +19,19 @@ class NewAppointmentPage extends StatefulWidget {
 }
 
 class _NewAppointmentPageState extends State<NewAppointmentPage> {
-  final _db = FirebaseFirestore.instance;
+
   final MarcarConsultaStore marcarConsultaStore = GetIt.I<MarcarConsultaStore>();
-
-  bool _loadingScreen = false;
-
-  Future<void> _callbackLoadingScreen() async {
-    setState(() {
-      _loadingScreen = !_loadingScreen;
-    });
-
-    marcarConsultaStore.insertQuery();
-    await marcarConsultaStore.insertQueue();
-
-    setState(() {
-      _loadingScreen = !_loadingScreen;
-    });
-
-  }
 
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (_){
         return Scaffold(
-            body: _loadingScreen
+            body: marcarConsultaStore.loadingNewAppointmentPage
                 ? Center(
               child: CheckAnimation(
                 size: 30,
-                onComplete: () {
+                onComplete: (){
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => HomePage()));
                 },
@@ -96,25 +79,21 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
                           visible:
                           marcarConsultaStore.selectedDoctor !=
                               "",
-                          child: SelectDate(
-                            marcarConsultaStore: marcarConsultaStore,
-                            db: _db,),
+                          child: SelectDate(),
                         ),
                         const SizedBox(height: 15),
 
                         Visibility(
                           visible:
                           marcarConsultaStore.selectedDate != "",
-                          child: SelectHours(
-                            marcarConsultaStore: marcarConsultaStore,),
+                          child: SelectHours(),
                         ),
                         const SizedBox(height: 15),
 
                         Visibility(
                           visible:
-                          marcarConsultaStore.selectedHour != "",
-                          child: ButtonConfirmConsult(
-                              callback: _callbackLoadingScreen),
+                          marcarConsultaStore.isFilled,
+                          child: ButtonConfirmConsult(),
                         ),
                       ],
                     ),

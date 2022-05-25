@@ -1,8 +1,10 @@
 import 'package:centralcaremobile/auth/auth.dart';
+import 'package:centralcaremobile/store/date_store.dart';
 import 'package:centralcaremobile/store/doctors_store.dart';
 import 'package:centralcaremobile/store/especialidades_store.dart';
 import 'package:centralcaremobile/store/horas_disponiveis_store.dart';
 import 'package:centralcaremobile/store/marcar_consulta_store.dart';
+import 'package:centralcaremobile/store/unique_appointment_store.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -19,6 +21,8 @@ void setupLocators() {
   GetIt.I.registerSingleton(HorasDisponiveisStore());
   GetIt.I.registerSingleton(EspecialidadesStore());
   GetIt.I.registerSingleton(DoctorsStore());
+  GetIt.I.registerSingleton(DateStore());
+  GetIt.I.registerSingleton(UniqueAppointmentStore());
 }
 
 class MyApp extends StatelessWidget {

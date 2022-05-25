@@ -26,15 +26,13 @@ abstract class _DoctorsStore with Store {
 
     try{
 
-      loading = true;
-
       await _db.collection('funcionarios').snapshots().listen((snapshot) {
+        loading = true;
+
         doctorNames = [];
         doctorID = [];
 
         int lengthDoctors = snapshot.docs.length;
-
-        print(marcarConsultaStore.selectedSpecialty);
 
         for(int i=0;i<lengthDoctors;i++){
           if(marcarConsultaStore.selectedSpecialty.contains(snapshot.docs[i].id)) {
@@ -42,9 +40,10 @@ abstract class _DoctorsStore with Store {
             doctorID = List.from(doctorID..add(snapshot.docs[i].id));
           }
         }
-      });
 
-      loading = false;
+        loading = false;
+
+      });
 
     }catch (e){
       loading = false;

@@ -4,15 +4,16 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:group_button/group_button.dart';
 
+import '../../../store/marcar_consulta_store.dart';
+
 class SelectHours extends StatelessWidget {
-  final marcarConsultaStore;
+  final MarcarConsultaStore marcarConsultaStore = GetIt.I<MarcarConsultaStore>();
   final HorasDisponiveisStore horasDisponiveisStore = GetIt.I<HorasDisponiveisStore>();
 
-  SelectHours({Key? key, this.marcarConsultaStore}) : super(key: key);
+  SelectHours({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Observer(
       builder: (_){
         return Column(

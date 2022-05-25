@@ -6,106 +6,82 @@ import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/medico.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/receita.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/status.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:centralcaremobile/store/unique_appointment_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 
-import '../../../services/api/desmarcar_consulta.dart';
 import '../../../widgets/check_animation.dart';
 import '../../prescription/button/button_deselect_query.dart';
 import '../appointments_page.dart';
 
-class UAppointmentPage extends StatefulWidget {
+class UAppointmentPage extends StatelessWidget {
   final String codigo_paciente, codigo_medico, dia_mes_ano;
+  final UniqueAppointmentStore uniqueAppointmentStore = GetIt.I<UniqueAppointmentStore>();
 
-  const UAppointmentPage({Key? key, required this.codigo_paciente, required this.codigo_medico, required this.dia_mes_ano,}) : super(key: key);
-
-  @override
-  State<UAppointmentPage> createState() => _UAppointmentPageState();
-}
-
-class _UAppointmentPageState extends State<UAppointmentPage> {
-  DesmarcarConsulta _desmarcarConsulta = DesmarcarConsulta();
-  final _db = FirebaseFirestore.instance;
-
-  bool _loadingScreen = false;
-
-  Future<void> _callbackLoadingScreen() async {
-    setState(() {
-      _loadingScreen = !_loadingScreen;
-    });
-
-    await _desmarcarConsulta.desmarcar(widget.codigo_medico,
-        widget.dia_mes_ano, widget.codigo_paciente);
-
-    setState(() {
-      _loadingScreen = !_loadingScreen;
-    });
-
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const AppointmentsPage()));
-  }
+  UAppointmentPage({Key? key, required this.codigo_paciente, required this.codigo_medico, required this.dia_mes_ano}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _loadingScreen
-          ? Center(
+    uniqueAppointmentStore.fetchUniqueAppointment(codigo_paciente, codigo_medico, dia_mes_ano);
+    return Observer(
+        builder: (_){
+          return Scaffold(
+            body: uniqueAppointmentStore.loadingScreen
+                ? Center(
               child: CheckAnimation(
                 size: 30,
-                onComplete: () {},
+                onComplete: (){
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => AppointmentsPage()));
+                },
               ),
             )
-          : Container(
+                : Container(
               height: MediaQuery.of(context).size.height,
               decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage("images/fundo.jpg"), fit: BoxFit.fill)),
               child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                    stream: _db.collection('pacientes')
-                        .doc(widget.codigo_paciente)
-                        .collection('consultas')
-                        .doc(widget.codigo_medico+widget.dia_mes_ano).snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }else{
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: uniqueAppointmentStore.dataAppointment.isEmpty ?
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                        :
+                    Column(
+                      children: [
+                        CabecalhoConsulta(data: uniqueAppointmentStore.dataAppointment,),
+                        Divisor(),
 
-                        dynamic data = snapshot.data?.data();
+                        StatusConsulta(data: uniqueAppointmentStore.dataAppointment,),
+                        Divisor(),
 
-                        return Column(
-                          children: [
-                            CabecalhoConsulta(data: data,),
-                            Divisor(),
+                        InicioETermino(data: uniqueAppointmentStore.dataAppointment,),
+                        Divisor(),
 
-                            StatusConsulta(data: data,),
-                            Divisor(),
+                        InformacoesMedico(data: uniqueAppointmentStore.dataAppointment,),
+                        Divisor(),
 
-                            InicioETermino(data: data,),
-                            Divisor(),
+                        Receita(data: uniqueAppointmentStore.dataAppointment,),
+                        Divisor(),
 
-                            InformacoesMedico(data: data,),
-                            Divisor(),
-
-                            Receita(data: data,),
-                            Divisor(),
-
-                            Visibility(
-                                visible: data['status']=="marcada",
-                                child: ButtonDeselectQuery( data: data, callback: _callbackLoadingScreen,)
+                        Visibility(
+                            visible: uniqueAppointmentStore.dataAppointment['status']=="marcada",
+                            child: ButtonDeselectQuery(
+                              codigo_paciente: codigo_paciente,
+                              codigo_medico: codigo_medico,
+                              dia_mes_ano: dia_mes_ano,
                             )
-                          ],
-                        );
-                      }
-                    },
-                  ),
-                )
+                        )
+                      ],
+                    ),
+                  )
               ),
             ),
+          );
+        }
     );
   }
 }

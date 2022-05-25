@@ -43,6 +43,7 @@ class SelectDoctor extends StatelessWidget {
                       onSelected: (i, selected){
                         marcarConsultaStore.setSelectedDoctor(doctorsStore.doctorID[i]);
                         marcarConsultaStore.setNameDoctor(doctorsStore.doctorNames[i]);
+                        marcarConsultaStore.clearFieldsDoctor();
                       },
                       options: GroupButtonOptions(
                         textAlign: TextAlign.center,

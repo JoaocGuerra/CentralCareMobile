@@ -40,6 +40,7 @@ class SelectSpecialty extends StatelessWidget {
                       dynamic specialtySelected = especialidadesStore.mapSpecialty[especialidadesStore.dataSpecialtys[i]];
                       marcarConsultaStore.setSelectedSpecialty(specialtySelected);
                       marcarConsultaStore.setSpecialtyDoctor(nameSpecialty);
+                      marcarConsultaStore.clearFieldsSpecialty();
                     },
                     options: GroupButtonOptions(
                       textAlign: TextAlign.center,

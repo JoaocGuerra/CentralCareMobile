@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
-import '../../../services/api/marcar_consulta.dart';
+import '../../../store/marcar_consulta_store.dart';
 import '../../home/home_page.dart';
 
 class ButtonConfirmConsult extends StatelessWidget {
-  final Function callback;
+  final MarcarConsultaStore marcarConsultaStore = GetIt.I<MarcarConsultaStore>();
 
-  const ButtonConfirmConsult({Key? key, required this.callback}) : super(key: key);
+  ButtonConfirmConsult({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class ButtonConfirmConsult extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            callback();
+            marcarConsultaStore.insertQueue();
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

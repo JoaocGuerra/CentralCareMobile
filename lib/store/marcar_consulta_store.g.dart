@@ -9,6 +9,14 @@ part of 'marcar_consulta_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$MarcarConsultaStore on _MarcarConsultaStore, Store {
+  Computed<bool>? _$isFilledComputed;
+
+  @override
+  bool get isFilled =>
+      (_$isFilledComputed ??= Computed<bool>(() => super.isFilled,
+              name: '_MarcarConsultaStore.isFilled'))
+          .value;
+
   late final _$selectedSpecialtyAtom =
       Atom(name: '_MarcarConsultaStore.selectedSpecialty', context: context);
 
@@ -122,6 +130,14 @@ mixin _$MarcarConsultaStore on _MarcarConsultaStore, Store {
     });
   }
 
+  late final _$insertQueueAsyncAction =
+      AsyncAction('_MarcarConsultaStore.insertQueue', context: context);
+
+  @override
+  Future<void> insertQueue() {
+    return _$insertQueueAsyncAction.run(() => super.insertQueue());
+  }
+
   late final _$_MarcarConsultaStoreActionController =
       ActionController(name: '_MarcarConsultaStore', context: context);
 
@@ -192,6 +208,50 @@ mixin _$MarcarConsultaStore on _MarcarConsultaStore, Store {
   }
 
   @override
+  void clearFieldsSpecialty() {
+    final _$actionInfo = _$_MarcarConsultaStoreActionController.startAction(
+        name: '_MarcarConsultaStore.clearFieldsSpecialty');
+    try {
+      return super.clearFieldsSpecialty();
+    } finally {
+      _$_MarcarConsultaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clearFieldsDoctor() {
+    final _$actionInfo = _$_MarcarConsultaStoreActionController.startAction(
+        name: '_MarcarConsultaStore.clearFieldsDoctor');
+    try {
+      return super.clearFieldsDoctor();
+    } finally {
+      _$_MarcarConsultaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clearFieldsDate() {
+    final _$actionInfo = _$_MarcarConsultaStoreActionController.startAction(
+        name: '_MarcarConsultaStore.clearFieldsDate');
+    try {
+      return super.clearFieldsDate();
+    } finally {
+      _$_MarcarConsultaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clearAllFields() {
+    final _$actionInfo = _$_MarcarConsultaStoreActionController.startAction(
+        name: '_MarcarConsultaStore.clearAllFields');
+    try {
+      return super.clearAllFields();
+    } finally {
+      _$_MarcarConsultaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 selectedSpecialty: ${selectedSpecialty},
@@ -200,7 +260,8 @@ nameDoctor: ${nameDoctor},
 specialtyDoctor: ${specialtyDoctor},
 selectedDate: ${selectedDate},
 selectedHour: ${selectedHour},
-loadingNewAppointmentPage: ${loadingNewAppointmentPage}
+loadingNewAppointmentPage: ${loadingNewAppointmentPage},
+isFilled: ${isFilled}
     ''';
   }
 }
