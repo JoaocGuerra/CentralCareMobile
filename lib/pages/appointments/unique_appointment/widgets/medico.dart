@@ -1,67 +1,60 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
-class InformacoesMedico extends StatefulWidget {
+import '../../../../store/appointments_page/unique_appointment_store/widgets/photo_doctor_store.dart';
+
+class InformacoesMedico extends StatelessWidget {
   final data;
-  const InformacoesMedico({Key? key, this.data}) : super(key: key);
+  final PhotoDoctorStore photoDoctorStore = PhotoDoctorStore();
 
-  @override
-  State<InformacoesMedico> createState() => _InformacoesMedicoState();
-}
-
-class _InformacoesMedicoState extends State<InformacoesMedico> {
-  late String _linkPhoto;
-  final _db = FirebaseFirestore.instance;
+  InformacoesMedico({Key? key, this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final data = widget.data;
+    photoDoctorStore.fetchPhotoDoctor(data['codigo_medico']);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text("Médico:",
-                style: TextStyle(fontSize: 15)),
-            const SizedBox(height: 10),
-            Text(data["nome_medico"],
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20)),
-            const SizedBox(height: 5),
-            Text(data["especialidade_medico"],
-                style: const TextStyle(fontSize: 18)),
-          ],
-        ),
-        StreamBuilder(
-          stream: _db
-              .collection('funcionarios')
-              .doc(data['codigo_medico'])
-              .snapshots(),
-          builder: (context,
-              AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(
+    return Observer(
+        builder: (_){
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Médico:",
+                      style: TextStyle(fontSize: 15)),
+                  const SizedBox(height: 10),
+                  Text(data["nome_medico"],
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20)),
+                  const SizedBox(height: 5),
+                  Text(data["especialidade_medico"],
+                      style: const TextStyle(fontSize: 18)),
+                ],
+              ),
+              photoDoctorStore.loading ?
+              const Center(
                 child: CircularProgressIndicator(),
-              );
-            } else {
-              _linkPhoto = snapshot.data?.get("photo");
-
-              return Container(
+              )
+                :
+              Container(
                 padding: const EdgeInsets.all(25),
-                decoration: BoxDecoration(
+                decoration: photoDoctorStore.linkPhoto == ""?
+                BoxDecoration(
+                    color: Colors.blue[100],
+                    shape: BoxShape.circle,)
+                  :
+                BoxDecoration(
                     color: Colors.blue[100],
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        image: NetworkImage(_linkPhoto),
+                        image: NetworkImage(photoDoctorStore.linkPhoto),
                         fit: BoxFit.fill)),
-              );
-            }
-          },
-        ),
-      ],
+              )
+            ],
+          );
+        }
     );
   }
 }

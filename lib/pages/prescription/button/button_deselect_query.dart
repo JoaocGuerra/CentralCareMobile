@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../store/unique_appointment_store.dart';
-import '../../appointments/appointments_page.dart';
+import '../../../store/appointments_page/unique_appointment_store/unique_appointment_store.dart';
+
 
 class ButtonDeselectQuery extends StatelessWidget {
   final String codigo_paciente, codigo_medico, dia_mes_ano;

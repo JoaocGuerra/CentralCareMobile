@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:group_button/group_button.dart';
 
-import '../../../store/doctors_store.dart';
-import '../../../store/marcar_consulta_store.dart';
+import '../../../store/marcar_consulta/doctors_store.dart';
+import '../../../store/marcar_consulta/marcar_consulta_store.dart';
 
 class SelectDoctor extends StatelessWidget {
   final MarcarConsultaStore marcarConsultaStore = GetIt.I<MarcarConsultaStore>();
-  final DoctorsStore doctorsStore = GetIt.I<DoctorsStore>();
+  final DoctorsStore doctorsStore =  GetIt.I<DoctorsStore>();
 
   SelectDoctor({Key? key}) : super(key: key);
 

@@ -23,13 +23,13 @@ class AppointmentCard extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) => UAppointmentPage(
-                      codigo_paciente: data['codigo_paciente'],
-                      codigo_medico: data['codigo_medico'],
-                      dia_mes_ano: data['dia_mes_ano'],
+                      codigoPaciente: data['codigo_paciente'],
+                      codigoMedico: data['codigo_medico'],
+                      diaMesAno: data['dia_mes_ano'],
                     )));
           },
           child: Row(

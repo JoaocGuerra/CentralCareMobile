@@ -1,135 +1,108 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../store/appointments_page/appointments_store.dart';
 import 'appointments_list/appointments_listbuilder.dart';
 
-class AppointmentsPage extends StatefulWidget {
-  const AppointmentsPage({Key? key}) : super(key: key);
+class AppointmentsPage extends StatelessWidget {
+  final AppointmentsStore appointmentsStore = GetIt.I<AppointmentsStore>();
 
-  @override
-  _AppointmentsPageState createState() => _AppointmentsPageState();
-}
-
-class _AppointmentsPageState extends State<AppointmentsPage> {
-  final _db = FirebaseFirestore.instance;
-  final _user = FirebaseAuth.instance.currentUser;
+  AppointmentsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Container(
-          height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("images/fundo.jpg"), fit: BoxFit.fill)),
-          child: DefaultTabController(
-            length: 3,
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  bottom: const TabBar(
-                    indicatorColor: Colors.black,
-                    tabs: [
-                      Tab(
-                          icon: Icon(
-                        Icons.play_circle_fill,
-                        color: Colors.black,
-                      )),
-                      Tab(
-                          icon: Icon(
-                        Icons.check,
-                        color: Colors.black,
-                      )),
-                      Tab(
-                          icon: Icon(
-                        Icons.calendar_today,
-                        color: Colors.black,
-                      ))
-                    ],
-                  ),
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Minhas Consultas",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24),
-                      ),
-                      SizedBox(
-                        height: 50,
-                        width: 50,
-                        child: Lottie.network(
-                            "https://assets3.lottiefiles.com/private_files/lf30_qkroghd7.json"),
-                      ),
-                    ],
-                  )),
-              body: StreamBuilder(
-                stream: _db
-                    .collection('pacientes')
-                    .doc(_user?.uid)
-                    .collection('consultas')
-                    .snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(
+    appointmentsStore.fetchAppointments();
+    return Observer(
+        builder: (_){
+          return  MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: Container(
+                height: MediaQuery.of(context).size.height,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("images/fundo.jpg"), fit: BoxFit.fill)),
+                child: DefaultTabController(
+                  length: 3,
+                  child: Scaffold(
+                    backgroundColor: Colors.transparent,
+                    appBar: AppBar(
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                        bottom: const TabBar(
+                          indicatorColor: Colors.black,
+                          tabs: [
+                            Tab(
+                                icon: Icon(
+                                  Icons.play_circle_fill,
+                                  color: Colors.black,
+                                )),
+                            Tab(
+                                icon: Icon(
+                                  Icons.check,
+                                  color: Colors.black,
+                                )),
+                            Tab(
+                                icon: Icon(
+                                  Icons.calendar_today,
+                                  color: Colors.black,
+                                ))
+                          ],
+                        ),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Minhas Consultas",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24),
+                            ),
+                            SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: Lottie.network(
+                                  "https://assets3.lottiefiles.com/private_files/lf30_qkroghd7.json"),
+                            ),
+                          ],
+                        )),
+                    body: appointmentsStore.loadingScreen?
+                    const Center(
                       child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    List<dynamic> listAppointmentsProgress = [];
-                    List<dynamic> listAppointmentsCompleted = [];
-                    List<dynamic> listAppointments = [];
-
-                    int lengthAppointments = snapshot.data?.docs.length ?? 0;
-
-                    for (int i = 0; i < lengthAppointments; i++) {
-                      listAppointments.add(snapshot.data?.docs[i]);
-
-                      if (snapshot.data?.docs[i].get("status") == "atendido") {
-                        listAppointmentsCompleted.add(snapshot.data?.docs[i]);
-                      } else if (snapshot.data?.docs[i].get("status") ==
-                          "atendimento") {
-                        listAppointmentsProgress.add(snapshot.data?.docs[i]);
-                      }
-                    }
-
-                    return TabBarView(
+                    )
+                        :
+                    TabBarView(
                       children: [
-                        listAppointmentsProgress.isNotEmpty
+                        appointmentsStore.listAppointmentsProgress.isNotEmpty
                             ? AppointmentsListBuilder(
-                                listAppointments: listAppointmentsProgress,
-                              )
+                          listAppointments: appointmentsStore.listAppointmentsProgress,
+                        )
                             : const Center(
-                                child: Text("Nenhuma consulta em andamento."),
-                              ),
-                        listAppointmentsCompleted.isNotEmpty
+                          child: Text("Nenhuma consulta em andamento."),
+                        ),
+                        appointmentsStore.listAppointmentsCompleted.isNotEmpty
                             ? AppointmentsListBuilder(
-                                listAppointments: listAppointmentsCompleted,
-                              )
+                          listAppointments: appointmentsStore.listAppointmentsCompleted,
+                        )
                             : const Center(
-                                child: Text("Nenhuma consulta concluida."),
-                              ),
-                        listAppointments.isNotEmpty
+                          child: Text("Nenhuma consulta concluida."),
+                        ),
+                        appointmentsStore.listAppointments.isNotEmpty
                             ? AppointmentsListBuilder(
-                          listAppointments: listAppointments,
+                          listAppointments: appointmentsStore.listAppointments,
                         )
                             : const Center(
                           child: Text("Nenhuma consulta."),
                         ),
                       ],
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
-        ));
+                    ),
+                  ),
+                ),
+              )
+          );
+        }
+    );
   }
 }

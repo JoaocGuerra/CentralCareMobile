@@ -1,7 +1,8 @@
-import 'package:centralcaremobile/store/marcar_consulta_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+
+import 'marcar_consulta_store.dart';
 
 part 'doctors_store.g.dart';
 

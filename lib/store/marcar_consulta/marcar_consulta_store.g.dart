@@ -241,7 +241,7 @@ mixin _$MarcarConsultaStore on _MarcarConsultaStore, Store {
   }
 
   @override
-  void clearAllFields() {
+  Future<bool> clearAllFields() {
     final _$actionInfo = _$_MarcarConsultaStoreActionController.startAction(
         name: '_MarcarConsultaStore.clearAllFields');
     try {

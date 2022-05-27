@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobx/mobx.dart';
 
-import '../utils/utils_string.dart';
+import '../../utils/utils_string.dart';
 part 'especialidades_store.g.dart';
 
 class EspecialidadesStore = _EspecialidadesStore with _$EspecialidadesStore;

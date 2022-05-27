@@ -1,15 +1,14 @@
-import 'package:centralcaremobile/store/especialidades_store.dart';
+import 'package:centralcaremobile/store/marcar_consulta/especialidades_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:group_button/group_button.dart';
 
-import '../../../store/marcar_consulta_store.dart';
-
+import '../../../store/marcar_consulta/marcar_consulta_store.dart';
 
 class SelectSpecialty extends StatelessWidget {
   final MarcarConsultaStore marcarConsultaStore = GetIt.I<MarcarConsultaStore>();
-  final EspecialidadesStore especialidadesStore = GetIt.I<EspecialidadesStore>();
+  final EspecialidadesStore especialidadesStore =  GetIt.I<EspecialidadesStore>();
 
   SelectSpecialty({Key? key}) : super(key: key);
 
@@ -49,7 +48,7 @@ class SelectSpecialty extends StatelessWidget {
                     ),
                   )
                 ],
-              ),
+              )
             ),
             const Divider(height: 5)
           ],

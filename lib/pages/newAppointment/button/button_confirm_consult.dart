@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../store/marcar_consulta_store.dart';
-import '../../home/home_page.dart';
+import '../../../store/marcar_consulta/marcar_consulta_store.dart';
 
 class ButtonConfirmConsult extends StatelessWidget {
   final MarcarConsultaStore marcarConsultaStore = GetIt.I<MarcarConsultaStore>();

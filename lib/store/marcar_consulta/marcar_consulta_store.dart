@@ -1,8 +1,6 @@
 import 'package:centralcaremobile/repository/api/insert_queue_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
-import '../pages/home/home_page.dart';
 
 part 'marcar_consulta_store.g.dart';
 
@@ -80,13 +78,14 @@ abstract class _MarcarConsultaStore with Store {
   }
 
   @action
-  void clearAllFields(){
+  Future<bool> clearAllFields(){
     setSelectedSpecialty([]);
     setSelectedDoctor("");
     setNameDoctor("");
     setSpecialtyDoctor("");
     setSelectedDate("");
     setSelectedHour("");
+    return Future.value(true);
   }
 
   @action

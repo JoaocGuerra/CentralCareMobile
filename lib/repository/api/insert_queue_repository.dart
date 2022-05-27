@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../constants/constants_api.dart';
-import '../../store/marcar_consulta_store.dart';
+import '../../store/marcar_consulta/marcar_consulta_store.dart';
 
 class InsertQueueRepository{
 

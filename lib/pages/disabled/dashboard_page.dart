@@ -64,7 +64,7 @@ class _DashBoardPageState extends State<DashboardPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AppointmentsPage()));
+                              builder: (context) => AppointmentsPage()));
                     },
                     child: Column(
                       children: [

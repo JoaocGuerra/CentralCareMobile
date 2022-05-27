@@ -1,18 +1,16 @@
-import 'package:centralcaremobile/store/horas_disponiveis_store.dart';
-import 'package:centralcaremobile/store/marcar_consulta_store.dart';
-import 'package:centralcaremobile/utils/utils_datetime.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:centralcaremobile/store/marcar_consulta/horas_disponiveis_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:group_button/group_button.dart';
 
-import '../../../store/date_store.dart';
+import '../../../store/marcar_consulta/date_store.dart';
+import '../../../store/marcar_consulta/marcar_consulta_store.dart';
 
 class SelectDate extends StatelessWidget {
   final MarcarConsultaStore marcarConsultaStore = GetIt.I<MarcarConsultaStore>();
   final HorasDisponiveisStore horasDisponiveisStore = GetIt.I<HorasDisponiveisStore>();
-  final DateStore dateStore = GetIt.I<DateStore>();
+  final DateStore dateStore =  GetIt.I<DateStore>();
 
   SelectDate({Key? key}) : super(key: key);
 

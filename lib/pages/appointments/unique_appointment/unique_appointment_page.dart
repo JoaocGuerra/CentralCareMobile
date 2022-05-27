@@ -1,29 +1,27 @@
-import 'dart:async';
-
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/consulta.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/divisor.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/inicio_termino.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/medico.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/receita.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/status.dart';
-import 'package:centralcaremobile/store/unique_appointment_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../store/appointments_page/unique_appointment_store/unique_appointment_store.dart';
 import '../../../widgets/check_animation.dart';
 import '../../prescription/button/button_deselect_query.dart';
 import '../appointments_page.dart';
 
 class UAppointmentPage extends StatelessWidget {
-  final String codigo_paciente, codigo_medico, dia_mes_ano;
+  final String codigoPaciente, codigoMedico, diaMesAno;
   final UniqueAppointmentStore uniqueAppointmentStore = GetIt.I<UniqueAppointmentStore>();
 
-  UAppointmentPage({Key? key, required this.codigo_paciente, required this.codigo_medico, required this.dia_mes_ano}) : super(key: key);
+  UAppointmentPage({Key? key, required this.codigoPaciente, required this.codigoMedico, required this.diaMesAno}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    uniqueAppointmentStore.fetchUniqueAppointment(codigo_paciente, codigo_medico, dia_mes_ano);
+    uniqueAppointmentStore.fetchUniqueAppointment(codigoPaciente, codigoMedico, diaMesAno);
     return Observer(
         builder: (_){
           return Scaffold(
@@ -70,9 +68,9 @@ class UAppointmentPage extends StatelessWidget {
                         Visibility(
                             visible: uniqueAppointmentStore.dataAppointment['status']=="marcada",
                             child: ButtonDeselectQuery(
-                              codigo_paciente: codigo_paciente,
-                              codigo_medico: codigo_medico,
-                              dia_mes_ano: dia_mes_ano,
+                              codigo_paciente: codigoPaciente,
+                              codigo_medico: codigoMedico,
+                              dia_mes_ano: diaMesAno,
                             )
                         )
                       ],

@@ -1,10 +1,10 @@
-import 'package:centralcaremobile/store/horas_disponiveis_store.dart';
+import 'package:centralcaremobile/store/marcar_consulta/horas_disponiveis_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:group_button/group_button.dart';
 
-import '../../../store/marcar_consulta_store.dart';
+import '../../../store/marcar_consulta/marcar_consulta_store.dart';
 
 class SelectHours extends StatelessWidget {
   final MarcarConsultaStore marcarConsultaStore = GetIt.I<MarcarConsultaStore>();

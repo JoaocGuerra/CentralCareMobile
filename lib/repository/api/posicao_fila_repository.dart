@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
+
 import '../../constants/constants_api.dart';
 
-class PosicaoFilaService{
-
+class PosicaoFilaRepository{
   final _dio = Dio();
 
-  Future<String> getPosicaoFila(String doctor, String date, String codigo_paciente) async{
+  Future<String> fetchPositionQueue(String doctor, String date, String codigoPaciente) async{
 
-    Response responseReadPositionQueue = await _dio.get(pathLocal+pathReadPositionQueue+'/'+doctor+'/'+date+'/'+codigo_paciente);
+    Response responseReadPositionQueue = await _dio.get(pathLocal+pathReadPositionQueue+'/'+doctor+'/'+date+'/'+codigoPaciente);
     Response responseReadPositionQueueAppointment = await _dio.get(pathLocal+pathReadPositionQueueAppointment+'/'+doctor+'/'+date);
     var responseBodyReadPositionQueue = Map<String, dynamic>.from(responseReadPositionQueue.data);
     var responseBodyReadPositionQueueAppointment = Map<String, dynamic>.from(responseReadPositionQueueAppointment.data);
