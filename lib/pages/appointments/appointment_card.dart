@@ -1,4 +1,4 @@
-import 'package:centralcaremobile/pages/appointments/unique_appointment_page.dart';
+import 'package:centralcaremobile/pages/appointments/unique_appointment/unique_appointment_page.dart';
 import 'package:centralcaremobile/utils/utils_datetime.dart';
 import 'package:flutter/material.dart';
 
@@ -23,10 +23,14 @@ class AppointmentCard extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => UAppointmentPage(data: data,)));
+                    builder: (context) => UAppointmentPage(
+                      codigoPaciente: data['codigo_paciente'],
+                      codigoMedico: data['codigo_medico'],
+                      diaMesAno: data['dia_mes_ano'],
+                    )));
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

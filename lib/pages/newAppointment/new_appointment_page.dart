@@ -5,9 +5,10 @@ import 'package:centralcaremobile/pages/newAppointment/select/select_hours.dart'
 import 'package:centralcaremobile/pages/newAppointment/select/select_specialty.dart';
 import 'package:centralcaremobile/widgets/check_animation.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 
-import '../../services/api/marcar_consulta.dart';
+import '../../store/marcar_consulta/marcar_consulta_store.dart';
 import '../home/home_page.dart';
 
 class NewAppointmentPage extends StatefulWidget {
@@ -18,60 +19,28 @@ class NewAppointmentPage extends StatefulWidget {
 }
 
 class _NewAppointmentPageState extends State<NewAppointmentPage> {
-  final _db = FirebaseFirestore.instance;
-  final MarcarConsultaService _marcarConsultaService = MarcarConsultaService();
 
-  bool _loadingScreen = false;
-
-  Future<void> _callbackLoadingScreen() async {
-    setState(() {
-      _loadingScreen = !_loadingScreen;
-    });
-
-    _marcarConsultaService.insertQuery();
-    await _marcarConsultaService.insertQueue();
-
-    setState(() {
-      _loadingScreen = !_loadingScreen;
-    });
-
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => HomePage()));
-  }
-
-  void _callback(var variavel, int tipo) {
-    if (tipo == 1) {
-      setState(() {
-        _marcarConsultaService.specialtyDoctor = variavel[0];
-        _marcarConsultaService.selectedSpecialty = variavel[1];
-      });
-    } else if (tipo == 2) {
-      setState(() {
-        _marcarConsultaService.nameDoctor = variavel[0];
-        _marcarConsultaService.selectedDoctor = variavel[1];
-      });
-    } else if (tipo == 3) {
-      setState(() {
-        _marcarConsultaService.selectedDate = variavel;
-      });
-    } else if (tipo == 4) {
-      setState(() {
-        _marcarConsultaService.selectedHour = variavel;
-      });
-    }
-  }
+  final MarcarConsultaStore marcarConsultaStore = GetIt.I<MarcarConsultaStore>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: _loadingScreen
-            ? Center(
-                child: CheckAnimation(
-                  size: 30,
-                  onComplete: () {},
-                ),
-              )
-            : Container(
+    return Observer(
+      builder: (_){
+        return Scaffold(
+            body: marcarConsultaStore.loadingNewAppointmentPage
+                ? Center(
+              child: CheckAnimation(
+                size: 30,
+                onComplete: (){
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => HomePage()));
+                },
+              ),
+            )
+                :
+            WillPopScope(
+              onWillPop: marcarConsultaStore.clearAllFields,
+              child: Container(
                 height: MediaQuery.of(context).size.height,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -79,87 +48,65 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
                         fit: BoxFit.fill)),
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 10,left: 20,right: 20),
                     child: SafeArea(
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(25, 5, 0, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text(
-                                      "Agendamento de Consulta",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Agendamento de Consulta",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(25, 0, 25, 20),
-                            child: Column(
-                              children: [
-                                SelectSpecialty(
-                                    marcarConsultaService:
-                                        _marcarConsultaService,
-                                    db: _db,
-                                    callback: _callback),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                Visibility(
-                                  visible: !_marcarConsultaService
-                                      .selectedSpecialty.isEmpty,
-                                  child: SelectDoctor(
-                                      marcarConsultaService:
-                                          _marcarConsultaService,
-                                      db: _db,
-                                      callback: _callback),
-                                ),
-                                const SizedBox(height: 15),
-                                Visibility(
-                                  visible:
-                                      _marcarConsultaService.selectedDoctor !=
-                                          "",
-                                  child: SelectDate(
-                                      marcarConsultaService:
-                                          _marcarConsultaService,
-                                      db: _db,
-                                      callback: _callback),
-                                ),
-                                const SizedBox(height: 15),
-                                Visibility(
-                                  visible:
-                                      _marcarConsultaService.selectedDate != "",
-                                  child: SelectHours(
-                                      marcarConsultaService:
-                                          _marcarConsultaService,
-                                      callback: _callback),
-                                ),
-                                const SizedBox(height: 15),
-                                Visibility(
-                                  visible:
-                                      _marcarConsultaService.selectedHour != "",
-                                  child: ButtonConfirmConsult(
-                                      marcarConsultaService:
-                                          _marcarConsultaService,
-                                      callback: _callbackLoadingScreen),
-                                ),
-                              ],
-                            ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Divider(),
+
+                          SelectSpecialty(),
+                          const SizedBox(
+                            height: 15,
+                          ),
+
+                          Visibility(
+                            visible: marcarConsultaStore
+                                .selectedSpecialty.isNotEmpty,
+                            child: SelectDoctor(),
+                          ),
+                          const SizedBox(height: 15),
+
+                          Visibility(
+                            visible:
+                            marcarConsultaStore.selectedDoctor !=
+                                "",
+                            child: SelectDate(),
+                          ),
+                          const SizedBox(height: 15),
+
+                          Visibility(
+                            visible:
+                            marcarConsultaStore.selectedDate != "",
+                            child: SelectHours(),
+                          ),
+                          const SizedBox(height: 15),
+
+                          Visibility(
+                            visible:
+                            marcarConsultaStore.isFilled,
+                            child: ButtonConfirmConsult(),
                           ),
                         ],
                       ),
                     ),
                   ),
                 ),
-              ));
+              ),
+            )
+        );
+      },
+    );
   }
 }

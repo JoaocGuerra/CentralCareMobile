@@ -1,82 +1,59 @@
-import 'package:centralcaremobile/utils/utils_string.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:centralcaremobile/store/marcar_consulta/especialidades_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:group_button/group_button.dart';
 
-import '../../../services/api/marcar_consulta.dart';
+import '../../../store/marcar_consulta/marcar_consulta_store.dart';
 
-class SelectSpecialty extends StatefulWidget {
-  final MarcarConsultaService marcarConsultaService;
-  final Function callback;
-  final db;
+class SelectSpecialty extends StatelessWidget {
+  final MarcarConsultaStore marcarConsultaStore = GetIt.I<MarcarConsultaStore>();
+  final EspecialidadesStore especialidadesStore =  GetIt.I<EspecialidadesStore>();
 
-  const SelectSpecialty({Key? key, required this.marcarConsultaService, required this.callback, this.db}) : super(key: key);
+  SelectSpecialty({Key? key}) : super(key: key);
 
-  @override
-  State<SelectSpecialty> createState() => _SelectSpecialtyState();
-}
-
-class _SelectSpecialtyState extends State<SelectSpecialty> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "Selecione a especialidade",
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-        SizedBox(
-          height: 75,
-          child: StreamBuilder(
-            stream: widget.db.collection('especialidades').snapshots(),
-            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }else{
-                Map<String, dynamic> mapSpecialty = new  Map<String, dynamic>();
-                List<String> specialtysCapitalize = [];
-
-                int lengthSpecialty = snapshot.data?.docs.length ?? 0;
-
-                for(int i=0;i<lengthSpecialty;i++){
-                  bool availableSpecialty = snapshot.data?.docs[i].get("disponivel");
-                  if(availableSpecialty){
-                    String specialtyCapitalize = UtilsString.capitalize(snapshot.data?.docs[i].id ?? "");
-                    mapSpecialty[specialtyCapitalize] = snapshot.data?.docs[i].get("lista_funcionarios");
-                    specialtysCapitalize.add(specialtyCapitalize);
-                  }
-                }
-
-                return ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    GroupButton(
-                      buttons: specialtysCapitalize,
-                      maxSelected: 1,
-                      onSelected: (i, selected){
-                        String nameSpecialty = specialtysCapitalize[i];
-                        dynamic specialtySelected = mapSpecialty[specialtysCapitalize[i]];
-                        widget.callback([nameSpecialty,specialtySelected],1);
-                      },
-                      options: GroupButtonOptions(
-                        textAlign: TextAlign.center,
-                        elevation: 2,
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                    )
-                  ],
-                );
-              }
-            },
-          ),
-        ),
-        const Divider(height: 5)
-      ],
+    especialidadesStore.fetchSpecialty();
+    return Observer(
+      builder: (_){
+        return Column(
+          children: [
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Selecione a especialidade",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            SizedBox(
+              height: 75,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  GroupButton(
+                    buttons: especialidadesStore.dataSpecialtys,
+                    maxSelected: 1,
+                    onSelected: (i, selected){
+                      String nameSpecialty = especialidadesStore.dataSpecialtys[i];
+                      dynamic specialtySelected = especialidadesStore.mapSpecialty[especialidadesStore.dataSpecialtys[i]];
+                      marcarConsultaStore.setSelectedSpecialty(specialtySelected);
+                      marcarConsultaStore.setSpecialtyDoctor(nameSpecialty);
+                      marcarConsultaStore.clearFieldsSpecialty();
+                    },
+                    options: GroupButtonOptions(
+                      textAlign: TextAlign.center,
+                      elevation: 2,
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  )
+                ],
+              )
+            ),
+            const Divider(height: 5)
+          ],
+        );
+      },
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 
 import '../../constants/constants_api.dart';
 
-class DesmarcarConsulta{
+class DesmarcarConsultaRepository{
 
   final _dio = Dio();
   final _db = FirebaseFirestore.instance;
@@ -16,13 +16,14 @@ class DesmarcarConsulta{
     mapDelete["dia_mes_ano"] = dia_mes_ano;
     mapDelete["codigo_paciente"] = codigo_paciente;
 
+    await _db.collection('pacientes').doc(codigo_paciente).collection('consultas').doc(codigo_medico+dia_mes_ano).delete();
+
     try{
       await _dio.delete(pathLocal + pathDeselectQuery, data: mapDelete);
     }catch(err){
       print(err);
     }
-    
-    _db.collection('pacientes').doc(codigo_paciente).collection('consultas').doc(codigo_medico+dia_mes_ano).delete();
+
 
   }
 

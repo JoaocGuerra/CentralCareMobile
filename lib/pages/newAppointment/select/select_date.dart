@@ -1,76 +1,51 @@
-import 'package:centralcaremobile/utils/utils_datetime.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:centralcaremobile/store/marcar_consulta/horas_disponiveis_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:group_button/group_button.dart';
 
-import '../../../services/api/marcar_consulta.dart';
+import '../../../store/marcar_consulta/date_store.dart';
+import '../../../store/marcar_consulta/marcar_consulta_store.dart';
 
-class SelectDate extends StatefulWidget {
-  final MarcarConsultaService marcarConsultaService;
-  final Function callback;
-  final db;
+class SelectDate extends StatelessWidget {
+  final MarcarConsultaStore marcarConsultaStore = GetIt.I<MarcarConsultaStore>();
+  final HorasDisponiveisStore horasDisponiveisStore = GetIt.I<HorasDisponiveisStore>();
+  final DateStore dateStore =  GetIt.I<DateStore>();
 
-  const SelectDate({Key? key, required this.marcarConsultaService, required this.db,required this.callback}) : super(key: key);
-
-  @override
-  State<SelectDate> createState() => _SelectDateState();
-}
-
-class _SelectDateState extends State<SelectDate> {
+  SelectDate({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "Selecione a data",
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-        SizedBox(
-          height: 75,
-          child: StreamBuilder(
-            stream: widget.db.collection('funcionarios').doc(widget.marcarConsultaService.selectedDoctor).collection('atendimentos').snapshots(),
-            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(
+    dateStore.fetchDate();
+    return Observer(
+        builder:(_){
+          return Column(
+            children: [
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Selecione a data",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              SizedBox(
+                height: 75,
+                child: dateStore.loading ?
+                const Center(
                   child: CircularProgressIndicator(),
-                );
-              }if(snapshot.hasError){
-                return const Center(
-                  child: Icon(
-                    Icons.error,
-                    color: Colors.red,
-                    size: 30.0,
-                  ),
-                );
-              }else{
-                Map<String, String> mapDoctorDates = new  Map<String, String>();
-                List<String> doctorDates = [];
-
-                int lengthDoctorsDates = snapshot.data?.docs.length ?? 0;
-
-                for(int i=0;i<lengthDoctorsDates;i++){
-                  bool availableDate = snapshot.data?.docs[i].get("disponivel");
-                  if(availableDate){
-                    String dateFormated = UtilsDateTime.convertFormatDate(snapshot.data?.docs[i].id ?? "");
-                    mapDoctorDates[dateFormated] = snapshot.data?.docs[i].id ?? "";
-                    doctorDates.add(dateFormated);
-                  }
-                }
-
-                return ListView(
+                )
+                  :
+                ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
                     GroupButton(
-                      buttons: doctorDates,
+                      buttons: dateStore.doctorDates,
                       maxSelected: 1,
                       onSelected: (i, selected){
-                        String doctorDateSelected = mapDoctorDates[doctorDates[i]] ?? "";
-                        widget.callback(doctorDateSelected,3);
-                        widget.marcarConsultaService.getHoursDoctor(widget.marcarConsultaService.selectedDoctor, widget.marcarConsultaService.selectedDate);
+                        String doctorDateSelected = dateStore.mapDoctorDates[dateStore.doctorDates[i]] ?? "";
+                        marcarConsultaStore.setSelectedDate(doctorDateSelected);
+                        marcarConsultaStore.clearFieldsDate();
+                        horasDisponiveisStore.fetchHoursDoctor(marcarConsultaStore.selectedDoctor, marcarConsultaStore.selectedDate);
                       },
                       options: GroupButtonOptions(
                         textAlign: TextAlign.center,
@@ -79,13 +54,12 @@ class _SelectDateState extends State<SelectDate> {
                       ),
                     ),
                   ],
-                );
-              }
-            },
-          ),
-        ),
-        const Divider(height: 5),
-      ],
+                ),
+              ),
+              const Divider(height: 5),
+            ],
+          );
+        }
     );
   }
 }
