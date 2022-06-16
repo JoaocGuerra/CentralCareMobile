@@ -24,12 +24,12 @@ class GetUserDetails extends StatelessWidget {
           Map<String, dynamic> data =
               snapshot.data?.data() as Map<String, dynamic>;
           if (data['id'] == userId) {
-            if ("name" == attribute) {
+            if ("nome" == attribute) {
               return Text(
-                '${data[attribute]}' " " '${data['lastName']}',
+                '${data[attribute]}' " " '${data['sobrenome']}',
                 style: const TextStyle(fontSize: 20),
               );
-            } if ("photo" == attribute) {
+            } if ("foto" == attribute) {
               print(data[attribute]);
               return data[attribute];
             }else {

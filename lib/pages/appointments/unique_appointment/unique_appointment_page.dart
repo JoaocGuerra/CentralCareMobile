@@ -2,6 +2,7 @@ import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/divisor.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/inicio_termino.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/medico.dart';
+import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/posicao_inicial.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/receita.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/status.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,9 @@ class UAppointmentPage extends StatelessWidget {
                     Column(
                       children: [
                         CabecalhoConsulta(data: uniqueAppointmentStore.dataAppointment,),
+                        Divisor(),
+
+                        PosicaoInicial(data: uniqueAppointmentStore.dataAppointment,),
                         Divisor(),
 
                         StatusConsulta(data: uniqueAppointmentStore.dataAppointment,),

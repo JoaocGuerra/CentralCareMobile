@@ -12,7 +12,11 @@ class StatusConsulta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    posicaoFilaStore.fetchPositionQueue(data['codigo_medico'], data['dia_mes_ano'], data['codigo_paciente']);
+    if(data['status']!="concluida"){
+      posicaoFilaStore.fetchPositionQueueStatus(data['codigo_medico'], data['dia_mes_ano'], data['codigo_paciente']);
+    }else{
+      posicaoFilaStore.status = data['status'];
+    }
 
     return Observer(
         builder: (_){
@@ -43,10 +47,10 @@ class StatusConsulta extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                      posicaoFilaStore.status == "fechado"
+                      posicaoFilaStore.status == "marcada"
                           ? "Atendimento\nnão iniciado"
                             :
-                        (posicaoFilaStore.status == "atendido"
+                        (posicaoFilaStore.status == "concluida"
                           ? ""
                             :
                         "Posição\nna fila"),
@@ -70,14 +74,14 @@ class StatusConsulta extends StatelessWidget {
                       :
                     Center(
                         child: posicaoFilaStore.status ==
-                            "fechado"
+                            "marcada"
                             ? const Icon(
                           Icons.dangerous,
                           color: Colors
                               .white,
                         )
                             : (posicaoFilaStore.status ==
-                            "atendido"
+                            "concluida"
                             ? const Icon(
                           Icons.check,
                           color: Colors

@@ -41,6 +41,33 @@ mixin _$PosicaoFilaStore on _PosicaoFilaStore, Store {
     });
   }
 
+  late final _$posicaoAtom =
+      Atom(name: '_PosicaoFilaStore.posicao', context: context);
+
+  @override
+  String get posicao {
+    _$posicaoAtom.reportRead();
+    return super.posicao;
+  }
+
+  @override
+  set posicao(String value) {
+    _$posicaoAtom.reportWrite(value, super.posicao, () {
+      super.posicao = value;
+    });
+  }
+
+  late final _$fetchPositionQueueStatusAsyncAction = AsyncAction(
+      '_PosicaoFilaStore.fetchPositionQueueStatus',
+      context: context);
+
+  @override
+  Future<void> fetchPositionQueueStatus(
+      String codigoMedico, String diaMesAno, String codigoPaciente) {
+    return _$fetchPositionQueueStatusAsyncAction.run(() => super
+        .fetchPositionQueueStatus(codigoMedico, diaMesAno, codigoPaciente));
+  }
+
   late final _$fetchPositionQueueAsyncAction =
       AsyncAction('_PosicaoFilaStore.fetchPositionQueue', context: context);
 
@@ -55,7 +82,8 @@ mixin _$PosicaoFilaStore on _PosicaoFilaStore, Store {
   String toString() {
     return '''
 loading: ${loading},
-status: ${status}
+status: ${status},
+posicao: ${posicao}
     ''';
   }
 }
