@@ -3,12 +3,12 @@ import 'package:centralcaremobile/pages/newAppointment/select/select_date.dart';
 import 'package:centralcaremobile/pages/newAppointment/select/select_doctor.dart';
 import 'package:centralcaremobile/pages/newAppointment/select/select_hours.dart';
 import 'package:centralcaremobile/pages/newAppointment/select/select_specialty.dart';
-import 'package:centralcaremobile/widgets/check_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../store/marcar_consulta/marcar_consulta_store.dart';
+import '../../widgets/check_animation.dart';
 import '../home/home_page.dart';
 
 class NewAppointmentPage extends StatefulWidget {

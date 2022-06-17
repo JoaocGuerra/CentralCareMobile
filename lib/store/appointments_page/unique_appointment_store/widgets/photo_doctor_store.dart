@@ -21,7 +21,7 @@ abstract class _PhotoDoctorStore with Store {
         .doc(codigoMedico).snapshots().listen((snapshot) async {
 
       loading = true;
-      linkPhoto = snapshot.get("photo");
+      linkPhoto = snapshot.get("foto");
       loading = false;
 
     });

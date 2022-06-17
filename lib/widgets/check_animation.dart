@@ -121,7 +121,7 @@ class CheckPainter extends CustomPainter {
         rect,
         Angle.degrees(firstAngle).radians,
         Angle.degrees(
-                getSecondAngle(firstAngle, _length!, _startingAngle! + 360))
+            getSecondAngle(firstAngle, _length!, _startingAngle! + 360))
             .radians,
         false,
         _paint!);
@@ -150,7 +150,7 @@ class CheckPainter extends CustomPainter {
     double auxLine1x2 = auxLine1x1 + _offset! / 2;
     double auxLine1y2 =
         (((auxLine1x1 + _offset! / 2) - line1x1) / (line1x2 - line1x1)) *
-                (line1y2 - line1y1) +
+            (line1y2 - line1y1) +
             line1y1;
 
     if (checkIfPointHasCrossedLine(Offset(line1x2, line1y2),
@@ -169,7 +169,7 @@ class CheckPainter extends CustomPainter {
     double auxLine2x1 = (line2x1 - line1x2) * line2Value;
     double auxLine2y1 =
         ((((line2x1 - line1x2) * line2Value) - line1x2) / (line2x1 - line1x2)) *
-                (line2y1 - line1y2) +
+            (line2y1 - line1y2) +
             line1y2;
 
     if (checkIfPointHasCrossedLine(Offset(line1x1, line1y1),
@@ -183,8 +183,8 @@ class CheckPainter extends CustomPainter {
           Offset(
               (line2x1 - line1x2) * line2Value + _offset! * .75,
               ((((line2x1 - line1x2) * line2Value + _offset! * .75) - line1x2) /
-                          (line2x1 - line1x2)) *
-                      (line2y1 - line1y2) +
+                  (line2x1 - line1x2)) *
+                  (line2y1 - line1y2) +
                   line1y2),
           _paint!);
     }
@@ -200,7 +200,7 @@ class CheckPainter extends CustomPainter {
 
   bool checkIfPointHasCrossedLine(Offset a, Offset b, Offset point) {
     return ((b.dx - a.dx) * (point.dy - a.dy) -
-            (b.dy - a.dy) * (point.dx - a.dx)) >
+        (b.dy - a.dy) * (point.dx - a.dx)) >
         0;
   }
 

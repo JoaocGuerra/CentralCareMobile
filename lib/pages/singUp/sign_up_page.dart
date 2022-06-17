@@ -62,13 +62,13 @@ class _SignUpPage extends State<SignUpPage> {
     }
     await FirebaseFirestore.instance.collection('pacientes').doc(id).set({
       'id': id,
-      'name': name,
-      'lastName': lastName,
-      'number': number,
-      'birthday': birthDay,
-      'sex': gender,
+      'nome': name,
+      'sobrenome': lastName,
+      'telefone': number,
+      'data_nascimeno': birthDay,
+      'sexo': gender,
       'email': email,
-      'photo' : photo
+      'foto' : photo
     });
   }
 

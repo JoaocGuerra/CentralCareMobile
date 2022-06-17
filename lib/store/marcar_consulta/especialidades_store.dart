@@ -26,12 +26,9 @@ abstract class _EspecialidadesStore with Store {
         int lengthSpecialty = snapshot.docs.length;
 
         for(int i=0;i<lengthSpecialty;i++){
-          bool availableSpecialty = snapshot.docs[i].get("disponivel");
-          if(availableSpecialty){
-            String specialtyCapitalize = UtilsString.capitalize(snapshot.docs[i].id);
-            dataSpecialtys = List.from(dataSpecialtys..add(specialtyCapitalize));
-            mapSpecialty[specialtyCapitalize] = snapshot.docs[i].get("lista_funcionarios");
-          }
+          String specialtyCapitalize = UtilsString.capitalize(snapshot.docs[i].id);
+          dataSpecialtys = List.from(dataSpecialtys..add(specialtyCapitalize));
+          mapSpecialty[specialtyCapitalize] = snapshot.docs[i].get("lista_funcionarios");
         }
       });
     }catch (e){

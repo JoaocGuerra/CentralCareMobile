@@ -16,8 +16,6 @@ class DesmarcarConsultaRepository{
     mapDelete["dia_mes_ano"] = dia_mes_ano;
     mapDelete["codigo_paciente"] = codigo_paciente;
 
-    await _db.collection('pacientes').doc(codigo_paciente).collection('consultas').doc(codigo_medico+dia_mes_ano).delete();
-
     try{
       await _dio.delete(pathLocal + pathDeselectQuery, data: mapDelete);
     }catch(err){

@@ -75,7 +75,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                     if (snapshot.data?.docs[i].get("id") ==
                                         user?.uid.trim().toString()) {
                                       _linkPhoto =
-                                          snapshot.data?.docs[i].get("photo");
+                                          snapshot.data?.docs[i].get("foto");
                                       break;
                                     }
                                   }
@@ -105,7 +105,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           children: [
                             GetUserDetails(
                               userId: user?.uid.trim().toString(),
-                              attribute: 'name',
+                              attribute: 'nome',
                               documentId: _docId,
                             )
                           ],
@@ -176,7 +176,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   children: [
                                     GetUserDetails(
                                       userId: user?.uid.trim().toString(),
-                                      attribute: 'birthday',
+                                      attribute: 'data_nascimento',
                                       documentId: _docId,
                                     )
                                   ],
@@ -206,7 +206,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   children: [
                                     GetUserDetails(
                                       userId: user?.uid.trim().toString(),
-                                      attribute: 'sex',
+                                      attribute: 'sexo',
                                       documentId: _docId,
                                     )
                                   ],
@@ -236,7 +236,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                                   children: [
                                     GetUserDetails(
                                       userId: user?.uid.trim().toString(),
-                                      attribute: 'number',
+                                      attribute: 'telefone',
                                       documentId: _docId,
                                     )
                                   ],

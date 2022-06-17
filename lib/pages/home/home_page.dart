@@ -67,10 +67,10 @@ class _HomePageState extends State<HomePage> {
                                     if (snapshot.data?.docs[i].get("id") ==
                                         user?.uid.trim().toString()) {
                                       _docName =
-                                          snapshot.data?.docs[i].get("name") +
+                                          snapshot.data?.docs[i].get("nome") +
                                               " " +
                                               snapshot.data?.docs[i]
-                                                  .get("lastName");
+                                                  .get("sobrenome");
                                       break;
                                     }
                                   }
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                                   if (snapshot.data?.docs[i].get("id") ==
                                       user?.uid.trim().toString()) {
                                     _linkPhoto =
-                                        snapshot.data?.docs[i].get("photo");
+                                        snapshot.data?.docs[i].get("foto");
                                     break;
                                   }
                                 }
