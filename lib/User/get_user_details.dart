@@ -30,7 +30,6 @@ class GetUserDetails extends StatelessWidget {
                 style: const TextStyle(fontSize: 20),
               );
             } if ("foto" == attribute) {
-              print(data[attribute]);
               return data[attribute];
             }else {
               return Text(

@@ -12,10 +12,10 @@ class StatusConsulta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(data['status']!="concluida"){
-      posicaoFilaStore.fetchPositionQueueStatus(data['codigo_medico'], data['dia_mes_ano'], data['codigo_paciente']);
-    }else{
+    if(data['status']=="concluida"){
       posicaoFilaStore.status = data['status'];
+    }else{
+      posicaoFilaStore.fetchPositionQueueStatus(data['codigo_medico'], data['dia_mes_ano'], data['codigo_paciente']);
     }
 
     return Observer(
@@ -34,7 +34,22 @@ class StatusConsulta extends StatelessWidget {
                   SizedBox(
                     height: 50,
                     child: Center(
-                      child: Text(
+                      child: data['status'] == "iniciada" ?
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            UtilsString.capitalize(data['status']),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                          const Text("Pode entrar na sala")
+                        ],
+                      )
+                          :
+                      Text(
                         UtilsString.capitalize(data['status']),
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
