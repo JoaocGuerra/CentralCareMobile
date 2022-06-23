@@ -14,7 +14,7 @@ abstract class _PosicaoFilaStore with Store {
   bool loading = false;
 
   @observable
-  String status = "atendido";
+  String status = "";
   @observable
   String posicao = "";
 

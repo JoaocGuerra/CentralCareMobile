@@ -1,3 +1,4 @@
+import 'package:centralcaremobile/widgets/background_centra_care.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -18,12 +19,8 @@ class AppointmentsPage extends StatelessWidget {
         builder: (_){
           return  MaterialApp(
               debugShowCheckedModeBanner: false,
-              home: Container(
-                height: MediaQuery.of(context).size.height,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("images/fundo.jpg"), fit: BoxFit.fill)),
-                child: DefaultTabController(
+              home: BackgroundCentralCare(
+                body: DefaultTabController(
                   length: 3,
                   child: Scaffold(
                     backgroundColor: Colors.transparent,
@@ -100,7 +97,7 @@ class AppointmentsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              ),
           );
         }
     );

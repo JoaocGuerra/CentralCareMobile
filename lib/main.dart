@@ -1,8 +1,9 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:centralcaremobile/auth/auth.dart';
-import 'package:centralcaremobile/pages/home/home_page.dart';
 import 'package:centralcaremobile/store/appointments_page/appointments_store.dart';
 import 'package:centralcaremobile/store/appointments_page/unique_appointment_store/unique_appointment_store.dart';
 import 'package:centralcaremobile/store/auth/auth_store.dart';
+import 'package:centralcaremobile/store/edit_user/user_store.dart';
 import 'package:centralcaremobile/store/marcar_consulta/date_store.dart';
 import 'package:centralcaremobile/store/marcar_consulta/doctors_store.dart';
 import 'package:centralcaremobile/store/marcar_consulta/especialidades_store.dart';
@@ -11,12 +12,12 @@ import 'package:centralcaremobile/store/marcar_consulta/marcar_consulta_store.da
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupLocators();
+  notificationInit();
   runApp(MyApp());
 }
 
@@ -29,6 +30,30 @@ void setupLocators() {
   GetIt.I.registerSingleton(DateStore());
   GetIt.I.registerSingleton(UniqueAppointmentStore());
   GetIt.I.registerSingleton(AppointmentsStore());
+  GetIt.I.registerSingleton(UserStore());
+}
+
+void notificationInit() async{
+  AwesomeNotifications().initialize(
+      null,
+      [
+        NotificationChannel(
+            channelKey: 'notifications_channel',
+            channelName: 'notifications',
+            channelDescription: '',
+            defaultColor: Colors.green,
+            ledColor: Colors.white,
+            channelShowBadge: true,
+            importance: NotificationImportance.High,
+        )
+      ],
+      debug: true);
+
+  AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if (!isAllowed) {
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -36,6 +61,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Central Care',
@@ -43,7 +69,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      // home:  const Auth(),
       home: Auth(),
     );
   }

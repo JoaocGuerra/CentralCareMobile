@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:centralcaremobile/repository/api/desmarcar_consulta_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobx/mobx.dart';
@@ -18,10 +19,23 @@ abstract class _UniqueAppointmentStore with Store {
 
   @action
   Future<void> fetchUniqueAppointment(String codigo_paciente,String codigo_medico, String dia_mes_ano) async {
-    await _db.collection('pacientes')
+    _db.collection('pacientes')
           .doc(codigo_paciente)
           .collection('consultas')
-          .doc(codigo_medico+dia_mes_ano).snapshots().listen((snapshot) {
+          .doc(codigo_medico+dia_mes_ano).snapshots().listen((snapshot) async {
+
+            if(snapshot['status']=="iniciada" && snapshot['receita']==""){
+              AwesomeNotifications().createNotification(
+                  content: NotificationContent( //with asset image
+                      id: 1234,
+                      channelKey: 'notifications_channel',
+                      title: 'Sua vez de ser atendido chegou.',
+                      body: 'Siga para a sala do médico.',
+                      notificationLayout: NotificationLayout.Default,
+                      fullScreenIntent: true,
+                  )
+              );
+            }
 
             dataAppointment = snapshot.data()!;
 

@@ -29,8 +29,8 @@ abstract class _AppointmentsStore with Store {
 
   @action
   Future<void> fetchAppointments() async {
-    print(authStore.userId);
-    await _db.collection('pacientes')
+
+    _db.collection('pacientes')
         .doc(authStore.userId)
         .collection('consultas').snapshots().listen((snapshot) {
 
@@ -48,7 +48,7 @@ abstract class _AppointmentsStore with Store {
         if (snapshot.docs[i].get("status") == "concluida") {
           listAppointmentsCompleted = List.from(listAppointmentsCompleted..add(snapshot.docs[i]));
         } else if (snapshot.docs[i].get("status") ==
-            "atendimento") {
+            "atendimento" || snapshot.docs[i].get("status") == "iniciada") {
           listAppointmentsProgress = List.from(listAppointmentsProgress..add(snapshot.docs[i]));
         }
       }

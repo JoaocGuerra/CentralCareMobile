@@ -1,5 +1,5 @@
 import 'package:centralcaremobile/pages/my_account/my_account_page.dart';
-import 'package:centralcaremobile/pages/prescription/prescription_page.dart';
+import 'package:centralcaremobile/widgets/background_centra_care.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,13 +23,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("images/fundo.jpg"), fit: BoxFit.fill)),
-        child: SingleChildScrollView(
+    return BackgroundCentralCare(
+        body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(top: 10),
             child: SafeArea(
@@ -92,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const MyAccountPage()));
+                                        MyAccountPage()));
                           },
                           child: StreamBuilder(
                             stream: _db.collection('pacientes').snapshots(),
@@ -115,15 +110,14 @@ class _HomePageState extends State<HomePage> {
                                   }
                                 }
                                 return Container(
-                                    padding: const EdgeInsets.all(25),
-                                    decoration: BoxDecoration(
-                                        color: Colors.blue[100],
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: NetworkImage(_linkPhoto),
-                                            fit: BoxFit.fill)
-                                    ),
-                                  );
+                                  padding: const EdgeInsets.all(25),
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue[100],
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: NetworkImage(_linkPhoto))
+                                  ),
+                                );
                               }
                             },
                           ),
@@ -185,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const NewAppointmentPage()));
+                                              const NewAppointmentPage()));
                                     },
                                     child: const Center(
                                       child: Text(
@@ -223,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                       AppointmentsPage()));
+                                      AppointmentsPage()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -262,8 +256,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-        ),
-      ),
+        )
     );
   }
 }

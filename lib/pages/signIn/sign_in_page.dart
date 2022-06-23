@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../common_widgets/custom_button.dart';
 import '../../common_widgets/custom_text.dart';
 import '../../common_widgets/custom_textformfield.dart';
+import '../../store/auth/auth_store.dart';
+import '../../widgets/background_centra_care.dart';
 import '../forgotPassword/forgot_password_page.dart';
 import '../home/home_page.dart';
 import '../singUp/sign_up_page.dart';
@@ -13,6 +16,7 @@ class SignInPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passController = TextEditingController();
+  final AuthStore authStore = GetIt.I<AuthStore>();
 
   Future singIn(BuildContext context) async {
     try {
@@ -20,6 +24,7 @@ class SignInPage extends StatelessWidget {
         email: emailController.text.trim(),
         password: passController.text.trim(),
       );
+      authStore.fetchUser();
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const HomePage()));
     } catch (e) {
@@ -33,21 +38,15 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("images/fundo.jpg"), fit: BoxFit.fill)),
-          child: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Column(
+    return BackgroundCentralCare(
+        body: SingleChildScrollView(
+          child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 30, 20, 10),
+              child: Form(
+                key: formKey,
+                child:Column(
                   children: [
-                    const SizedBox(height: 100),
+                    const SizedBox(height: 60),
                     Text(
                       "Central Care",
                       style: TextStyle(
@@ -55,15 +54,13 @@ class SignInPage extends StatelessWidget {
                           color: Colors.blueAccent[100],
                           fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 100),
+                    const SizedBox(height: 80),
                     CustomTextFormField(
                       textEditingController: emailController,
                       isPasswordType: false,
                       icon: Icons.email,
                       text: 'E-mail',
                       textInputType: TextInputType.emailAddress,
-                      // onChanged: signInStore.setEmail,
-                      // enabled: !signInStore.loading,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Email Incorreto";
@@ -136,10 +133,9 @@ class SignInPage extends StatelessWidget {
                       ],
                     ),
                   ],
-                ),
-              ),
-            ),
-          )),
+                )
+              )),
+        )
     );
   }
 }

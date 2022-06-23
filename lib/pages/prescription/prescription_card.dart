@@ -1,12 +1,6 @@
-import 'dart:io';
-
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/screen_pdf.dart';
-import 'package:centralcaremobile/utils/utils_datetime.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
 
 class PrescriptionCard extends StatelessWidget {
   final dynamic data;
@@ -21,7 +15,7 @@ class PrescriptionCard extends StatelessWidget {
       child: data['receita'] != "" ?
       ElevatedButton(
               onPressed: (){
-                Navigator.pushReplacement(
+                Navigator.push(
                     context, MaterialPageRoute(builder: (context) => PagePDF(url: data['receita'],)));
               },
               child: Text("Clique aqui",style: TextStyle(color: Colors.black,),),

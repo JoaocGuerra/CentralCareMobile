@@ -25,6 +25,14 @@ class InsertQueueRepository{
       mapInsert["status"] = "marcada";
       mapInsert["termino"] = "-";
       mapInsert["receita"] = "";
+      mapInsert["queixa_principal"] = "";
+      mapInsert["historia_da_doenca_atual"] = "";
+      mapInsert["revisao_de_sistemas"] = "";
+      mapInsert["historia_medica_pregressa"] = "";
+      mapInsert["historia_familiar"] = "";
+      mapInsert["perfil_psicossocial"] = "";
+      mapInsert["sinais_vitais"] = "";
+      mapInsert["avaliacoes"] = "";
 
       await _db.collection('pacientes')
           .doc(_user?.uid)
