@@ -18,7 +18,7 @@ main() async {
   await Firebase.initializeApp();
   setupLocators();
   notificationInit();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 void setupLocators() {
@@ -33,18 +33,18 @@ void setupLocators() {
   GetIt.I.registerSingleton(UserStore());
 }
 
-void notificationInit() async{
+void notificationInit() async {
   AwesomeNotifications().initialize(
       null,
       [
         NotificationChannel(
-            channelKey: 'notifications_channel',
-            channelName: 'notifications',
-            channelDescription: '',
-            defaultColor: Colors.green,
-            ledColor: Colors.white,
-            channelShowBadge: true,
-            importance: NotificationImportance.High,
+          channelKey: 'notifications_channel',
+          channelName: 'notifications',
+          channelDescription: '',
+          defaultColor: Colors.green,
+          ledColor: Colors.white,
+          channelShowBadge: true,
+          importance: NotificationImportance.High,
         )
       ],
       debug: true);
@@ -57,11 +57,10 @@ void notificationInit() async{
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Central Care',

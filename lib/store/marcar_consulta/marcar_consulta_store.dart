@@ -1,48 +1,59 @@
 import 'package:centralcaremobile/repository/api/insert_queue_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
-
 
 part 'marcar_consulta_store.g.dart';
 
 class MarcarConsultaStore = _MarcarConsultaStore with _$MarcarConsultaStore;
 
 abstract class _MarcarConsultaStore with Store {
-
   @observable
   List<dynamic> selectedSpecialty = <dynamic>[];
 
   @action
-  void setSelectedSpecialty(List<dynamic> value) {selectedSpecialty = value;}
+  void setSelectedSpecialty(List<dynamic> value) {
+    selectedSpecialty = value;
+  }
 
   @observable
   String selectedDoctor = "";
 
   @action
-  void setSelectedDoctor(String value) {selectedDoctor = value;}
+  void setSelectedDoctor(String value) {
+    selectedDoctor = value;
+  }
 
   @observable
   String nameDoctor = "";
 
   @action
-  void setNameDoctor(String value) {nameDoctor = value;}
+  void setNameDoctor(String value) {
+    nameDoctor = value;
+  }
 
   @observable
   String specialtyDoctor = "";
 
   @action
-  void setSpecialtyDoctor(String value) {specialtyDoctor = value;}
+  void setSpecialtyDoctor(String value) {
+    specialtyDoctor = value;
+  }
 
   @observable
   String selectedDate = "";
 
   @action
-  void setSelectedDate(String value) {selectedDate = value;}
+  void setSelectedDate(String value) {
+    selectedDate = value;
+  }
 
   @observable
   String selectedHour = "";
 
   @action
-  void setSelectedHour(String value) {selectedHour = value;}
+  void setSelectedHour(String value) {
+    selectedHour = value;
+  }
 
   @observable
   bool loadingNewAppointmentPage = false;
@@ -59,7 +70,7 @@ abstract class _MarcarConsultaStore with Store {
   }
 
   @action
-  void clearFieldsSpecialty(){
+  void clearFieldsSpecialty() {
     setSelectedDoctor("");
     setNameDoctor("");
     setSelectedDate("");
@@ -67,18 +78,18 @@ abstract class _MarcarConsultaStore with Store {
   }
 
   @action
-  void clearFieldsDoctor(){
+  void clearFieldsDoctor() {
     setSelectedDate("");
     setSelectedHour("");
   }
 
   @action
-  void clearFieldsDate(){
+  void clearFieldsDate() {
     setSelectedHour("");
   }
 
   @action
-  Future<bool> clearAllFields(){
+  Future<bool> clearAllFields() {
     setSelectedSpecialty([]);
     setSelectedDoctor("");
     setNameDoctor("");
@@ -89,16 +100,16 @@ abstract class _MarcarConsultaStore with Store {
   }
 
   @action
-  Future<void> insertQueue() async{
-
-    try{
+  Future<void> insertQueue() async {
+    try {
       loadingNewAppointmentPage = true;
       await InsertQueueRepository().insertQueue();
       loadingNewAppointmentPage = false;
-    }catch (e){
+    } catch (e) {
       loadingNewAppointmentPage = false;
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
-
 }

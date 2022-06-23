@@ -15,7 +15,8 @@ class GetUserDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference _users = FirebaseFirestore.instance.collection('pacientes');
+    CollectionReference _users =
+        FirebaseFirestore.instance.collection('pacientes');
 
     return FutureBuilder<DocumentSnapshot>(
       future: _users.doc(documentId).get(),
@@ -29,9 +30,10 @@ class GetUserDetails extends StatelessWidget {
                 '${data[attribute]}' " " '${data['sobrenome']}',
                 style: const TextStyle(fontSize: 20),
               );
-            } if ("foto" == attribute) {
+            }
+            if ("foto" == attribute) {
               return data[attribute];
-            }else {
+            } else {
               return Text(
                 '${data[attribute]}',
                 style: const TextStyle(fontSize: 20),

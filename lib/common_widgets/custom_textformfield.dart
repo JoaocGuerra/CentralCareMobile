@@ -18,7 +18,8 @@ class CustomTextFormField extends StatelessWidget {
     required this.text,
     required this.textInputType,
     required this.textEditingController,
-    required this.validator, required this.list,
+    required this.validator,
+    required this.list,
   }) : super(key: key);
 
   @override

@@ -7,7 +7,6 @@ part 'posicao_fila_store.g.dart';
 class PosicaoFilaStore = _PosicaoFilaStore with _$PosicaoFilaStore;
 
 abstract class _PosicaoFilaStore with Store {
-
   final _db = FirebaseFirestore.instance;
 
   @observable
@@ -19,28 +18,32 @@ abstract class _PosicaoFilaStore with Store {
   String posicao = "";
 
   @action
-  Future<void> fetchPositionQueueStatus(String codigoMedico, String diaMesAno, String codigoPaciente) async {
-    _db.collection('fila')
-        .doc(codigoMedico+diaMesAno).snapshots().listen((snapshot) async {
-
-          loading = true;
-          status = await PosicaoFilaRepository().fetchPositionQueueStatus(codigoMedico, diaMesAno, codigoPaciente);
-          loading = false;
-
+  Future<void> fetchPositionQueueStatus(
+      String codigoMedico, String diaMesAno, String codigoPaciente) async {
+    _db
+        .collection('fila')
+        .doc(codigoMedico + diaMesAno)
+        .snapshots()
+        .listen((snapshot) async {
+      loading = true;
+      status = await PosicaoFilaRepository()
+          .fetchPositionQueueStatus(codigoMedico, diaMesAno, codigoPaciente);
+      loading = false;
     });
   }
 
   @action
-  Future<void> fetchPositionQueue(String codigoMedico, String diaMesAno, String codigoPaciente) async {
-    _db.collection('fila')
-        .doc(codigoMedico+diaMesAno).snapshots().listen((snapshot) async {
-
+  Future<void> fetchPositionQueue(
+      String codigoMedico, String diaMesAno, String codigoPaciente) async {
+    _db
+        .collection('fila')
+        .doc(codigoMedico + diaMesAno)
+        .snapshots()
+        .listen((snapshot) async {
       loading = true;
-      posicao = await PosicaoFilaRepository().fetchPositionQueue(codigoMedico, diaMesAno, codigoPaciente);
+      posicao = await PosicaoFilaRepository()
+          .fetchPositionQueue(codigoMedico, diaMesAno, codigoPaciente);
       loading = false;
-
     });
   }
-
-
 }

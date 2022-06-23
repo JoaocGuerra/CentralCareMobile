@@ -4,6 +4,7 @@ import '../../../prescription/prescription_card.dart';
 
 class Receita extends StatefulWidget {
   final data;
+
   const Receita({Key? key, this.data}) : super(key: key);
 
   @override
@@ -21,8 +22,7 @@ class _ReceitaState extends State<Receita> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Receita:",
-                style: TextStyle(fontSize: 15)),
+            const Text("Receita:", style: TextStyle(fontSize: 15)),
             const SizedBox(height: 10),
             PrescriptionCard(
               data: data,

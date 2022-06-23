@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import '../../common_widgets/custom_button.dart';
 import '../../common_widgets/custom_textformfield.dart';
-import '../../constants/constants_api.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   ForgotPasswordPage({Key? key}) : super(key: key);
@@ -59,9 +58,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   // onChanged: signInStore.setEmail,
                   // enabled: !signInStore.loading,
                   validator: (value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        !emailValid(value)) {
+                    if (value == null || value.isEmpty || !emailValid(value)) {
                       return "Email Incorreto";
                     }
                     return null;

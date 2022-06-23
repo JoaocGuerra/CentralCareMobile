@@ -1,5 +1,6 @@
 import 'package:centralcaremobile/store/auth/auth_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -11,7 +12,6 @@ part 'user_store.g.dart';
 class UserStore = _UserStore with _$UserStore;
 
 abstract class _UserStore with Store {
-
   final AuthStore authStore = GetIt.I<AuthStore>();
   double maxWidthBoxConstrains = 400;
 
@@ -29,50 +29,67 @@ abstract class _UserStore with Store {
   TextEditingController telefoneController = TextEditingController();
 
   Future<void> fetchDataUser() async {
-
     String? codigoPaciente = authStore.userId;
 
-    try{
-      if(codigoPaciente!=null){
-        FirebaseFirestore.instance.collection('pacientes').doc(codigoPaciente).snapshots().listen((snapshot) {
+    try {
+      if (codigoPaciente != null) {
+        FirebaseFirestore.instance
+            .collection('pacientes')
+            .doc(codigoPaciente)
+            .snapshots()
+            .listen((snapshot) {
           loading = true;
-          dataUser = UserModel(snapshot['nome'], snapshot['sobrenome'], snapshot['cpf'],
-              snapshot['email'], snapshot['data_nascimento'], snapshot['telefone'], snapshot['foto']);
+          dataUser = UserModel(
+              snapshot['nome'],
+              snapshot['sobrenome'],
+              snapshot['cpf'],
+              snapshot['email'],
+              snapshot['data_nascimento'],
+              snapshot['telefone'],
+              snapshot['foto']);
           loading = false;
         });
       }
-
-    }catch(e){
+    } catch (e) {
       loading = false;
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
-
   }
 
   @action
   Future<void> updateUser() async {
-
     String? codigoPaciente = authStore.userId;
 
-    Map<String, dynamic> data = new Map<String, dynamic>();
+    Map<String, dynamic> data =  <String, dynamic>{};
 
     loading = true;
 
-    if(nomeController.text.isNotEmpty) data['nome'] = nomeController.text;
-    if(sobrenomeController.text.isNotEmpty) data['sobrenome'] = sobrenomeController.text;
-    if(cpfController.text.isNotEmpty) data['cpf'] = cpfController.text;
-    if(emailController.text.isNotEmpty){
-      data['email'] = emailController.text;
-      authStore.user?.updateEmail( emailController.text);
+    if (nomeController.text.isNotEmpty) data['nome'] = nomeController.text;
+    if (sobrenomeController.text.isNotEmpty) {
+      data['sobrenome'] = sobrenomeController.text;
     }
-    if(senhaController.text.isNotEmpty){
+    if (cpfController.text.isNotEmpty) data['cpf'] = cpfController.text;
+    if (emailController.text.isNotEmpty) {
+      data['email'] = emailController.text;
+      authStore.user?.updateEmail(emailController.text);
+    }
+    if (senhaController.text.isNotEmpty) {
       authStore.user?.updatePassword(senhaController.text);
     }
-    if(nascimentoController.text.isNotEmpty) data['data_nascimento'] = nascimentoController.text;
-    if(telefoneController.text.isNotEmpty) data['telefone'] = telefoneController.text;
+    if (nascimentoController.text.isNotEmpty) {
+      data['data_nascimento'] = nascimentoController.text;
+    }
+    if (telefoneController.text.isNotEmpty) {
+      data['telefone'] = telefoneController.text;
+    }
 
-    if(data.isNotEmpty){
-      await FirebaseFirestore.instance.collection('pacientes').doc(codigoPaciente).update(data);
+    if (data.isNotEmpty) {
+      await FirebaseFirestore.instance
+          .collection('pacientes')
+          .doc(codigoPaciente)
+          .update(data);
     }
 
     loading = false;
@@ -80,7 +97,7 @@ abstract class _UserStore with Store {
   }
 
   @action
-  Future<bool> clearAllFields(){
+  Future<bool> clearAllFields() {
     nomeController.text = "";
     sobrenomeController.text = "";
     cpfController.text = "";
@@ -90,6 +107,4 @@ abstract class _UserStore with Store {
     telefoneController.text = "";
     return Future.value(true);
   }
-
-
 }

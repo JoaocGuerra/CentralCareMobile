@@ -4,7 +4,8 @@ import 'package:get_it/get_it.dart';
 import '../../../store/marcar_consulta/marcar_consulta_store.dart';
 
 class ButtonConfirmConsult extends StatelessWidget {
-  final MarcarConsultaStore marcarConsultaStore = GetIt.I<MarcarConsultaStore>();
+  final MarcarConsultaStore marcarConsultaStore =
+      GetIt.I<MarcarConsultaStore>();
 
   ButtonConfirmConsult({Key? key}) : super(key: key);
 
@@ -20,8 +21,7 @@ class ButtonConfirmConsult extends StatelessWidget {
         child: TextButton(
           style: ButtonStyle(
             padding: MaterialStateProperty.all<EdgeInsets>(
-              const EdgeInsets.only(
-                  left: 30, right: 30, top: 20, bottom: 20),
+              const EdgeInsets.only(left: 30, right: 30, top: 20, bottom: 20),
             ),
           ),
           onPressed: () {

@@ -27,10 +27,10 @@ class AppointmentCard extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => UAppointmentPage(
-                      codigoPaciente: data['codigo_paciente'],
-                      codigoMedico: data['codigo_medico'],
-                      diaMesAno: data['dia_mes_ano'],
-                    )));
+                          codigoPaciente: data['codigo_paciente'],
+                          codigoMedico: data['codigo_medico'],
+                          diaMesAno: data['dia_mes_ano'],
+                        )));
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,7 +41,9 @@ class AppointmentCard extends StatelessWidget {
                   children: [
                     Text(
                       UtilsDateTime.convertFormatDate(
-                          data['dia_mes_ano'] ?? "") +" - "+ data['especialidade_medico'],
+                              data['dia_mes_ano'] ?? "") +
+                          " - " +
+                          data['especialidade_medico'],
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

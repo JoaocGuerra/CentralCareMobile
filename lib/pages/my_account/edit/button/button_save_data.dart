@@ -6,6 +6,7 @@ import '../../../../store/edit_user/user_store.dart';
 
 class ButtonSaveData extends StatelessWidget {
   final UserStore editUserStore = GetIt.I<UserStore>();
+
   ButtonSaveData({Key? key}) : super(key: key);
 
   @override

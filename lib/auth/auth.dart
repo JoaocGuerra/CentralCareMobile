@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:centralcaremobile/pages/home/home_page.dart';
 import 'package:centralcaremobile/store/auth/auth_store.dart';
 import 'package:firebase_auth/firebase_auth.dart';

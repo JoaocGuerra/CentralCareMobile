@@ -6,7 +6,6 @@ part 'auth_store.g.dart';
 class AuthStore = _AuthStore with _$AuthStore;
 
 abstract class _AuthStore with Store {
-
   @observable
   User? user;
 
@@ -14,18 +13,17 @@ abstract class _AuthStore with Store {
   String? userId;
 
   @action
-  setUser(User user){
+  setUser(User user) {
     this.user = user;
   }
 
   @action
-  Future<void> fetchUser()async {
+  Future<void> fetchUser() async {
     user = FirebaseAuth.instance.currentUser;
     FirebaseAuth.instance.authStateChanges().listen((snapshot) {
-      if(snapshot?.uid!=null){
+      if (snapshot?.uid != null) {
         userId = snapshot?.uid;
       }
     });
   }
-
 }

@@ -5,7 +5,9 @@ import '../constants/constants_api.dart';
 class BackgroundCentralCare extends StatelessWidget {
   final Widget body;
   AppBar? appBar;
-  BackgroundCentralCare({Key? key, required this.body, this.appBar}) : super(key: key);
+
+  BackgroundCentralCare({Key? key, required this.body, this.appBar})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,6 @@ part 'photo_doctor_store.g.dart';
 class PhotoDoctorStore = _PhotoDoctorStore with _$PhotoDoctorStore;
 
 abstract class _PhotoDoctorStore with Store {
-
   final _db = FirebaseFirestore.instance;
 
   @observable
@@ -17,14 +16,14 @@ abstract class _PhotoDoctorStore with Store {
 
   @action
   Future<void> fetchPhotoDoctor(String codigoMedico) async {
-    _db.collection('funcionarios')
-        .doc(codigoMedico).snapshots().listen((snapshot) async {
-
+    _db
+        .collection('funcionarios')
+        .doc(codigoMedico)
+        .snapshots()
+        .listen((snapshot) async {
       loading = true;
       linkPhoto = snapshot.get("foto");
       loading = false;
-
     });
   }
-
 }

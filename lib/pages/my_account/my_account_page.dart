@@ -1,6 +1,4 @@
-import 'package:centralcaremobile/User/get_user_details.dart';
 import 'package:centralcaremobile/common_widgets/custom_text.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -112,7 +110,7 @@ class MyAccountPage extends StatelessWidget {
                                     child: TextButton(
                                       onPressed: () {
                                         FirebaseAuth.instance.signOut();
-                                        Navigator.pop(
+                                        Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>

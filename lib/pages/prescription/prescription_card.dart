@@ -1,5 +1,4 @@
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/screen_pdf.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class PrescriptionCard extends StatelessWidget {
@@ -12,18 +11,32 @@ class PrescriptionCard extends StatelessWidget {
     return SizedBox(
       height: 40,
       width: data['receita'] != "" ? 125 : 200,
-      child: data['receita'] != "" ?
-      ElevatedButton(
-              onPressed: (){
+      child: data['receita'] != ""
+          ? ElevatedButton(
+              onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => PagePDF(url: data['receita'],)));
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PagePDF(
+                              url: data['receita'],
+                            )));
               },
-              child: Text("Clique aqui",style: TextStyle(color: Colors.black,),),
+              child: const Text(
+                "Clique aqui",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
               style: ElevatedButton.styleFrom(
-                  primary: Colors.white,),
-      )
-          :
-      Text("Nenhuma receita disponível.",style: TextStyle(color: Colors.black,),),
+                primary: Colors.white,
+              ),
+            )
+          : const Text(
+              "Nenhuma receita disponível.",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
     );
   }
 }

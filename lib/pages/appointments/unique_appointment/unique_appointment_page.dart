@@ -18,94 +18,109 @@ import '../appointments_page.dart';
 
 class UAppointmentPage extends StatelessWidget {
   final String codigoPaciente, codigoMedico, diaMesAno;
-  final UniqueAppointmentStore uniqueAppointmentStore = GetIt.I<UniqueAppointmentStore>();
+  final UniqueAppointmentStore uniqueAppointmentStore =
+      GetIt.I<UniqueAppointmentStore>();
 
-  UAppointmentPage({Key? key, required this.codigoPaciente, required this.codigoMedico, required this.diaMesAno}) : super(key: key);
+  UAppointmentPage(
+      {Key? key,
+      required this.codigoPaciente,
+      required this.codigoMedico,
+      required this.diaMesAno})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    uniqueAppointmentStore.fetchUniqueAppointment(codigoPaciente, codigoMedico, diaMesAno);
-    return Observer(
-        builder: (_){
-          return BackgroundCentralCare(
-            appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              title: Text("Consulta " + UtilsDateTime.convertFormatDate(
-                        uniqueAppointmentStore.dataAppointment['dia_mes_ano']),
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: Colors.black),
-              ),
-              actions: [
-                SizedBox(
-                  height: 50,
-                  width: 50,
-                  child: Lottie.network(
-                      "https://assets3.lottiefiles.com/private_files/lf30_qkroghd7.json"),
+    uniqueAppointmentStore.fetchUniqueAppointment(
+        codigoPaciente, codigoMedico, diaMesAno);
+    return Observer(builder: (_) {
+      return BackgroundCentralCare(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: Text(
+            "Consulta " +
+                UtilsDateTime.convertFormatDate(
+                    uniqueAppointmentStore.dataAppointment['dia_mes_ano']),
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+          ),
+          actions: [
+            SizedBox(
+              height: 50,
+              width: 50,
+              child: Lottie.network(
+                  "https://assets3.lottiefiles.com/private_files/lf30_qkroghd7.json"),
+            ),
+          ],
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: uniqueAppointmentStore.loadingScreen
+            ? Center(
+                child: CheckAnimation(
+                  size: 30,
+                  onComplete: () {
+                    Navigator.pop(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AppointmentsPage()));
+                  },
                 ),
-              ],
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-            ),
-            body: uniqueAppointmentStore.loadingScreen
-                ? Center(
-              child: CheckAnimation(
-                size: 30,
-                onComplete: (){
-                  Navigator.pop(
-                      context, MaterialPageRoute(builder: (context) => AppointmentsPage()));
-                },
-              ),
-            )
-                :
-            SingleChildScrollView(
+              )
+            : SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: uniqueAppointmentStore.dataAppointment.isEmpty ?
-                  const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                      :
-                  Column(
-                    children: [
-                      Divisor(),
-                      Visibility(
-                          visible: uniqueAppointmentStore.dataAppointment['status']!="concluida",
-                          child: Column(
-                            children: [
-                              PosicaoInicial(data: uniqueAppointmentStore.dataAppointment,),
-                              Divisor(),
-                            ],
-                          )
-                      ),
-
-                      StatusConsulta(data: uniqueAppointmentStore.dataAppointment,),
-                      Divisor(),
-
-                      InicioETermino(data: uniqueAppointmentStore.dataAppointment,),
-                      Divisor(),
-
-                      InformacoesMedico(data: uniqueAppointmentStore.dataAppointment,),
-                      Divisor(),
-
-                      Receita(data: uniqueAppointmentStore.dataAppointment,),
-                      Divisor(),
-
-                      Visibility(
-                          visible: uniqueAppointmentStore.dataAppointment['status']=="marcada",
-                          child: ButtonDeselectQuery(
-                            codigo_paciente: codigoPaciente,
-                            codigo_medico: codigoMedico,
-                            dia_mes_ano: diaMesAno,
-                          )
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: uniqueAppointmentStore.dataAppointment.isEmpty
+                    ? const Center(
+                        child: CircularProgressIndicator(),
                       )
-                    ],
-                  ),
-                )
-            ),
-          );
-        }
-    );
+                    : Column(
+                        children: [
+                          const Divisor(),
+                          Visibility(
+                              visible: uniqueAppointmentStore
+                                      .dataAppointment['status'] !=
+                                  "concluida",
+                              child: Column(
+                                children: [
+                                  PosicaoInicial(
+                                    data:
+                                        uniqueAppointmentStore.dataAppointment,
+                                  ),
+                                  const Divisor(),
+                                ],
+                              )),
+                          StatusConsulta(
+                            data: uniqueAppointmentStore.dataAppointment,
+                          ),
+                          const Divisor(),
+                          InicioETermino(
+                            data: uniqueAppointmentStore.dataAppointment,
+                          ),
+                          const Divisor(),
+                          InformacoesMedico(
+                            data: uniqueAppointmentStore.dataAppointment,
+                          ),
+                          const Divisor(),
+                          Receita(
+                            data: uniqueAppointmentStore.dataAppointment,
+                          ),
+                          const Divisor(),
+                          Visibility(
+                              visible: uniqueAppointmentStore
+                                      .dataAppointment['status'] ==
+                                  "marcada",
+                              child: ButtonDeselectQuery(
+                                codigo_paciente: codigoPaciente,
+                                codigo_medico: codigoMedico,
+                                dia_mes_ano: diaMesAno,
+                              ))
+                        ],
+                      ),
+              )),
+      );
+    });
   }
 }

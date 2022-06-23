@@ -68,7 +68,7 @@ class _SignUpPage extends State<SignUpPage> {
       'sobrenome': lastName,
       'cpf': cpf,
       'telefone': number,
-      'data_nascimeno': birthDay,
+      'data_nascimento': birthDay,
       'sexo': gender,
       'email': email,
       'foto' : photo
