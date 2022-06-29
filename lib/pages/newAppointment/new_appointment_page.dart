@@ -25,6 +25,7 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
 
   @override
   Widget build(BuildContext context) {
+    marcarConsultaStore.setAppointmentScheduled(false);
     return Observer(
       builder: (_) {
         return BackgroundCentralCare(
@@ -56,7 +57,14 @@ class _NewAppointmentPageState extends State<NewAppointmentPage> {
                               ),
                             ),
                             const SizedBox(
-                              height: 15,
+                              height: 10,
+                            ),
+                            Visibility(
+                              visible: marcarConsultaStore.appointmentScheduled,
+                              child: Text("Consulta já marcada, atualize o hórario.",style: TextStyle(color: Colors.red),),
+                            ),
+                            const SizedBox(
+                              height: 5,
                             ),
                             const Divider(),
                             SelectSpecialty(),

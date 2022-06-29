@@ -25,6 +25,86 @@ mixin _$UniqueAppointmentStore on _UniqueAppointmentStore, Store {
     });
   }
 
+  late final _$codigoPacienteAtom =
+      Atom(name: '_UniqueAppointmentStore.codigoPaciente', context: context);
+
+  @override
+  String get codigoPaciente {
+    _$codigoPacienteAtom.reportRead();
+    return super.codigoPaciente;
+  }
+
+  @override
+  set codigoPaciente(String value) {
+    _$codigoPacienteAtom.reportWrite(value, super.codigoPaciente, () {
+      super.codigoPaciente = value;
+    });
+  }
+
+  late final _$codigoMedicoAtom =
+      Atom(name: '_UniqueAppointmentStore.codigoMedico', context: context);
+
+  @override
+  String get codigoMedico {
+    _$codigoMedicoAtom.reportRead();
+    return super.codigoMedico;
+  }
+
+  @override
+  set codigoMedico(String value) {
+    _$codigoMedicoAtom.reportWrite(value, super.codigoMedico, () {
+      super.codigoMedico = value;
+    });
+  }
+
+  late final _$diaMesAnoAtom =
+      Atom(name: '_UniqueAppointmentStore.diaMesAno', context: context);
+
+  @override
+  String get diaMesAno {
+    _$diaMesAnoAtom.reportRead();
+    return super.diaMesAno;
+  }
+
+  @override
+  set diaMesAno(String value) {
+    _$diaMesAnoAtom.reportWrite(value, super.diaMesAno, () {
+      super.diaMesAno = value;
+    });
+  }
+
+  late final _$changeHoursAtom =
+      Atom(name: '_UniqueAppointmentStore.changeHours', context: context);
+
+  @override
+  bool get changeHours {
+    _$changeHoursAtom.reportRead();
+    return super.changeHours;
+  }
+
+  @override
+  set changeHours(bool value) {
+    _$changeHoursAtom.reportWrite(value, super.changeHours, () {
+      super.changeHours = value;
+    });
+  }
+
+  late final _$newHourIniAtom =
+      Atom(name: '_UniqueAppointmentStore.newHourIni', context: context);
+
+  @override
+  String get newHourIni {
+    _$newHourIniAtom.reportRead();
+    return super.newHourIni;
+  }
+
+  @override
+  set newHourIni(String value) {
+    _$newHourIniAtom.reportWrite(value, super.newHourIni, () {
+      super.newHourIni = value;
+    });
+  }
+
   late final _$dataAppointmentAtom =
       Atom(name: '_UniqueAppointmentStore.dataAppointment', context: context);
 
@@ -47,9 +127,17 @@ mixin _$UniqueAppointmentStore on _UniqueAppointmentStore, Store {
 
   @override
   Future<void> fetchUniqueAppointment(
-      String codigo_paciente, String codigo_medico, String dia_mes_ano) {
-    return _$fetchUniqueAppointmentAsyncAction.run(() => super
-        .fetchUniqueAppointment(codigo_paciente, codigo_medico, dia_mes_ano));
+      String codigoPaciente, String codigoMedico, String diaMesAno) {
+    return _$fetchUniqueAppointmentAsyncAction.run(() =>
+        super.fetchUniqueAppointment(codigoPaciente, codigoMedico, diaMesAno));
+  }
+
+  late final _$updateHourAsyncAction =
+      AsyncAction('_UniqueAppointmentStore.updateHour', context: context);
+
+  @override
+  Future<void> updateHour() {
+    return _$updateHourAsyncAction.run(() => super.updateHour());
   }
 
   late final _$deselectQueryAsyncAction =
@@ -57,15 +145,45 @@ mixin _$UniqueAppointmentStore on _UniqueAppointmentStore, Store {
 
   @override
   Future<void> deselectQuery(
-      String codigo_paciente, String codigo_medico, String dia_mes_ano) {
+      String codigoPaciente, String codigoMedico, String diaMesAno) {
     return _$deselectQueryAsyncAction.run(
-        () => super.deselectQuery(codigo_paciente, codigo_medico, dia_mes_ano));
+        () => super.deselectQuery(codigoPaciente, codigoMedico, diaMesAno));
+  }
+
+  late final _$_UniqueAppointmentStoreActionController =
+      ActionController(name: '_UniqueAppointmentStore', context: context);
+
+  @override
+  void setChangeHours(bool value) {
+    final _$actionInfo = _$_UniqueAppointmentStoreActionController.startAction(
+        name: '_UniqueAppointmentStore.setChangeHours');
+    try {
+      return super.setChangeHours(value);
+    } finally {
+      _$_UniqueAppointmentStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setSelectedHour(String hour) {
+    final _$actionInfo = _$_UniqueAppointmentStoreActionController.startAction(
+        name: '_UniqueAppointmentStore.setSelectedHour');
+    try {
+      return super.setSelectedHour(hour);
+    } finally {
+      _$_UniqueAppointmentStoreActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
   String toString() {
     return '''
 loadingScreen: ${loadingScreen},
+codigoPaciente: ${codigoPaciente},
+codigoMedico: ${codigoMedico},
+diaMesAno: ${diaMesAno},
+changeHours: ${changeHours},
+newHourIni: ${newHourIni},
 dataAppointment: ${dataAppointment}
     ''';
   }

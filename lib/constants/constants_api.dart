@@ -1,7 +1,8 @@
 import 'dart:core';
 
-const String pathLocal = "http://192.168.0.112:5000";
+const String pathLocal = "http://192.168.0.6:5000";
 const String pathInsertQueue = "/fila/inserir";
+const String pathUpdateQueue = "/fila/update";
 const String pathReadPositionQueue = "/fila/read";
 const String pathAvailableTimes = "/horarios-disponiveis-medico";
 const String pathReadPositionQueueAppointment = "/atendimento/read";

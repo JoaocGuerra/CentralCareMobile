@@ -3,6 +3,7 @@ import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/medico.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/posicao_inicial.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/receita.dart';
+import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/select_hours.dart';
 import 'package:centralcaremobile/pages/appointments/unique_appointment/widgets/status.dart';
 import 'package:centralcaremobile/widgets/background_centra_care.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../../store/appointments_page/unique_appointment_store/unique_appointment_store.dart';
 import '../../../utils/utils_datetime.dart';
-import '../../../widgets/check_animation.dart';
 import '../../prescription/button/button_deselect_query.dart';
-import '../appointments_page.dart';
 
 class UAppointmentPage extends StatelessWidget {
   final String codigoPaciente, codigoMedico, diaMesAno;
@@ -32,95 +31,89 @@ class UAppointmentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     uniqueAppointmentStore.fetchUniqueAppointment(
         codigoPaciente, codigoMedico, diaMesAno);
-    return Observer(builder: (_) {
-      return BackgroundCentralCare(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text(
-            "Consulta " +
-                UtilsDateTime.convertFormatDate(
-                    uniqueAppointmentStore.dataAppointment['dia_mes_ano']),
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
-          ),
-          actions: [
-            SizedBox(
-              height: 50,
-              width: 50,
-              child: Lottie.network(
-                  "https://assets3.lottiefiles.com/private_files/lf30_qkroghd7.json"),
-            ),
-          ],
-          backgroundColor: Colors.transparent,
-          elevation: 0,
+    uniqueAppointmentStore.setChangeHours(false);
+    return BackgroundCentralCare(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: uniqueAppointmentStore.loadingScreen
-            ? Center(
-                child: CheckAnimation(
-                  size: 30,
-                  onComplete: () {
-                    Navigator.pop(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AppointmentsPage()));
-                  },
-                ),
-              )
-            : SingleChildScrollView(
-                child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: uniqueAppointmentStore.dataAppointment.isEmpty
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : Column(
-                        children: [
-                          const Divisor(),
-                          Visibility(
-                              visible: uniqueAppointmentStore
-                                      .dataAppointment['status'] !=
-                                  "concluida",
-                              child: Column(
-                                children: [
-                                  PosicaoInicial(
-                                    data:
-                                        uniqueAppointmentStore.dataAppointment,
-                                  ),
-                                  const Divisor(),
-                                ],
-                              )),
-                          StatusConsulta(
-                            data: uniqueAppointmentStore.dataAppointment,
-                          ),
-                          const Divisor(),
-                          InicioETermino(
-                            data: uniqueAppointmentStore.dataAppointment,
-                          ),
-                          const Divisor(),
-                          InformacoesMedico(
-                            data: uniqueAppointmentStore.dataAppointment,
-                          ),
-                          const Divisor(),
-                          Receita(
-                            data: uniqueAppointmentStore.dataAppointment,
-                          ),
-                          const Divisor(),
-                          Visibility(
-                              visible: uniqueAppointmentStore
-                                      .dataAppointment['status'] ==
-                                  "marcada",
-                              child: ButtonDeselectQuery(
-                                codigo_paciente: codigoPaciente,
-                                codigo_medico: codigoMedico,
-                                dia_mes_ano: diaMesAno,
-                              ))
-                        ],
+        title: Text(
+          "Consulta " +
+              UtilsDateTime.convertFormatDate(
+                  uniqueAppointmentStore.dataAppointment['dia_mes_ano'] ?? ""),
+          style: const TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+        ),
+        actions: [
+          SizedBox(
+            height: 50,
+            width: 50,
+            child: Lottie.network(
+                "https://assets3.lottiefiles.com/private_files/lf30_qkroghd7.json"),
+          ),
+        ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Observer(
+              builder: (_){
+                return uniqueAppointmentStore.dataAppointment.isEmpty?
+                const Center(
+                  child: CircularProgressIndicator(),
+                )
+                  :
+                Column(
+                  children: [
+                    const Divisor(),
+                    Visibility(
+                      visible: uniqueAppointmentStore
+                          .dataAppointment['status'] !=
+                          "concluida",
+                      child: PosicaoInicial(
+                        data:
+                        uniqueAppointmentStore.dataAppointment,
                       ),
-              )),
-      );
-    });
+                    ),
+                    StatusConsulta(
+                      data: uniqueAppointmentStore.dataAppointment,
+                    ),
+                    const Divisor(),
+                    InicioETermino(
+                      data: uniqueAppointmentStore.dataAppointment,
+                    ),
+                    Observer(builder: (_){
+                      return Visibility(
+                        visible: uniqueAppointmentStore.changeHours,
+                        child: SelectHoursChange(),
+                      );
+                    }),
+                    const Divisor(),
+                    InformacoesMedico(
+                      data: uniqueAppointmentStore.dataAppointment,
+                    ),
+                    const Divisor(),
+                    Receita(
+                      data: uniqueAppointmentStore.dataAppointment,
+                    ),
+                    const Divisor(),
+                    Visibility(
+                        visible: uniqueAppointmentStore
+                            .dataAppointment['status'] ==
+                            "marcada",
+                        child: ButtonDeselectQuery(
+                          codigoPaciente: codigoPaciente,
+                          codigoMedico: codigoMedico,
+                          diaMesAno: diaMesAno,
+                        ))
+                  ],
+                );
+              },
+            ),
+          )),
+    );
   }
 }

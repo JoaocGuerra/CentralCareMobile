@@ -113,6 +113,23 @@ mixin _$MarcarConsultaStore on _MarcarConsultaStore, Store {
     });
   }
 
+  late final _$appointmentScheduledAtom =
+      Atom(name: '_MarcarConsultaStore.appointmentScheduled', context: context);
+
+  @override
+  bool get appointmentScheduled {
+    _$appointmentScheduledAtom.reportRead();
+    return super.appointmentScheduled;
+  }
+
+  @override
+  set appointmentScheduled(bool value) {
+    _$appointmentScheduledAtom.reportWrite(value, super.appointmentScheduled,
+        () {
+      super.appointmentScheduled = value;
+    });
+  }
+
   late final _$loadingNewAppointmentPageAtom = Atom(
       name: '_MarcarConsultaStore.loadingNewAppointmentPage', context: context);
 
@@ -208,6 +225,17 @@ mixin _$MarcarConsultaStore on _MarcarConsultaStore, Store {
   }
 
   @override
+  void setAppointmentScheduled(bool value) {
+    final _$actionInfo = _$_MarcarConsultaStoreActionController.startAction(
+        name: '_MarcarConsultaStore.setAppointmentScheduled');
+    try {
+      return super.setAppointmentScheduled(value);
+    } finally {
+      _$_MarcarConsultaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void clearFieldsSpecialty() {
     final _$actionInfo = _$_MarcarConsultaStoreActionController.startAction(
         name: '_MarcarConsultaStore.clearFieldsSpecialty');
@@ -260,6 +288,7 @@ nameDoctor: ${nameDoctor},
 specialtyDoctor: ${specialtyDoctor},
 selectedDate: ${selectedDate},
 selectedHour: ${selectedHour},
+appointmentScheduled: ${appointmentScheduled},
 loadingNewAppointmentPage: ${loadingNewAppointmentPage},
 isFilled: ${isFilled}
     ''';

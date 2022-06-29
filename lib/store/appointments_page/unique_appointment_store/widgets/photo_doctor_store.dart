@@ -16,14 +16,16 @@ abstract class _PhotoDoctorStore with Store {
 
   @action
   Future<void> fetchPhotoDoctor(String codigoMedico) async {
-    _db
-        .collection('funcionarios')
-        .doc(codigoMedico)
-        .snapshots()
-        .listen((snapshot) async {
-      loading = true;
-      linkPhoto = snapshot.get("foto");
-      loading = false;
-    });
+    if(codigoMedico!=null){
+      _db
+          .collection('funcionarios')
+          .doc(codigoMedico)
+          .snapshots()
+          .listen((snapshot) async {
+        loading = true;
+        linkPhoto = snapshot.get("foto");
+        loading = false;
+      });
+    }
   }
 }

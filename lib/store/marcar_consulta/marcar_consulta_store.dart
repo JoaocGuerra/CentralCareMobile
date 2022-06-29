@@ -56,6 +56,14 @@ abstract class _MarcarConsultaStore with Store {
   }
 
   @observable
+  bool appointmentScheduled = false;
+
+  @action
+  void setAppointmentScheduled(bool value) {
+    appointmentScheduled = value;
+  }
+
+  @observable
   bool loadingNewAppointmentPage = false;
 
   @computed
